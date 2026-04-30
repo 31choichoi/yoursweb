@@ -539,7 +539,7 @@
                     <span class="line-mask"><span class="line-item">같이 만들어볼까요?</span></span>
                 </h2>
                 <div class="reveal" style="transition-delay: 200ms;">
-                    <button class="magnetic btn-primary bg-brand-accent text-white px-16 py-6 rounded-[4px] font-bold text-xl inline-flex items-center group">
+                    <button id="open-inquiry-footer" class="magnetic btn-primary bg-brand-accent text-white px-16 py-6 rounded-[4px] font-bold text-xl inline-flex items-center group">
                         프로젝트 문의하기
                         <svg class="ml-3 w-6 h-6 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.1" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                     </button>
@@ -582,7 +582,7 @@
                     <ul class="text-brand-body text-sm space-y-4 font-medium">
                         <li class="flex items-center"><span class="text-brand-caption mr-3">E</span> 999c@kakao.com</li>
                         <li class="flex items-center"><span class="text-brand-caption mr-3">T</span> 1844-1814</li>
-                        <li class="flex items-center"><span class="text-brand-caption mr-3">K</span> 999cc</li>
+                        <li class="flex items-center"><span class="text-brand-caption mr-3">K</span> @999cc</li>
                     </ul>
                 </div>
             </div>
@@ -850,6 +850,7 @@
             // Explicit triggers for reliability
             const mainQuoteBtn = document.getElementById('open-quote-hero');
             const headerInquiryBtn = document.getElementById('open-inquiry-header');
+            const footerInquiryBtn = document.getElementById('open-inquiry-footer');
             
             if(mainQuoteBtn) {
                 mainQuoteBtn.addEventListener('click', (e) => { 
@@ -860,6 +861,13 @@
             }
             if(headerInquiryBtn) {
                 headerInquiryBtn.addEventListener('click', (e) => { 
+                    e.preventDefault(); 
+                    e.stopPropagation();
+                    openModal(); 
+                });
+            }
+            if(footerInquiryBtn) {
+                footerInquiryBtn.addEventListener('click', (e) => { 
                     e.preventDefault(); 
                     e.stopPropagation();
                     openModal(); 

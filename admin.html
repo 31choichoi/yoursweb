@@ -29,8 +29,24 @@
         </div>
     </nav>
 
+    <!-- Password Gate -->
+    <div id="password-gate" class="fixed inset-0 z-[100] bg-[#0A2540] flex items-center justify-center p-6">
+        <div class="bg-white p-8 rounded-lg shadow-2xl max-w-sm w-full text-center">
+            <div class="w-16 h-16 bg-blue-50 text-[#3B6EFF] rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m0 0v2m0-2h2m-2 0H10m11-3.5a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <h2 class="text-2xl font-bold text-[#0A2540] mb-2">관리자 접속</h2>
+            <p class="text-slate-500 mb-8 text-sm">비밀번호를 입력하여 접속하세요.</p>
+            <input type="password" id="admin-password" class="w-full px-4 py-3 border border-slate-200 rounded-md mb-4 focus:ring-2 focus:ring-[#3B6EFF] focus:outline-none" placeholder="비밀번호">
+            <button id="login-submit" class="w-full bg-[#3B6EFF] text-white font-bold py-3 rounded-md hover:bg-[#2d56cc] transition-colors">
+                입장하기
+            </button>
+            <p id="pw-error" class="text-red-500 text-xs mt-3 hidden">비밀번호가 올바르지 않습니다.</p>
+        </div>
+    </div>
+
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-6 py-12">
+    <main id="admin-content" class="max-w-7xl mx-auto px-6 py-12 hidden">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
                 <h1 class="text-3xl font-bold text-[#0A2540] mb-2">프로젝트 문의 내역</h1>
@@ -98,35 +114,73 @@
         const emptyState = document.getElementById('empty-state');
         const noAccess = document.getElementById('no-access');
 
+        const passwordGate = document.getElementById('password-gate');
+        const passwordInput = document.getElementById('admin-password');
+        const loginSubmit = document.getElementById('login-submit');
+        const pwError = document.getElementById('pw-error');
+        const adminContent = document.getElementById('admin-content');
+
         const ADMIN_EMAIL = '31choichoi@gmail.com';
+        const ADMIN_PW = 'dnjfcjs';
 
         let unsubscribe = null;
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                userNameSpan.textContent = user.displayName;
-                userNameSpan.classList.remove('hidden');
-                authBtn.textContent = '로그아웃';
-                
-                if (user.email === ADMIN_EMAIL) {
-                    noAccess.classList.add('hidden');
-                    loadInquiries();
-                } else {
-                    inquiryList.innerHTML = '';
-                    noAccess.classList.remove('hidden');
-                }
+        // Check password first
+        function checkPassword() {
+            if (passwordInput.value === ADMIN_PW) {
+                passwordGate.classList.add('hidden');
+                adminContent.classList.remove('hidden');
+                localStorage.setItem('admin_access', 'true');
+                handleAuth();
             } else {
-                userNameSpan.classList.add('hidden');
-                authBtn.textContent = 'Google 로그인';
-                inquiryList.innerHTML = '';
-                noAccess.classList.remove('hidden');
-                if (unsubscribe) unsubscribe();
+                pwError.classList.remove('hidden');
             }
+        }
+
+        loginSubmit.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkPassword();
         });
+
+        // On load, check if already unlocked
+        if (localStorage.getItem('admin_access') === 'true') {
+            passwordGate.classList.add('hidden');
+            adminContent.classList.remove('hidden');
+        }
+
+        function handleAuth() {
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    userNameSpan.textContent = user.displayName;
+                    userNameSpan.classList.remove('hidden');
+                    authBtn.textContent = '로그아웃';
+                    
+                    if (user.email === ADMIN_EMAIL) {
+                        noAccess.classList.add('hidden');
+                        loadInquiries();
+                    } else {
+                        inquiryList.innerHTML = '';
+                        noAccess.classList.remove('hidden');
+                    }
+                } else {
+                    userNameSpan.classList.add('hidden');
+                    authBtn.textContent = 'Google 로그인';
+                    inquiryList.innerHTML = '';
+                    // Trigger auto-login if they unlocked password but haven't signed in yet
+                    if (localStorage.getItem('admin_access') === 'true') {
+                        signInWithPopup(auth, provider).catch(err => console.log("Sign in needed for data access"));
+                    }
+                }
+            });
+        }
+
+        if (localStorage.getItem('admin_access') === 'true') handleAuth();
 
         authBtn.addEventListener('click', () => {
             if (auth.currentUser) {
                 signOut(auth);
+                localStorage.removeItem('admin_access');
+                location.reload();
             } else {
                 signInWithPopup(auth, provider).catch(err => {
                     console.error("Login failed:", err);
