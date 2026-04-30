@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>포트폴리오 — 유어스웹 (Yours Web)</title>
+    
+    <!-- Fonts -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.tailwind = window.tailwind || {};
+        window.tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            navy: '#0A2540',
+                            accent: '#3B6EFF',
+                            offwhite: '#F4F6FA',
+                            text: '#0F1A2E',
+                            body: '#4A5468',
+                            caption: '#8A94A6',
+                            divider: '#E5E9F0'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Pretendard Variable', 'Inter', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/css">
+        body {
+            font-family: 'Pretendard Variable', sans-serif;
+            background-color: #FFFFFF;
+            color: #0F1A2E;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        #cursor-dot {
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease;
+        }
+
+        #cursor-ring {
+            width: 36px;
+            height: 36px;
+            border: 1.5px solid #fff;
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9899;
+            mix-blend-mode: difference;
+            transition: width 0.3s ease, height 0.3s ease, background 0.3s ease;
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            #cursor-dot, #cursor-ring { display: none; }
+            body { cursor: auto; }
+        }
+
+        /* Grid Background Pattern */
+        .bg-grid {
+            background-image: 
+                linear-gradient(rgba(10,37,64,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(10,37,64,0.05) 1px, transparent 1px);
+            background-size: 80px 80px;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .portfolio-card:hover .portfolio-img {
+            transform: scale(1.05);
+        }
+        .portfolio-img {
+            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .filter-btn.active {
+            background-color: #0A2540;
+            color: white;
+            border-color: #0A2540;
+        }
+    </style>
+</head>
+<body class="selection:bg-brand-accent selection:text-white">
+
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full z-[100] bg-white/80 backdrop-blur-xl border-b border-brand-navy/5 py-5">
+        <div class="max-w-7xl mx-auto px-12 flex justify-between items-center">
+            <a href="/" class="font-inter font-bold text-xl tracking-widest uppercase">YOURS WEB</a>
+            
+            <nav class="hidden md:flex space-x-12 font-bold text-base tracking-wide">
+                <a href="/#service" class="hover:opacity-60 transition-opacity">서비스</a>
+                <a href="/portfolio.html" class="text-brand-accent transition-opacity">포트폴리오</a>
+                <a href="/#about" class="hover:opacity-60 transition-opacity">회사소개</a>
+                <a href="/#testimonial" class="hover:opacity-60 transition-opacity">고객후기</a>
+            </nav>
+
+            <a href="/#contact" class="bg-brand-navy text-white px-8 py-3 rounded-[4px] font-bold text-base flex items-center hover:bg-brand-accent transition-colors">
+                프로젝트 문의
+            </a>
+        </div>
+    </header>
+
+    <main class="pt-32 pb-40">
+        <!-- Hero -->
+        <section class="max-w-7xl mx-auto px-12 mb-24">
+            <span class="text-brand-accent font-inter text-xs font-semibold tracking-widest uppercase mb-6 block reveal">OUR WORK — PORTFOLIO</span>
+            <h1 class="text-6xl md:text-7xl font-extrabold tracking-tighter leading-tightest text-brand-navy reveal" style="transition-delay: 100ms;">
+                가치를 증명하는<br>
+                결과물들.
+            </h1>
+            <p class="text-brand-body text-xl max-w-2xl mt-8 leading-relaxed reveal" style="transition-delay: 200ms;">
+                단순히 예쁜 디자인을 넘어, 비즈니스의 성장과 브랜드의 목적을 달성하는 웹사이트를 만듭니다.
+            </p>
+        </section>
+
+        <!-- Filters -->
+        <section class="max-w-7xl mx-auto px-12 mb-16 overflow-x-auto">
+            <div class="flex space-x-4 min-w-max pb-4 reveal" style="transition-delay: 300ms;">
+                <button class="filter-btn active px-8 py-3 border border-brand-divider rounded-full font-bold text-sm tracking-wide transition-all" data-filter="all">전체보기</button>
+                <button class="filter-btn px-8 py-3 border border-brand-divider rounded-full font-bold text-sm tracking-wide transition-all hover:border-brand-navy" data-filter="commercial">커머스 / 쇼핑몰</button>
+                <button class="filter-btn px-8 py-3 border border-brand-divider rounded-full font-bold text-sm tracking-wide transition-all hover:border-brand-navy" data-filter="brand">브랜드 사이트</button>
+                <button class="filter-btn px-8 py-3 border border-brand-divider rounded-full font-bold text-sm tracking-wide transition-all hover:border-brand-navy" data-filter="platform">플랫폼 / 서비스</button>
+            </div>
+        </section>
+
+        <!-- Portfolio Grid -->
+        <section class="max-w-7xl mx-auto px-12 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-24">
+            <!-- Item 1 -->
+            <div class="portfolio-card reveal group" data-category="brand">
+                <div class="relative aspect-[16/10] overflow-hidden rounded-2xl bg-gray-100 mb-8 shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1522204523234-8729aa6e3d5f?auto=format&fit=crop&q=80&w=1200" alt="Work" class="portfolio-img w-full h-full object-cover" referrerPolicy="no-referrer">
+                    <div class="absolute inset-0 bg-brand-navy/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                        <span class="bg-white text-brand-navy px-8 py-4 rounded-full font-bold shadow-2xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">Case Study</span>
+                    </div>
+                </div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <span class="text-brand-accent text-xs font-bold uppercase tracking-wider mb-2 block">Brand Identity / Web Design</span>
+                        <h3 class="text-2xl font-bold text-brand-navy mb-3">온도커피 — 감각적인 로스터리 브랜드 사이트</h3>
+                        <p class="text-brand-body leading-relaxed">브랜드 고유의 따뜻하고 감각적인 이미지를 웹상에 완벽하게 번역하였습니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="portfolio-card reveal group" data-category="commercial" style="transition-delay: 100ms;">
+                <div class="relative aspect-[16/10] overflow-hidden rounded-2xl bg-gray-100 mb-8 shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1557821552-17105176677c?auto=format&fit=crop&q=80&w=1200" alt="Work" class="portfolio-img w-full h-full object-cover" referrerPolicy="no-referrer">
+                    <div class="absolute inset-0 bg-brand-navy/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                        <span class="bg-white text-brand-navy px-8 py-4 rounded-full font-bold shadow-2xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">Case Study</span>
+                    </div>
+                </div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <span class="text-brand-accent text-xs font-bold uppercase tracking-wider mb-2 block">E-commerce / Development</span>
+                        <h3 class="text-2xl font-bold text-brand-navy mb-3">리프테크 — 고성능 게이밍 기어 쇼핑몰</h3>
+                        <p class="text-brand-body leading-relaxed">복잡한 상품 정보를 직관적으로 전달하고, 구매 전환율을 300% 개선했습니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="portfolio-card reveal group" data-category="platform">
+                <div class="relative aspect-[16/10] overflow-hidden rounded-2xl bg-gray-100 mb-8 shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200" alt="Work" class="portfolio-img w-full h-full object-cover" referrerPolicy="no-referrer">
+                    <div class="absolute inset-0 bg-brand-navy/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                        <span class="bg-white text-brand-navy px-8 py-4 rounded-full font-bold shadow-2xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">Case Study</span>
+                    </div>
+                </div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <span class="text-brand-accent text-xs font-bold uppercase tracking-wider mb-2 block">Platform / UX Design</span>
+                        <h3 class="text-2xl font-bold text-brand-navy mb-3">(주)올라운더 — 프리미엄 구인구직 서비스</h3>
+                        <p class="text-brand-body leading-relaxed">복잡한 데이터 구조를 사용자 친화적인 인터페이스로 재정립하였습니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="portfolio-card reveal group" data-category="brand" style="transition-delay: 100ms;">
+                <div class="relative aspect-[16/10] overflow-hidden rounded-2xl bg-gray-100 mb-8 shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200" alt="Work" class="portfolio-img w-full h-full object-cover" referrerPolicy="no-referrer">
+                    <div class="absolute inset-0 bg-brand-navy/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                        <span class="bg-white text-brand-navy px-8 py-4 rounded-full font-bold shadow-2xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">Case Study</span>
+                    </div>
+                </div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <span class="text-brand-accent text-xs font-bold uppercase tracking-wider mb-2 block">Corporate / Brand Web</span>
+                        <h3 class="text-2xl font-bold text-brand-navy mb-3">포레스트랩 — 친환경 소재 연구소 기업 사이트</h3>
+                        <p class="text-brand-body leading-relaxed">연구소의 전문성과 신뢰도를 극대화하는 시각적 장치를 배치했습니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 5: Hospital -->
+            <div class="portfolio-card reveal group" data-category="brand">
+                <div class="relative aspect-[16/10] overflow-hidden rounded-2xl bg-gray-100 mb-8 shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=1200" alt="Hospital" class="portfolio-img w-full h-full object-cover" referrerPolicy="no-referrer">
+                    <div class="absolute inset-0 bg-brand-navy/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                        <span class="bg-white text-brand-navy px-8 py-4 rounded-full font-bold shadow-2xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">Case Study</span>
+                    </div>
+                </div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <span class="text-brand-accent text-xs font-bold uppercase tracking-wider mb-2 block">Medical / Professional</span>
+                        <h3 class="text-2xl font-bold text-brand-navy mb-3">서울 바른정형외과 — 신뢰를 주는 의료 플랫폼</h3>
+                        <p class="text-brand-body leading-relaxed">환자들에게 안정감을 주는 디자인과 직관적인 예약 시스템을 구축하였습니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 6: Pension -->
+            <div class="portfolio-card reveal group" data-category="brand" style="transition-delay: 100ms;">
+                <div class="relative aspect-[16/10] overflow-hidden rounded-2xl bg-gray-100 mb-8 shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=1200" alt="Pension" class="portfolio-img w-full h-full object-cover" referrerPolicy="no-referrer">
+                    <div class="absolute inset-0 bg-brand-navy/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                        <span class="bg-white text-brand-navy px-8 py-4 rounded-full font-bold shadow-2xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">Case Study</span>
+                    </div>
+                </div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <span class="text-brand-accent text-xs font-bold uppercase tracking-wider mb-2 block">Tourism / Lifestyle</span>
+                        <h3 class="text-2xl font-bold text-brand-navy mb-3">스테이 숲 — 감성 펜션 브랜드 사이트</h3>
+                        <p class="text-brand-body leading-relaxed">공간의 분위기를 웹에 고스란히 담아 예약 문의량이 40% 증가했습니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 7: Lawyer -->
+            <div class="portfolio-card reveal group" data-category="platform">
+                <div class="relative aspect-[16/10] overflow-hidden rounded-2xl bg-gray-100 mb-8 shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&q=80&w=1200" alt="Lawyer" class="portfolio-img w-full h-full object-cover" referrerPolicy="no-referrer">
+                    <div class="absolute inset-0 bg-brand-navy/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                        <span class="bg-white text-brand-navy px-8 py-4 rounded-full font-bold shadow-2xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">Case Study</span>
+                    </div>
+                </div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <span class="text-brand-accent text-xs font-bold uppercase tracking-wider mb-2 block">legal / Professional</span>
+                        <h3 class="text-2xl font-bold text-brand-navy mb-3">법무법인 한결 — 신뢰 기반의 법률 서비스</h3>
+                        <p class="text-brand-body leading-relaxed">복잡한 승소 사례와 법률 정보를 사용자가 찾기 쉽게 설계했습니다.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 8: Factory -->
+            <div class="portfolio-card reveal group" data-category="platform" style="transition-delay: 100ms;">
+                <div class="relative aspect-[16/10] overflow-hidden rounded-2xl bg-gray-100 mb-8 shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1200" alt="Factory" class="portfolio-img w-full h-full object-cover" referrerPolicy="no-referrer">
+                    <div class="absolute inset-0 bg-brand-navy/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                        <span class="bg-white text-brand-navy px-8 py-4 rounded-full font-bold shadow-2xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">Case Study</span>
+                    </div>
+                </div>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <span class="text-brand-accent text-xs font-bold uppercase tracking-wider mb-2 block">Manufacturing / Industrial</span>
+                        <h3 class="text-2xl font-bold text-brand-navy mb-3">대성 정밀 산업 — 제조업 디지털 트랜스포메이션</h3>
+                        <p class="text-brand-body leading-relaxed">기술력을 시각적으로 증명하고, 해외 수출 문의를 연결하는 창구가 되었습니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="max-w-7xl mx-auto px-12 mt-40">
+            <div class="bg-brand-navy rounded-[40px] p-16 md:p-32 text-center relative overflow-hidden">
+                <div class="absolute inset-0 bg-grid opacity-10 pointer-events-none"></div>
+                <h2 class="text-4xl md:text-6xl font-bold text-white mb-10 tracking-tighter leading-tight reveal">
+                    다음 성공 사례의 주인공이<br>되어보세요.
+                </h2>
+                <div class="flex flex-col md:flex-row justify-center gap-6 reveal" style="transition-delay: 200ms;">
+                    <a href="/#contact" class="bg-brand-accent text-white px-12 py-6 rounded-full font-bold text-xl hover:scale-105 transition-transform inline-block">프로젝트 시작하기</a>
+                    <a href="tel:010-0000-0000" class="border border-white/20 text-white px-12 py-6 rounded-full font-bold text-xl hover:bg-white hover:text-brand-navy transition-all">전화 상담하기</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white py-20 border-t border-brand-divider">
+        <div class="max-w-7xl mx-auto px-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+                <div class="lg:col-span-1">
+                    <a href="/" class="font-inter font-bold text-xl tracking-widest uppercase text-brand-navy block mb-6">YOURS WEB</a>
+                    <p class="text-brand-caption text-sm leading-relaxed max-w-xs">
+                        데이터와 본질에 집중하는 웹 에이전시. 우리는 디자인의 힘이 비즈니스의 언어가 될 때까지 멈추지 않습니다.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-brand-navy font-bold text-sm uppercase tracking-wider mb-6">Services</h4>
+                    <ul class="text-brand-body text-sm space-y-4 font-medium">
+                        <li><a href="/#service" class="hover:text-brand-accent transition-colors">Corporate Site</a></li>
+                        <li><a href="/#service" class="hover:text-brand-accent transition-colors">Performance Landing</a></li>
+                        <li><a href="/#service" class="hover:text-brand-accent transition-colors">Commerce Suite</a></li>
+                        <li><a href="/#service" class="hover:text-brand-accent transition-colors">Partnership PM</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-brand-navy font-bold text-sm uppercase tracking-wider mb-6">Company</h4>
+                    <ul class="text-brand-body text-sm space-y-4 font-medium">
+                        <li><a href="/portfolio" class="hover:text-brand-accent transition-colors">Portfolio</a></li>
+                        <li><a href="/#about" class="hover:text-brand-accent transition-colors">Culture</a></li>
+                        <li><a href="/#about" class="hover:text-brand-accent transition-colors">Career</a></li>
+                        <li><a href="/#contact" class="hover:text-brand-accent transition-colors">Contact</a></li>
+                        <li><a href="/admin.html" class="text-brand-accent font-bold hover:underline">Admin Mode</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-brand-navy font-bold text-sm uppercase tracking-wider mb-6">Contact</h4>
+                    <ul class="text-brand-body text-sm space-y-4 font-medium">
+                        <li class="flex items-center"><span class="text-brand-caption mr-3">E</span> 999c@kakao.com</li>
+                        <li class="flex items-center"><span class="text-brand-caption mr-3">T</span> 1844-1814</li>
+                        <li class="flex items-center"><span class="text-brand-caption mr-3">K</span> @999cc</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center pt-8 border-t border-brand-divider text-brand-caption text-xs font-medium space-y-4 md:space-y-0">
+                <div class="space-x-8">
+                    <span>상호명: 유어스웹</span>
+                    <span>대표자: 최지연</span>
+                    <span>사업자등록번호: 000-00-00000</span>
+                    <span>주소: 서울특별시 강남구 테헤란로 123</span>
+                </div>
+                <span>© 2026 Yours Web. All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Custom Cursor
+        const dot = document.getElementById('cursor-dot');
+        const ring = document.getElementById('cursor-ring');
+
+        document.addEventListener('mousemove', (e) => {
+            const { clientX: x, clientY: y } = e;
+            dot.style.transform = `translate(${x - 4}px, ${y - 4}px)`;
+            ring.style.transform = `translate(${x - 18}px, ${y - 18}px)`;
+        });
+
+        // Interactive states for cursor
+        const interactables = document.querySelectorAll('a, button, .portfolio-card');
+        interactables.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                ring.style.width = '60px';
+                ring.style.height = '60px';
+                ring.style.background = 'rgba(255,255,255,0.1)';
+            });
+            el.addEventListener('mouseleave', () => {
+                ring.style.width = '36px';
+                ring.style.height = '36px';
+                ring.style.background = 'transparent';
+            });
+        });
+
+        // Reveal animations
+        const reveal = () => {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', reveal);
+        window.addEventListener('load', reveal);
+
+        // Portfolio filtering
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const cards = document.querySelectorAll('.portfolio-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Active button toggle
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.getAttribute('data-filter');
+
+                cards.forEach(card => {
+                    const category = card.getAttribute('data-category');
+                    if (filter === 'all' || filter === category) {
+                        card.style.display = 'block';
+                        setTimeout(() => card.style.opacity = '1', 50);
+                    } else {
+                        card.style.opacity = '0';
+                        setTimeout(() => card.style.display = 'none', 500);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -7,9 +7,34 @@ export default defineConfig(({mode}) => {
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
     },
+    plugins: [
+      {
+        name: 'html-rewrite',
+        configureServer(server) {
+          server.middlewares.use((req, res, next) => {
+             if (req.url === '/admin') {
+               req.url = '/admin.html';
+             }
+             if (req.url === '/portfolio') {
+               req.url = '/portfolio.html';
+             }
+             next();
+          });
+        }
+      }
+    ],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
+      },
+    },
+    build: {
+      rollupOptions: {
+        input: {
+          main: path.resolve(__dirname, 'index.html'),
+          admin: path.resolve(__dirname, 'admin.html'),
+          portfolio: path.resolve(__dirname, 'portfolio.html'),
+        },
       },
     },
     server: {
