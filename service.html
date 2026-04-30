@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service - Yours Web</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            navy: '#0A0A0B',
+                            accent: '#FF4D00',
+                            body: '#4A4A4F',
+                            caption: '#8E8E93',
+                            divider: '#E5E5E7',
+                            offwhite: '#F9F9FB'
+                        }
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        .hero-gradient { background: radial-gradient(circle at 10% 20%, rgba(255, 77, 0, 0.05) 0%, transparent 50%); }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        #back-to-top {
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        #back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .magnetic {
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+    </style>
+</head>
+<body class="bg-white text-brand-navy selection:bg-brand-accent selection:text-white overflow-x-hidden">
+
+    <!-- Header -->
+    <header id="main-header" class="fixed top-0 left-0 w-full z-[100] transition-all duration-300 bg-white/10 backdrop-blur-2xl border-b border-brand-navy/5 text-brand-navy py-4 md:py-5">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
+            <a href="/" class="flex items-center">
+                <img src="http://mydrim.net/img/logo_yoursweb.png" alt="유어스웹" class="h-8 md:h-9 w-auto">
+            </a>
+            
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex space-x-12 font-bold text-base tracking-wide">
+                <a href="/service.html" class="text-brand-accent transition-colors relative group">
+                    서비스
+                    <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-brand-accent"></span>
+                </a>
+                <a href="/portfolio.html" class="hover:text-brand-accent transition-colors relative group">
+                    포트폴리오
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-accent transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="/#about" class="hover:text-brand-accent transition-colors relative group">
+                    회사소개
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-accent transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="/#testimonial" class="hover:text-brand-accent transition-colors relative group">
+                    고객후기
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-accent transition-all duration-300 group-hover:w-full"></span>
+                </a>
+            </nav>
+
+            <div class="flex items-center space-x-4">
+                <a href="/#contact" class="magnetic btn-primary bg-brand-navy text-white px-5 md:px-8 py-2.5 md:py-3 rounded-[4px] font-bold text-sm md:text-base whitespace-nowrap flex items-center group">
+                    프로젝트 문의
+                    <svg class="ml-2 w-4 h-4 hidden sm:block transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
+
+                <!-- Hamburger Toggle -->
+                <button id="mobile-menu-toggle" class="md:hidden text-brand-navy p-2 focus:outline-none z-[210] relative">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu-bg" class="fixed inset-0 bg-brand-navy/60 backdrop-blur-sm z-[190] opacity-0 pointer-events-none transition-opacity duration-500 md:hidden"></div>
+    <div id="mobile-menu" class="fixed top-0 right-0 bottom-0 w-[75%] max-w-[320px] bg-white z-[200] flex flex-col items-center justify-center space-y-8 transform translate-x-full transition-transform duration-500 ease-in-out md:hidden shadow-[-20px_0_60px_rgba(0,0,0,0.1)]">
+        <a href="/service.html" class="mobile-nav-link text-xl font-bold text-brand-accent">서비스</a>
+        <a href="/portfolio.html" class="mobile-nav-link text-xl font-bold text-brand-navy hover:text-brand-accent transition-colors">포트폴리오</a>
+        <a href="/#about" class="mobile-nav-link text-xl font-bold text-brand-navy hover:text-brand-accent transition-colors">회사소개</a>
+        <a href="/#testimonial" class="mobile-nav-link text-xl font-bold text-brand-navy hover:text-brand-accent transition-colors">고객후기</a>
+        <a href="/#contact" class="mobile-nav-link mt-4 bg-brand-accent text-white px-8 py-3 rounded-full font-bold text-lg">프로젝트 문의</a>
+        
+        <button id="close-mobile-menu" class="absolute top-8 right-8 text-brand-navy focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+    </div>
+
+    <main class="pt-32">
+        <!-- Hero -->
+        <section class="py-16 md:py-24 hero-gradient">
+            <div class="max-w-7xl mx-auto px-6 md:px-12">
+                <span class="text-brand-accent font-bold text-xs uppercase tracking-widest mb-6 block">What we do</span>
+                <h1 class="text-4xl md:text-7xl font-extrabold leading-[1.1] tracking-tighter mb-8 md:mb-12">
+                    웹을 넘어서,<br>비즈니스의 <span class="text-brand-accent underline decoration-4 underline-offset-8">실질적 해답</span>을 만듭니다.
+                </h1>
+                <p class="text-base md:text-xl text-brand-body max-w-2xl leading-relaxed">
+                    단순히 웹사이트를 구축하는 것에 그치지 않습니다. 브랜드의 정체성을 정의하고, 
+                    검색 엔진에서 발견되며, 사용자에게 신뢰를 주는 총체적인 디지털 경험을 설계합니다.
+                </p>
+            </div>
+        </section>
+
+        <!-- Service Details -->
+        <section class="py-20 md:py-32 space-y-20 md:space-y-32">
+            
+            <!-- 01 Corporate & Brand -->
+            <div class="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center reveal">
+                <div>
+                    <span class="text-brand-caption font-bold text-4xl opacity-20 mb-8 block font-inter">01</span>
+                    <h2 class="text-4xl font-extrabold mb-8 tracking-tight">브랜드 사이트 & 기업 웹사이트</h2>
+                    <p class="text-brand-body leading-relaxed mb-10 text-lg">
+                        우리는 웹사이트를 고객과 브랜드가 만나는 '처음이자 마지막 인상'이라고 정의합니다. 
+                        브랜드의 지향점을 깊이 이해하고, 이를 정돈된 시각 언어와 직관적인 UX로 번역합니다.
+                    </p>
+                    <ul class="space-y-4 mb-10">
+                        <li class="flex items-start"><span class="text-brand-accent mr-3">✔</span> 브랜드 아이덴티티 기반의 커스텀 디자인</li>
+                        <li class="flex items-start"><span class="text-brand-accent mr-3">✔</span> 모든 디바이스에 최적화된 반응형 인터페이스</li>
+                        <li class="flex items-start"><span class="text-brand-accent mr-3">✔</span> 로딩 속도 및 접근성을 고려한 고성능 개발</li>
+                    </ul>
+                </div>
+                <div class="rounded-3xl overflow-hidden shadow-2xl bg-brand-offwhite p-12">
+                     <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" alt="Corporate" class="w-full rounded-xl shadow-lg border border-brand-divider" referrerPolicy="no-referrer">
+                </div>
+            </div>
+
+            <!-- 02 Blog & SEO -->
+            <div class="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center reveal">
+                <div class="md:order-2">
+                    <span class="text-brand-caption font-bold text-4xl opacity-20 mb-8 block font-inter">02</span>
+                    <h2 class="text-4xl font-extrabold mb-8 tracking-tight">블로그 관리 & 키워드 상위노출</h2>
+                    <p class="text-brand-body leading-relaxed mb-10 text-lg">
+                        웹사이트가 문이라면, 콘텐츠는 방문자를 부르는 목소리입니다. 
+                        데이터 기반 키워드 분석을 통해 가망 고객이 검색하는 시점에 우리 브랜드가 가장 먼저 보이게 합니다.
+                    </p>
+                    <ul class="space-y-4 mb-10">
+                        <li class="flex items-start"><span class="text-brand-accent mr-3">✔</span> 타겟 마켓 정밀 키워드 분석 및 전략 수립</li>
+                        <li class="flex items-start"><span class="text-brand-accent mr-3">✔</span> 전문 카피라이터의 고품질 브랜드 콘텐츠 생성</li>
+                        <li class="flex items-start"><span class="text-brand-accent mr-3">✔</span> 주간/월간 노출 순위 모니터링 및 리포트</li>
+                    </ul>
+                </div>
+                <div class="md:order-1 rounded-3xl overflow-hidden shadow-2xl bg-brand-navy p-12">
+                     <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&q=80&w=800" alt="Blog Management" class="w-full rounded-xl shadow-lg border border-white/10" referrerPolicy="no-referrer">
+                </div>
+            </div>
+
+            <!-- 03 E-commerce -->
+            <div class="max-w-7xl mx-auto px-12 grid grid-cols-1 md:grid-cols-2 gap-20 items-center reveal">
+                <div>
+                    <span class="text-brand-caption font-bold text-4xl opacity-20 mb-8 block font-inter">03</span>
+                    <h2 class="text-4xl font-extrabold mb-8 tracking-tight">이커머스 솔루션 (D2C)</h2>
+                    <p class="text-brand-body leading-relaxed mb-10 text-lg">
+                        매출로 이어지지 않는 쇼핑몰은 가치가 없습니다. 
+                        구매 전환율을 극대화하는 UI 설계와 결제 경험을 통해 단순 방문자를 충성 고객으로 전환합니다.
+                    </p>
+                    <ul class="space-y-4 mb-10">
+                        <li class="flex items-start"><span class="text-brand-accent mr-3">✔</span> 장바구니 기점 이탈 방지 UX 최적화</li>
+                        <li class="flex items-start"><span class="text-brand-accent mr-3">✔</span> 복잡한 주문/배송 로직의 커스텀 개발</li>
+                        <li class="flex items-start"><span class="text-brand-accent mr-3">✔</span> 자사몰 데이터 분석 환경 구축 (GA4 등)</li>
+                    </ul>
+                </div>
+                <div class="rounded-3xl overflow-hidden shadow-2xl bg-brand-offwhite p-12">
+                     <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=800" alt="E-commerce" class="w-full rounded-xl shadow-lg border border-brand-divider" referrerPolicy="no-referrer">
+                </div>
+            </div>
+
+            <!-- 04 Maintenance -->
+            <div class="max-w-7xl mx-auto px-12 grid grid-cols-1 md:grid-cols-2 gap-20 items-center reveal">
+                <div class="md:order-2">
+                    <span class="text-brand-caption font-bold text-4xl opacity-20 mb-8 block font-inter">04</span>
+                    <h2 class="text-4xl font-extrabold mb-8 tracking-tight">유지보수 & 운영 대행</h2>
+                    <p class="text-brand-body leading-relaxed mb-10 text-lg">
+                        비즈니스는 살아있고, 웹은 그에 발맞춰 진화해야 합니다. 
+                        개발 팀이 없어도 걱정하지 마세요. 우리 팀이 당신의 든든한 사내 IT 파트너가 되어 드립니다.
+                    </p>
+                    <ul class="space-y-4 mb-10">
+                        <li class="flex items-start"><span class="text-brand-accent mr-3">✔</span> 정기적인 보안 업데이트 및 백업 관리</li>
+                        <li class="flex items-start"><span class="text-brand-accent mr-3">✔</span> 이벤트 페이지 및 공지사항 실시간 대응</li>
+                        <li class="flex items-start"><span class="text-brand-accent mr-3">✔</span> 기술적 장애 발생 시 우선 순위 대응 보장</li>
+                    </ul>
+                </div>
+                <div class="md:order-1 rounded-3xl overflow-hidden shadow-2xl bg-brand-navy p-12">
+                     <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=800" alt="Maintenance" class="w-full rounded-xl shadow-lg border border-white/10" referrerPolicy="no-referrer">
+                </div>
+            </div>
+
+        </section>
+
+        <!-- CTA -->
+        <section class="py-32 bg-brand-navy text-white text-center">
+            <div class="max-w-3xl mx-auto px-12">
+                <h2 class="text-5xl font-extrabold mb-8 tracking-tight">비즈니스의 성장을 위한 준비가 되었나요?</h2>
+                <p class="text-white/60 text-lg mb-12">초기 기획 단계부터 함께 고민하겠습니다. 부담 없이 상담을 신청하세요.</p>
+                <a href="/#contact" class="inline-block bg-brand-accent text-white font-bold px-10 py-5 rounded-full hover:scale-105 transition-transform">무료 컨설팅 신청하기</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white py-20 border-t border-brand-divider">
+        <div class="max-w-7xl mx-auto px-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+                <div class="lg:col-span-1">
+                    <a href="/" class="block mb-6">
+                        <img src="http://mydrim.net/img/logo_yoursweb.png" alt="유어스웹" class="h-8 md:h-9 w-auto">
+                    </a>
+                    <p class="text-brand-caption text-sm leading-relaxed max-w-xs">
+                        데이터와 본질에 집중하는 웹 에이전시. 우리는 디자인의 힘이 비즈니스의 언어가 될 때까지 멈추지 않습니다.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-brand-navy font-bold text-sm uppercase tracking-wider mb-6">Services</h4>
+                    <ul class="text-brand-body text-sm space-y-4 font-medium">
+                        <li><a href="/service.html" class="hover:text-brand-accent transition-colors">Corporate Site</a></li>
+                        <li><a href="/service.html" class="hover:text-brand-accent transition-colors">Blog & SEO Optimization</a></li>
+                        <li><a href="/service.html" class="hover:text-brand-accent transition-colors">Commerce Suite</a></li>
+                        <li><a href="/service.html" class="hover:text-brand-accent transition-colors">Maintenance & Operations</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-brand-navy font-bold text-sm uppercase tracking-wider mb-6">Company</h4>
+                    <ul class="text-brand-body text-sm space-y-4 font-medium">
+                        <li><a href="/portfolio.html" class="hover:text-brand-accent transition-colors">Portfolio</a></li>
+                        <li><a href="/#about" class="hover:text-brand-accent transition-colors">Culture</a></li>
+                        <li><a href="/#about" class="hover:text-brand-accent transition-colors">Career</a></li>
+                        <li><a href="/#contact" class="hover:text-brand-accent transition-colors">Contact</a></li>
+                        <li><a href="/admin.html" class="text-brand-accent font-bold hover:underline">Admin Mode</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-brand-navy font-bold text-sm uppercase tracking-wider mb-6">Contact</h4>
+                    <ul class="text-brand-body text-sm space-y-4 font-medium">
+                        <li class="flex items-center"><span class="text-brand-caption mr-3">E</span> 999c@kakao.com</li>
+                        <li class="flex items-center"><span class="text-brand-caption mr-3">T</span> 1844-1814</li>
+                        <li class="flex items-center"><span class="text-brand-caption mr-3">K</span> @999cc</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center pt-8 border-t border-brand-divider text-brand-caption text-xs font-medium space-y-4 md:space-y-0">
+                <div class="space-x-8">
+                    <span>상호명: 유어스웹</span>
+                    <span>대표자: 최지연</span>
+                    <span>사업자등록번호: 000-00-00000</span>
+                    <span>주소: 서울특별시 강남구 테헤란로 123</span>
+                </div>
+                <span>© 2026 Yours Web. All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Reveal animation on scroll
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuBg = document.getElementById('mobile-menu-bg');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+        function openMobileMenu() {
+            mobileMenu.classList.remove('translate-x-full');
+            mobileMenuBg.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenuFunc() {
+            mobileMenu.classList.add('translate-x-full');
+            mobileMenuBg.classList.add('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (mobileMenuToggle) mobileMenuToggle.addEventListener('click', openMobileMenu);
+        if (closeMobileMenu) closeMobileMenu.addEventListener('click', closeMobileMenuFunc);
+        if (mobileMenuBg) mobileMenuBg.addEventListener('click', closeMobileMenuFunc);
+        if (mobileNavLinks) {
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', closeMobileMenuFunc);
+            });
+        }
+
+        // Back to top button logic
+        const backToTopBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+        if (backToTopBtn) {
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // Magnetic Effect
+        const magnetics = document.querySelectorAll('.magnetic');
+        magnetics.forEach(el => {
+            el.addEventListener('mousemove', e => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                el.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = `translate(0px, 0px)`;
+            });
+        });
+    </script>
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="magnetic fixed bottom-8 right-8 z-[140] w-14 h-14 bg-brand-navy text-white rounded-full flex items-center justify-center shadow-2xl hover:bg-brand-accent transition-all duration-500 group">
+        <svg class="w-6 h-6 transform group-hover:-translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+    </button>
+</body>
+</html>

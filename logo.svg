@@ -1,0 +1,10 @@
+<svg width="500" height="100" viewBox="0 0 500 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(10, 10)">
+    <!-- Stylized Y with W -->
+    <path d="M15 10L40 45M65 10L40 45M40 45V80" stroke="#1E293B" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M45 15L55 10L60 20L65 10L75 15" stroke="#1E293B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Text -->
+    <text x="100" y="70" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="64" fill="#1E293B" style="letter-spacing: 2px;">YOURS WEB</text>
+  </g>
+</svg>

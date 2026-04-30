@@ -171,10 +171,7 @@
                     userNameSpan.classList.add('hidden');
                     authBtn.textContent = 'Google 로그인';
                     inquiryList.innerHTML = '';
-                    // Trigger auto-login if they unlocked password but haven't signed in yet
-                    if (localStorage.getItem('admin_access') === 'true') {
-                        signInWithPopup(auth, provider).catch(err => console.log("Sign in needed for data access"));
-                    }
+                    // Removed automatic signInWithPopup to prevent browser blocking and multiple popup errors
                 }
             });
         }
@@ -187,9 +184,27 @@
                 localStorage.removeItem('admin_access');
                 location.reload();
             } else {
-                signInWithPopup(auth, provider).catch(err => {
+                authBtn.disabled = true;
+                authBtn.textContent = '로그인 중...';
+                signInWithPopup(auth, provider).then(() => {
+                    authBtn.disabled = false;
+                }).catch(err => {
+                    authBtn.disabled = false;
+                    authBtn.textContent = 'Google 로그인';
                     console.error("Login failed:", err);
-                    alert("로그인 중 오류가 발생했습니다.");
+                    
+                    let errorMsg = "로그인 중 오류가 발생했습니다.";
+                    if (err.code === 'auth/popup-blocked') {
+                        errorMsg = "팝업이 차단되었습니다. 브라우저 설정에서 팝업을 허용해주세요.";
+                    } else if (err.code === 'auth/unauthorized-domain') {
+                        errorMsg = "승인되지 않은 도메인입니다. Firebase Console에서 현재 도메인을 '승인된 도메인'에 추가해야 합니다.\n현재 도메인: " + window.location.hostname;
+                    } else if (err.code === 'auth/popup-closed-by-user') {
+                        errorMsg = "로그인 창이 닫혔습니다. 다시 시도해주세요.";
+                    } else if (err.code === 'auth/cancelled-popup-request') {
+                        errorMsg = "이미 로그인 창이 열려있습니다.";
+                    }
+                    
+                    alert(errorMsg + "\n(Error Code: " + err.code + ")");
                 });
             }
         });

@@ -44,37 +44,6 @@
             background-color: #FFFFFF;
             color: #0F1A2E;
             overflow-x: hidden;
-            cursor: none;
-        }
-
-        /* Custom Cursor */
-        #cursor-dot {
-            width: 8px;
-            height: 8px;
-            background: #fff;
-            position: fixed;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: difference;
-            transition: transform 0.1s ease;
-        }
-
-        #cursor-ring {
-            width: 36px;
-            height: 36px;
-            border: 1.5px solid #fff;
-            position: fixed;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9899;
-            mix-blend-mode: difference;
-            transition: width 0.3s ease, height 0.3s ease, background 0.3s ease;
-        }
-
-        @media (hover: none) and (pointer: coarse) {
-            #cursor-dot, #cursor-ring { display: none; }
-            body { cursor: auto; }
         }
 
         /* Grid Background Pattern */
@@ -107,6 +76,21 @@
             color: white;
             border-color: #0A2540;
         }
+
+        #back-to-top {
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        #back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .magnetic {
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
     </style>
 </head>
 <body class="selection:bg-brand-accent selection:text-white">
@@ -115,48 +99,87 @@
     <div id="cursor-ring"></div>
 
     <!-- Header -->
-    <header class="fixed top-0 left-0 w-full z-[100] bg-white/80 backdrop-blur-xl border-b border-brand-navy/5 py-5">
-        <div class="max-w-7xl mx-auto px-12 flex justify-between items-center">
-            <a href="/" class="font-inter font-bold text-xl tracking-widest uppercase">YOURS WEB</a>
+    <header id="main-header" class="fixed top-0 left-0 w-full z-[100] transition-all duration-300 bg-white/10 backdrop-blur-2xl border-b border-brand-navy/5 text-brand-navy py-4 md:py-5">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
+            <a href="/" class="flex items-center">
+                <img src="http://mydrim.net/img/logo_yoursweb.png" alt="유어스웹" class="h-8 md:h-9 w-auto">
+            </a>
             
+            <!-- Desktop Nav -->
             <nav class="hidden md:flex space-x-12 font-bold text-base tracking-wide">
-                <a href="/#service" class="hover:opacity-60 transition-opacity">서비스</a>
-                <a href="/portfolio.html" class="text-brand-accent transition-opacity">포트폴리오</a>
-                <a href="/#about" class="hover:opacity-60 transition-opacity">회사소개</a>
-                <a href="/#testimonial" class="hover:opacity-60 transition-opacity">고객후기</a>
+                <a href="/service.html" class="hover:text-brand-accent transition-colors relative group">
+                    서비스
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-accent transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="/portfolio.html" class="text-brand-accent transition-colors relative group">
+                    포트폴리오
+                    <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-brand-accent"></span>
+                </a>
+                <a href="/#about" class="hover:text-brand-accent transition-colors relative group">
+                    회사소개
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-accent transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="/#testimonial" class="hover:text-brand-accent transition-colors relative group">
+                    고객후기
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-accent transition-all duration-300 group-hover:w-full"></span>
+                </a>
             </nav>
 
-            <a href="/#contact" class="bg-brand-navy text-white px-8 py-3 rounded-[4px] font-bold text-base flex items-center hover:bg-brand-accent transition-colors">
-                프로젝트 문의
-            </a>
+            <div class="flex items-center space-x-4">
+                <a href="/#contact" class="magnetic btn-primary bg-brand-navy text-white px-5 md:px-8 py-2.5 md:py-3 rounded-[4px] font-bold text-sm md:text-base whitespace-nowrap flex items-center group">
+                    프로젝트 문의
+                    <svg class="ml-2 w-4 h-4 hidden sm:block transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
+
+                <!-- Hamburger Toggle -->
+                <button id="mobile-menu-toggle" class="md:hidden text-brand-navy p-2 focus:outline-none z-[210] relative">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
     </header>
 
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu-bg" class="fixed inset-0 bg-brand-navy/60 backdrop-blur-sm z-[190] opacity-0 pointer-events-none transition-opacity duration-500 md:hidden"></div>
+    <div id="mobile-menu" class="fixed top-0 right-0 bottom-0 w-[75%] max-w-[320px] bg-white z-[200] flex flex-col items-center justify-center space-y-8 transform translate-x-full transition-transform duration-500 ease-in-out md:hidden shadow-[-20px_0_60px_rgba(0,0,0,0.1)]">
+        <a href="/service.html" class="mobile-nav-link text-xl font-bold text-brand-navy hover:text-brand-accent transition-colors">서비스</a>
+        <a href="/portfolio.html" class="mobile-nav-link text-xl font-bold text-brand-accent">포트폴리오</a>
+        <a href="/#about" class="mobile-nav-link text-xl font-bold text-brand-navy hover:text-brand-accent transition-colors">회사소개</a>
+        <a href="/#testimonial" class="mobile-nav-link text-xl font-bold text-brand-navy hover:text-brand-accent transition-colors">고객후기</a>
+        <a href="/#contact" class="mobile-nav-link mt-4 bg-brand-accent text-white px-8 py-3 rounded-full font-bold text-lg">프로젝트 문의</a>
+        
+        <button id="close-mobile-menu" class="absolute top-8 right-8 text-brand-navy focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+    </div>
+
     <main class="pt-32 pb-40">
         <!-- Hero -->
-        <section class="max-w-7xl mx-auto px-12 mb-24">
+        <section class="max-w-7xl mx-auto px-6 md:px-12 mb-16 md:mb-24">
             <span class="text-brand-accent font-inter text-xs font-semibold tracking-widest uppercase mb-6 block reveal">OUR WORK — PORTFOLIO</span>
-            <h1 class="text-6xl md:text-7xl font-extrabold tracking-tighter leading-tightest text-brand-navy reveal" style="transition-delay: 100ms;">
+            <h1 class="text-3xl sm:text-4xl md:text-7xl font-extrabold tracking-tighter leading-tightest text-brand-navy reveal" style="transition-delay: 100ms;">
                 가치를 증명하는<br>
                 결과물들.
             </h1>
-            <p class="text-brand-body text-xl max-w-2xl mt-8 leading-relaxed reveal" style="transition-delay: 200ms;">
+            <p class="text-brand-body text-base md:text-xl max-w-2xl mt-6 md:mt-8 leading-relaxed reveal" style="transition-delay: 200ms;">
                 단순히 예쁜 디자인을 넘어, 비즈니스의 성장과 브랜드의 목적을 달성하는 웹사이트를 만듭니다.
             </p>
         </section>
 
         <!-- Filters -->
-        <section class="max-w-7xl mx-auto px-12 mb-16 overflow-x-auto">
+        <section class="max-w-7xl mx-auto px-6 md:px-12 mb-12 md:mb-16 overflow-x-auto">
             <div class="flex space-x-4 min-w-max pb-4 reveal" style="transition-delay: 300ms;">
-                <button class="filter-btn active px-8 py-3 border border-brand-divider rounded-full font-bold text-sm tracking-wide transition-all" data-filter="all">전체보기</button>
-                <button class="filter-btn px-8 py-3 border border-brand-divider rounded-full font-bold text-sm tracking-wide transition-all hover:border-brand-navy" data-filter="commercial">커머스 / 쇼핑몰</button>
-                <button class="filter-btn px-8 py-3 border border-brand-divider rounded-full font-bold text-sm tracking-wide transition-all hover:border-brand-navy" data-filter="brand">브랜드 사이트</button>
-                <button class="filter-btn px-8 py-3 border border-brand-divider rounded-full font-bold text-sm tracking-wide transition-all hover:border-brand-navy" data-filter="platform">플랫폼 / 서비스</button>
+                <button class="filter-btn active px-6 md:px-8 py-2 md:py-3 border border-brand-divider rounded-full font-bold text-xs md:text-sm tracking-wide transition-all" data-filter="all">전체보기</button>
+                <button class="filter-btn px-6 md:px-8 py-2 md:py-3 border border-brand-divider rounded-full font-bold text-xs md:text-sm tracking-wide transition-all hover:border-brand-navy" data-filter="commercial">커머스 / 쇼핑몰</button>
+                <button class="filter-btn px-6 md:px-8 py-2 md:py-3 border border-brand-divider rounded-full font-bold text-xs md:text-sm tracking-wide transition-all hover:border-brand-navy" data-filter="brand">브랜드 사이트</button>
+                <button class="filter-btn px-6 md:px-8 py-2 md:py-3 border border-brand-divider rounded-full font-bold text-xs md:text-sm tracking-wide transition-all hover:border-brand-navy" data-filter="platform">플랫폼 / 서비스</button>
             </div>
         </section>
 
         <!-- Portfolio Grid -->
-        <section class="max-w-7xl mx-auto px-12 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-24">
+        <section class="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16 md:gap-y-24">
             <!-- Item 1 -->
             <div class="portfolio-card reveal group" data-category="brand">
                 <div class="relative aspect-[16/10] overflow-hidden rounded-2xl bg-gray-100 mb-8 shadow-xl">
@@ -295,15 +318,15 @@
         </section>
 
         <!-- CTA -->
-        <section class="max-w-7xl mx-auto px-12 mt-40">
-            <div class="bg-brand-navy rounded-[40px] p-16 md:p-32 text-center relative overflow-hidden">
+        <section class="max-w-7xl mx-auto px-6 md:px-12 mt-20 md:mt-40">
+            <div class="bg-brand-navy rounded-[24px] md:rounded-[40px] p-10 md:p-32 text-center relative overflow-hidden">
                 <div class="absolute inset-0 bg-grid opacity-10 pointer-events-none"></div>
-                <h2 class="text-4xl md:text-6xl font-bold text-white mb-10 tracking-tighter leading-tight reveal">
+                <h2 class="text-3xl md:text-6xl font-bold text-white mb-8 md:mb-10 tracking-tighter leading-tight reveal">
                     다음 성공 사례의 주인공이<br>되어보세요.
                 </h2>
-                <div class="flex flex-col md:flex-row justify-center gap-6 reveal" style="transition-delay: 200ms;">
-                    <a href="/#contact" class="bg-brand-accent text-white px-12 py-6 rounded-full font-bold text-xl hover:scale-105 transition-transform inline-block">프로젝트 시작하기</a>
-                    <a href="tel:010-0000-0000" class="border border-white/20 text-white px-12 py-6 rounded-full font-bold text-xl hover:bg-white hover:text-brand-navy transition-all">전화 상담하기</a>
+                <div class="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-6 reveal" style="transition-delay: 200ms;">
+                    <a href="/#contact" class="w-full md:w-auto bg-brand-accent text-white px-8 md:px-12 py-4 md:py-6 rounded-full font-bold text-lg md:text-xl hover:scale-105 transition-transform inline-block whitespace-nowrap">프로젝트 시작하기</a>
+                    <a href="tel:1844-1814" class="w-full md:w-auto border border-white/20 text-white px-8 md:px-12 py-4 md:py-6 rounded-full font-bold text-lg md:text-xl hover:bg-white hover:text-brand-navy transition-all whitespace-nowrap">전화 상담하기</a>
                 </div>
             </div>
         </section>
@@ -314,7 +337,9 @@
         <div class="max-w-7xl mx-auto px-12">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
                 <div class="lg:col-span-1">
-                    <a href="/" class="font-inter font-bold text-xl tracking-widest uppercase text-brand-navy block mb-6">YOURS WEB</a>
+                    <a href="/" class="block mb-6">
+                        <img src="http://mydrim.net/img/logo_yoursweb.png" alt="유어스웹" class="h-8 md:h-9 w-auto">
+                    </a>
                     <p class="text-brand-caption text-sm leading-relaxed max-w-xs">
                         데이터와 본질에 집중하는 웹 에이전시. 우리는 디자인의 힘이 비즈니스의 언어가 될 때까지 멈추지 않습니다.
                     </p>
@@ -322,16 +347,16 @@
                 <div>
                     <h4 class="text-brand-navy font-bold text-sm uppercase tracking-wider mb-6">Services</h4>
                     <ul class="text-brand-body text-sm space-y-4 font-medium">
-                        <li><a href="/#service" class="hover:text-brand-accent transition-colors">Corporate Site</a></li>
-                        <li><a href="/#service" class="hover:text-brand-accent transition-colors">Performance Landing</a></li>
-                        <li><a href="/#service" class="hover:text-brand-accent transition-colors">Commerce Suite</a></li>
-                        <li><a href="/#service" class="hover:text-brand-accent transition-colors">Partnership PM</a></li>
+                        <li><a href="/service.html" class="hover:text-brand-accent transition-colors">Corporate Site</a></li>
+                        <li><a href="/service.html" class="hover:text-brand-accent transition-colors">Blog & SEO Optimization</a></li>
+                        <li><a href="/service.html" class="hover:text-brand-accent transition-colors">Commerce Suite</a></li>
+                        <li><a href="/service.html" class="hover:text-brand-accent transition-colors">Maintenance & Operations</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="text-brand-navy font-bold text-sm uppercase tracking-wider mb-6">Company</h4>
                     <ul class="text-brand-body text-sm space-y-4 font-medium">
-                        <li><a href="/portfolio" class="hover:text-brand-accent transition-colors">Portfolio</a></li>
+                        <li><a href="/portfolio.html" class="hover:text-brand-accent transition-colors">Portfolio</a></li>
                         <li><a href="/#about" class="hover:text-brand-accent transition-colors">Culture</a></li>
                         <li><a href="/#about" class="hover:text-brand-accent transition-colors">Career</a></li>
                         <li><a href="/#contact" class="hover:text-brand-accent transition-colors">Contact</a></li>
@@ -361,31 +386,6 @@
     </footer>
 
     <script>
-        // Custom Cursor
-        const dot = document.getElementById('cursor-dot');
-        const ring = document.getElementById('cursor-ring');
-
-        document.addEventListener('mousemove', (e) => {
-            const { clientX: x, clientY: y } = e;
-            dot.style.transform = `translate(${x - 4}px, ${y - 4}px)`;
-            ring.style.transform = `translate(${x - 18}px, ${y - 18}px)`;
-        });
-
-        // Interactive states for cursor
-        const interactables = document.querySelectorAll('a, button, .portfolio-card');
-        interactables.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                ring.style.width = '60px';
-                ring.style.height = '60px';
-                ring.style.background = 'rgba(255,255,255,0.1)';
-            });
-            el.addEventListener('mouseleave', () => {
-                ring.style.width = '36px';
-                ring.style.height = '36px';
-                ring.style.background = 'transparent';
-            });
-        });
-
         // Reveal animations
         const reveal = () => {
             const reveals = document.querySelectorAll('.reveal');
@@ -399,6 +399,65 @@
         };
         window.addEventListener('scroll', reveal);
         window.addEventListener('load', reveal);
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuBg = document.getElementById('mobile-menu-bg');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+        function openMobileMenu() {
+            if (!mobileMenu) return;
+            mobileMenu.classList.remove('translate-x-full');
+            if (mobileMenuBg) mobileMenuBg.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenuFunc() {
+            if (!mobileMenu) return;
+            mobileMenu.classList.add('translate-x-full');
+            if (mobileMenuBg) mobileMenuBg.classList.add('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (mobileMenuToggle) mobileMenuToggle.addEventListener('click', openMobileMenu);
+        if (closeMobileMenu) closeMobileMenu.addEventListener('click', closeMobileMenuFunc);
+        if (mobileMenuBg) mobileMenuBg.addEventListener('click', closeMobileMenuFunc);
+        if (mobileNavLinks) {
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', closeMobileMenuFunc);
+            });
+        }
+
+        // Back to top button logic
+        const backToTopBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+        if (backToTopBtn) {
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // Magnetic Effect
+        const magnetics = document.querySelectorAll('.magnetic');
+        magnetics.forEach(el => {
+            el.addEventListener('mousemove', e => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                el.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = `translate(0px, 0px)`;
+            });
+        });
 
         // Portfolio filtering
         const filterBtns = document.querySelectorAll('.filter-btn');
@@ -425,5 +484,9 @@
             });
         });
     </script>
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="magnetic fixed bottom-8 right-8 z-[140] w-14 h-14 bg-brand-navy text-white rounded-full flex items-center justify-center shadow-2xl hover:bg-brand-accent transition-all duration-500 group">
+        <svg class="w-6 h-6 transform group-hover:-translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+    </button>
 </body>
 </html>
