@@ -574,14 +574,15 @@
                         <li><a href="#" class="hover:text-brand-accent transition-colors">Culture</a></li>
                         <li><a href="#" class="hover:text-brand-accent transition-colors">Career</a></li>
                         <li><a href="#" class="hover:text-brand-accent transition-colors">Contact</a></li>
+                        <li><a href="/admin.html" class="text-brand-accent font-bold hover:underline">Admin Mode</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="text-brand-navy font-bold text-sm uppercase tracking-wider mb-6">Contact</h4>
                     <ul class="text-brand-body text-sm space-y-4 font-medium">
-                        <li class="flex items-center"><span class="text-brand-caption mr-3">E</span> hello@yoursweb.kr</li>
-                        <li class="flex items-center"><span class="text-brand-caption mr-3">T</span> 02-1234-5678</li>
-                        <li class="flex items-center"><span class="text-brand-caption mr-3">K</span> @yoursweb</li>
+                        <li class="flex items-center"><span class="text-brand-caption mr-3">E</span> 999c@kakao.com</li>
+                        <li class="flex items-center"><span class="text-brand-caption mr-3">T</span> 1844-1814</li>
+                        <li class="flex items-center"><span class="text-brand-caption mr-3">K</span> 999cc</li>
                     </ul>
                 </div>
             </div>
@@ -589,7 +590,7 @@
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center pt-8 border-t border-brand-divider text-brand-caption text-xs font-medium space-y-4 md:space-y-0">
                 <div class="space-x-8">
                     <span>상호명: 유어스웹</span>
-                    <span>대표자: 김지훈</span>
+                    <span>대표자: 최지연</span>
                     <span>사업자등록번호: 000-00-00000</span>
                     <span>주소: 서울특별시 강남구 테헤란로 123</span>
                 </div>
@@ -597,6 +598,12 @@
             </div>
         </div>
     </footer>
+
+    <!-- Admin Floating Button -->
+    <a href="/admin.html" class="fixed bottom-8 right-8 z-[150] w-14 h-14 bg-brand-navy text-white rounded-full flex items-center justify-center shadow-[0_8px_30px_rgb(10,37,64,0.3)] hover:scale-110 transition-all duration-300 group">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span class="absolute right-full mr-4 bg-brand-navy text-white text-xs px-3 py-1.5 rounded-[4px] opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity pointer-events-none">관리자 모드</span>
+    </a>
 
     <!-- Inquiry Modal -->
     <div id="contact-modal" class="fixed inset-0 z-[200] hidden flex items-center justify-center p-6 sm:p-12">
@@ -660,7 +667,21 @@
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js';
+        import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js';
+
+        const firebaseConfig = {
+            projectId: "gen-lang-client-0728944407",
+            appId: "1:926053612199:web:1a759b1c219b6e0205f982",
+            apiKey: "AIzaSyA1Z-FEhj4B3EPLwAdzB3k8o_qjlZiBo38",
+            authDomain: "gen-lang-client-0728944407.firebaseapp.com",
+            storageBucket: "gen-lang-client-0728944407.firebasestorage.app",
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app, "ai-studio-c74210e1-7359-47ff-9653-df6e4c38a1ea");
+
         (function() {
             // Custom Cursor Logic
             const dot = document.getElementById('cursor-dot');
@@ -676,10 +697,10 @@
             });
 
             function animateCursor() {
-                dotX += (mouseX - dotX) * 0.5;
-                dotY += (mouseY - dotY) * 0.5;
-                ringX += (mouseX - ringX) * 0.35;
-                ringY += (mouseY - ringY) * 0.35;
+                dotX += (mouseX - dotX) * 0.75;
+                dotY += (mouseY - dotY) * 0.75;
+                ringX += (mouseX - ringX) * 0.55;
+                ringY += (mouseY - ringY) * 0.55;
 
                 dot.style.transform = `translate(${dotX - 4}px, ${dotY - 4}px)`;
                 ring.style.transform = `translate(${ringX - 18}px, ${ringY - 18}px)`;
@@ -861,23 +882,37 @@
                 }
             });
 
-            const contactForm = document.getElementById('inquiry-form');
             if (contactForm) {
-                contactForm.addEventListener('submit', (e) => {
+                contactForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
                     const submitBtn = contactForm.querySelector('button[type="submit"]');
                     const originalText = submitBtn.innerText;
                     
+                    const formData = {
+                        name: contactForm.querySelector('input[placeholder="홍길동"]').value,
+                        company: contactForm.querySelector('input[placeholder="유어스컴퍼니"]').value,
+                        email: contactForm.querySelector('input[placeholder="hello@company.com"]').value,
+                        phone: contactForm.querySelector('input[placeholder="010-0000-0000"]').value,
+                        type: contactForm.querySelector('select').value,
+                        content: contactForm.querySelector('textarea').value,
+                        createdAt: serverTimestamp()
+                    };
+
                     submitBtn.disabled = true;
                     submitBtn.innerText = '전송 중...';
                     
-                    setTimeout(() => {
+                    try {
+                        await addDoc(collection(db, 'inquiries'), formData);
                         alert('문의가 성공적으로 전달되었습니다. 유어스웹 팀에서 최대한 빨리 연락드리겠습니다.');
                         closeModal();
                         contactForm.reset();
+                    } catch (error) {
+                        console.error("Error adding document: ", error);
+                        alert('전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+                    } finally {
                         submitBtn.disabled = false;
                         submitBtn.innerText = originalText;
-                    }, 1500);
+                    }
                 });
             }
 

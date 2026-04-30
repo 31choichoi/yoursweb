@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 모드 — 유어스웹 (Yours Web)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" />
+    <style>
+        body { font-family: 'Pretendard Variable', sans-serif; background-color: #F8FAFC; color: #1E293B; }
+        .inquiry-card { transition: all 0.3s ease; }
+        .inquiry-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-[#0A2540] text-white py-4 px-6 sm:px-12 flex justify-between items-center sticky top-0 z-50">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-[#3B6EFF] rounded-sm transform rotate-45 flex items-center justify-center">
+                <span class="text-white font-bold -rotate-45 text-sm">YW</span>
+            </div>
+            <span class="font-bold tracking-tight text-lg">Admin Dashboard</span>
+        </div>
+        <div id="auth-section" class="flex items-center gap-4">
+            <span id="user-name" class="text-sm opacity-80 hidden md:block"></span>
+            <button id="auth-btn" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-[4px] text-sm font-semibold transition-colors">
+                로그인 중...
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 py-12">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div>
+                <h1 class="text-3xl font-bold text-[#0A2540] mb-2">프로젝트 문의 내역</h1>
+                <p class="text-slate-500">유어스웹에 접수된 모든 문의를 관리합니다.</p>
+            </div>
+            <div class="bg-white p-2 rounded-lg border border-slate-200 flex items-center gap-2">
+                <span id="inquiry-count" class="bg-[#3B6EFF] text-white text-xs font-bold px-2 py-1 rounded-full">0</span>
+                <span class="text-sm font-medium text-slate-600 pr-2">Total Inquiries</span>
+            </div>
+        </div>
+
+        <!-- Inquiry List -->
+        <div id="inquiry-list" class="grid grid-cols-1 gap-6">
+            <!-- Shimmer Loading -->
+            <div class="animate-pulse space-y-4">
+                <div class="h-32 bg-slate-200 rounded-lg"></div>
+                <div class="h-32 bg-slate-200 rounded-lg"></div>
+                <div class="h-32 bg-slate-200 rounded-lg"></div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden flex flex-col items-center justify-center py-24 text-center">
+            <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
+                <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800">문의 내역이 없습니다.</h3>
+            <p class="text-slate-500">아직 접수된 프로젝트 문의가 없습니다.</p>
+        </div>
+
+        <!-- No Access State -->
+        <div id="no-access" class="hidden flex flex-col items-center justify-center py-24 text-center">
+            <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mb-4">
+                <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m0 0v2m0-2h2m-2 0H10m11-3.5a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800">접근 권한이 없습니다.</h3>
+            <p class="text-slate-500">지정된 관리자 계정으로 로그인해주세요.</p>
+            <button onclick="location.href='/'" class="mt-6 text-[#3B6EFF] font-semibold hover:underline">홈으로 돌아가기</button>
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js';
+        import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js';
+        import { getFirestore, collection, query, orderBy, onSnapshot, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js';
+
+        // Fetch config from the secret file (since this is client side, we use the values directly from what we read earlier)
+        const firebaseConfig = {
+            projectId: "gen-lang-client-0728944407",
+            appId: "1:926053612199:web:1a759b1c219b6e0205f982",
+            apiKey: "AIzaSyA1Z-FEhj4B3EPLwAdzB3k8o_qjlZiBo38",
+            authDomain: "gen-lang-client-0728944407.firebaseapp.com",
+            storageBucket: "gen-lang-client-0728944407.firebasestorage.app",
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app, "ai-studio-c74210e1-7359-47ff-9653-df6e4c38a1ea");
+        const provider = new GoogleAuthProvider();
+
+        const authBtn = document.getElementById('auth-btn');
+        const userNameSpan = document.getElementById('user-name');
+        const inquiryList = document.getElementById('inquiry-list');
+        const inquiryCount = document.getElementById('inquiry-count');
+        const emptyState = document.getElementById('empty-state');
+        const noAccess = document.getElementById('no-access');
+
+        const ADMIN_EMAIL = '31choichoi@gmail.com';
+
+        let unsubscribe = null;
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                userNameSpan.textContent = user.displayName;
+                userNameSpan.classList.remove('hidden');
+                authBtn.textContent = '로그아웃';
+                
+                if (user.email === ADMIN_EMAIL) {
+                    noAccess.classList.add('hidden');
+                    loadInquiries();
+                } else {
+                    inquiryList.innerHTML = '';
+                    noAccess.classList.remove('hidden');
+                }
+            } else {
+                userNameSpan.classList.add('hidden');
+                authBtn.textContent = 'Google 로그인';
+                inquiryList.innerHTML = '';
+                noAccess.classList.remove('hidden');
+                if (unsubscribe) unsubscribe();
+            }
+        });
+
+        authBtn.addEventListener('click', () => {
+            if (auth.currentUser) {
+                signOut(auth);
+            } else {
+                signInWithPopup(auth, provider).catch(err => {
+                    console.error("Login failed:", err);
+                    alert("로그인 중 오류가 발생했습니다.");
+                });
+            }
+        });
+
+        function loadInquiries() {
+            const q = query(collection(db, 'inquiries'), orderBy('createdAt', 'desc'));
+            
+            unsubscribe = onSnapshot(q, (snapshot) => {
+                inquiryList.innerHTML = '';
+                inquiryCount.textContent = snapshot.size;
+                
+                if (snapshot.empty) {
+                    emptyState.classList.remove('hidden');
+                    return;
+                }
+                
+                emptyState.classList.add('hidden');
+                snapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const card = createInquiryCard(docSnap.id, data);
+                    inquiryList.appendChild(card);
+                });
+            }, (error) => {
+                console.error("Firestore error:", error);
+                if (error.message.includes('permission')) {
+                    noAccess.classList.remove('hidden');
+                }
+            });
+        }
+
+        function createInquiryCard(id, data) {
+            const div = document.createElement('div');
+            div.className = 'inquiry-card bg-white border border-slate-200 rounded-lg p-6 sm:p-8 flex flex-col md:flex-row gap-6';
+            
+            const date = data.createdAt?.toDate ? data.createdAt.toDate() : new Date();
+            const dateStr = date.toLocaleString('ko-KR', { 
+                year: 'numeric', month: '2-digit', day: '2-digit', 
+                hour: '2-digit', minute: '2-digit' 
+            });
+
+            div.innerHTML = `
+                <div class="flex-1">
+                    <div class="flex flex-wrap items-center gap-3 mb-4">
+                        <span class="bg-blue-50 text-blue-600 text-xs font-bold px-2 py-1 rounded-sm uppercase tracking-wider">
+                            ${data.type || 'Unknown'}
+                        </span>
+                        <span class="text-xs text-slate-400">${dateStr}</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-[#0A2540] mb-2">${data.company}</h3>
+                    <div class="flex flex-wrap gap-x-6 gap-y-2 mb-6">
+                        <div class="flex items-center gap-2 text-sm text-slate-600">
+                            <span class="font-bold text-slate-800">담당자:</span> ${data.name}
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-slate-600">
+                            <span class="font-bold text-slate-800">연락처:</span> ${data.phone}
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-slate-600">
+                            <span class="font-bold text-slate-800">이메일:</span> ${data.email}
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-md text-sm text-slate-700 whitespace-pre-wrap leading-relaxed border-l-4 border-slate-200">
+                        ${data.content}
+                    </div>
+                </div>
+                <div class="flex md:flex-col justify-end gap-2 shrink-0">
+                    <button class="delete-btn bg-red-50 text-red-500 hover:bg-red-100 p-2 rounded transition-colors" data-id="${id}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                    </button>
+                </div>
+            `;
+
+            div.querySelector('.delete-btn').addEventListener('click', async (e) => {
+                if (confirm('이 문의 내역을 정말 삭제하시겠습니까?')) {
+                    try {
+                        await deleteDoc(doc(db, 'inquiries', id));
+                    } catch (err) {
+                        alert('삭제 실패: ' + err.message);
+                    }
+                }
+            });
+
+            return div;
+        }
+    </script>
+</body>
+</html>
