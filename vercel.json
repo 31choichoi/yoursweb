@@ -9,6 +9,10 @@
       "destination": "/portfolio.html"
     },
     {
+      "source": "/service",
+      "destination": "/service.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

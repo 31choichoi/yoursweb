@@ -18,6 +18,9 @@ export default defineConfig(({mode}) => {
              if (req.url === '/portfolio') {
                req.url = '/portfolio.html';
              }
+             if (req.url === '/service') {
+               req.url = '/service.html';
+             }
              next();
           });
         }
@@ -34,6 +37,7 @@ export default defineConfig(({mode}) => {
           main: path.resolve(__dirname, 'index.html'),
           admin: path.resolve(__dirname, 'admin.html'),
           portfolio: path.resolve(__dirname, 'portfolio.html'),
+          service: path.resolve(__dirname, 'service.html'),
         },
       },
     },
