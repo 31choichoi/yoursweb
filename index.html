@@ -472,58 +472,129 @@
         </section>
 
         <!-- Testimonial Section -->
-        <section id="testimonial" class="py-[160px] bg-brand-offwhite">
+        <section id="testimonial" class="py-[160px] bg-brand-offwhite overflow-hidden">
             <div class="max-w-7xl mx-auto px-12">
                 <span class="font-inter text-brand-accent text-xs font-semibold tracking-widest uppercase mb-8 block reveal">clients say</span>
-                <h2 class="text-brand-navy headline-impact text-6xl mb-20 reveal">
+                <h2 class="text-brand-navy headline-impact text-6xl mb-24 reveal">
                     <span class="line-mask"><span class="line-item">유어스웹과 함께한</span></span>
                     <span class="line-mask"><span class="line-item">브랜드들의 이야기.</span></span>
                 </h2>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-16 lg:gap-y-32 gap-x-12">
                     <!-- Review 1 -->
-                    <div class="bg-white p-10 border border-brand-divider rounded-[4px] hover:border-brand-navy transition-all transform hover:-translate-y-1 reveal">
-                        <div class="flex text-brand-accent mb-6">
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <div class="reveal group h-full">
+                        <div class="relative bg-white p-10 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] border border-brand-divider transition-all duration-500 hover:shadow-[0_20px_60px_rgba(10,37,64,0.12)] hover:-translate-y-4 group-hover:border-brand-accent">
+                            <!-- Quote Icon -->
+                            <div class="absolute -top-6 -left-2 w-12 h-12 bg-brand-accent text-white rounded-full flex items-center justify-center shadow-lg transform -rotate-12 transition-transform group-hover:rotate-0">
+                                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.570 9-10.609l.996 2.151c-2.437.917-4 3.638-4 5.849h3.999v10h-9.995z"/></svg>
+                            </div>
+                            <p class="text-brand-text text-lg font-medium leading-relaxed mb-10 italic relative z-10">"기획 단계부터 같이 고민해 준 덕분에 단순한 홈페이지가 아닌 실제 성과를 내는 영업 자산 제작이 가능했습니다."</p>
+                            <!-- Speech bubble tail -->
+                            <div class="absolute -bottom-4 left-10 w-8 h-8 bg-white border-r border-b border-brand-divider transform rotate-45 group-hover:border-brand-accent transition-colors"></div>
                         </div>
-                        <p class="text-brand-text text-md font-medium leading-relaxed mb-10 italic">"기획 단계부터 같이 고민해 준 덕분에 단순한 홈페이지가 아닌 영업 자산이 만들어졌습니다."</p>
-                        <div class="flex flex-col">
-                            <span class="text-brand-navy font-bold">(주)서담재</span>
-                            <span class="text-brand-caption text-sm font-medium">김지훈 대표</span>
+                        <div class="mt-10 flex items-center gap-4 pl-6">
+                            <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-md">
+                                <img src="https://picsum.photos/seed/p1/200/200" alt="Avatar" class="w-full h-full object-cover" referrerPolicy="no-referrer">
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-brand-navy font-bold text-lg">(주)서담재</span>
+                                <span class="text-brand-caption text-xs font-semibold uppercase tracking-wider">김지훈 대표</span>
+                            </div>
                         </div>
                     </div>
                     <!-- Review 2 -->
-                    <div class="bg-white p-10 border border-brand-divider rounded-[4px] hover:border-brand-navy transition-all transform hover:-translate-y-1 reveal" style="transition-delay: 100ms;">
-                        <div class="flex text-brand-accent mb-6">
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <div class="reveal group h-full lg:translate-y-24" style="transition-delay: 100ms;">
+                        <div class="relative bg-white p-10 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] border border-brand-divider transition-all duration-500 hover:shadow-[0_20px_60px_rgba(10,37,64,0.12)] hover:-translate-y-4 group-hover:border-brand-accent">
+                            <div class="absolute -top-6 -left-2 w-12 h-12 bg-brand-navy text-white rounded-full flex items-center justify-center shadow-lg transform rotate-6 transition-transform group-hover:rotate-0">
+                                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.570 9-10.609l.996 2.151c-2.437.917-4 3.638-4 5.849h3.999v10h-9.995z"/></svg>
+                            </div>
+                            <p class="text-brand-text text-lg font-medium leading-relaxed mb-10 italic relative z-10">"납기 약속을 정확히 지키는 곳은 처음이었습니다. 오픈 첫 주 만에 상담 문의가 전보다 3배 이상 폭증했습니다."</p>
+                            <div class="absolute -bottom-4 left-10 w-8 h-8 bg-white border-r border-b border-brand-divider transform rotate-45 group-hover:border-brand-accent transition-colors"></div>
                         </div>
-                        <p class="text-brand-text text-md font-medium leading-relaxed mb-10 italic">"납기 약속을 정확히 지키는 에이전시는 처음이었습니다. 21일 만에 오픈했고, 첫 주 문의가 3배 늘었습니다."</p>
-                        <div class="flex flex-col">
-                            <span class="text-brand-navy font-bold">리프테크</span>
-                            <span class="text-brand-caption text-sm font-medium">박서연 마케팅 팀장</span>
+                        <div class="mt-10 flex items-center gap-4 pl-6">
+                            <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-md">
+                                <img src="https://picsum.photos/seed/p2/200/200" alt="Avatar" class="w-full h-full object-cover" referrerPolicy="no-referrer">
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-brand-navy font-bold text-lg">리프테크</span>
+                                <span class="text-brand-caption text-xs font-semibold uppercase tracking-wider">박서연 마케팅 팀장</span>
+                            </div>
                         </div>
                     </div>
                     <!-- Review 3 -->
-                    <div class="bg-white p-10 border border-brand-divider rounded-[4px] hover:border-brand-navy transition-all transform hover:-translate-y-1 reveal" style="transition-delay: 200ms;">
-                        <div class="flex text-brand-accent mb-6">
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <div class="reveal group h-full" style="transition-delay: 200ms;">
+                        <div class="relative bg-white p-10 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] border border-brand-divider transition-all duration-500 hover:shadow-[0_20px_60px_rgba(10,37,64,0.12)] hover:-translate-y-4 group-hover:border-brand-accent">
+                            <div class="absolute -top-6 -left-2 w-12 h-12 bg-brand-accent text-white rounded-full flex items-center justify-center shadow-lg transform -rotate-12 transition-transform group-hover:rotate-0">
+                                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.570 9-10.609l.996 2.151c-2.437.917-4 3.638-4 5.849h3.999v10h-9.995z"/></svg>
+                            </div>
+                            <p class="text-brand-text text-lg font-medium leading-relaxed mb-10 italic relative z-10">"브랜드의 미학을 웹으로 완벽히 번역했습니다. 오프라인 매장의 따뜻한 감성이 온라인에서도 그대로 느껴집니다."</p>
+                            <div class="absolute -bottom-4 left-10 w-8 h-8 bg-white border-r border-b border-brand-divider transform rotate-45 group-hover:border-brand-accent transition-colors"></div>
                         </div>
-                        <p class="text-brand-text text-md font-medium leading-relaxed mb-10 italic">"디자인이 브랜드의 톤을 그대로 살렸습니다. 매장 분위기와 웹이 처음으로 일치했어요."</p>
-                        <div class="flex flex-col">
-                            <span class="text-brand-navy font-bold">온도커피</span>
-                            <span class="text-brand-caption text-sm font-medium">이도현 대표</span>
+                        <div class="mt-10 flex items-center gap-4 pl-6">
+                            <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-md">
+                                <img src="https://picsum.photos/seed/p3/200/200" alt="Avatar" class="w-full h-full object-cover" referrerPolicy="no-referrer">
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-brand-navy font-bold text-lg">온도커피</span>
+                                <span class="text-brand-caption text-xs font-semibold uppercase tracking-wider">이도현 대표</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Review 4 -->
+                    <div class="reveal group h-full lg:-translate-y-12" style="transition-delay: 300ms;">
+                        <div class="relative bg-white p-10 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] border border-brand-divider transition-all duration-500 hover:shadow-[0_20px_60px_rgba(10,37,64,0.12)] hover:-translate-y-4 group-hover:border-brand-accent">
+                            <div class="absolute -top-6 -left-2 w-12 h-12 bg-brand-navy text-white rounded-full flex items-center justify-center shadow-lg transform rotate-3 transition-transform group-hover:rotate-0">
+                                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.570 9-10.609l.996 2.151c-2.437.917-4 3.638-4 5.849h3.999v10h-9.995z"/></svg>
+                            </div>
+                            <p class="text-brand-text text-lg font-medium leading-relaxed mb-10 italic relative z-10">"비즈니스 핵심 가치를 끄집어내는 기획력이 대단합니다. 제작 후 전환지표가 25% 상승했습니다."</p>
+                            <div class="absolute -bottom-4 left-10 w-8 h-8 bg-white border-r border-b border-brand-divider transform rotate-45 group-hover:border-brand-accent transition-colors"></div>
+                        </div>
+                        <div class="mt-10 flex items-center gap-4 pl-6">
+                            <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-md">
+                                <img src="https://picsum.photos/seed/p4/200/200" alt="Avatar" class="w-full h-full object-cover" referrerPolicy="no-referrer">
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-brand-navy font-bold text-lg">(주)올라운더</span>
+                                <span class="text-brand-caption text-xs font-semibold uppercase tracking-wider">정민구 기획실장</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Review 5 -->
+                    <div class="reveal group h-full lg:translate-y-12" style="transition-delay: 400ms;">
+                        <div class="relative bg-white p-10 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] border border-brand-divider transition-all duration-500 hover:shadow-[0_20px_60px_rgba(10,37,64,0.12)] hover:-translate-y-4 group-hover:border-brand-accent">
+                            <div class="absolute -top-6 -left-2 w-12 h-12 bg-brand-accent text-white rounded-full flex items-center justify-center shadow-lg transform -rotate-6 transition-transform group-hover:rotate-0">
+                                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.570 9-10.609l.996 2.151c-2.437.917-4 3.638-4 5.849h3.999v10h-9.995z"/></svg>
+                            </div>
+                            <p class="text-brand-text text-lg font-medium leading-relaxed mb-10 italic relative z-10">"개발팀과 직접 소통하며 수정한 덕분에 피드백이 정말 빨랐습니다. 기대 이상의 퀄리티입니다."</p>
+                            <div class="absolute -bottom-4 left-10 w-8 h-8 bg-white border-r border-b border-brand-divider transform rotate-45 group-hover:border-brand-accent transition-colors"></div>
+                        </div>
+                        <div class="mt-10 flex items-center gap-4 pl-6">
+                            <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-md">
+                                <img src="https://picsum.photos/seed/p5/200/200" alt="Avatar" class="w-full h-full object-cover" referrerPolicy="no-referrer">
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-brand-navy font-bold text-lg">디자인하우스</span>
+                                <span class="text-brand-caption text-xs font-semibold uppercase tracking-wider">강유진 아트디렉터</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Review 6 -->
+                    <div class="reveal group h-full lg:-translate-y-4" style="transition-delay: 500ms;">
+                        <div class="relative bg-white p-10 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] border border-brand-divider transition-all duration-500 hover:shadow-[0_20px_60px_rgba(10,37,64,0.12)] hover:-translate-y-4 group-hover:border-brand-accent">
+                            <div class="absolute -top-6 -left-2 w-12 h-12 bg-brand-navy text-white rounded-full flex items-center justify-center shadow-lg transform rotate-12 transition-transform group-hover:rotate-0">
+                                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.570 9-10.609l.996 2.151c-2.437.917-4 3.638-4 5.849h3.999v10h-9.995z"/></svg>
+                            </div>
+                            <p class="text-brand-text text-lg font-medium leading-relaxed mb-10 italic relative z-10">"검색 결과 상위 노출 전략까지 꼼꼼히 챙겨주셔서 오픈 후 광고 없이도 빛을 발하고 있습니다."</p>
+                            <div class="absolute -bottom-4 left-10 w-8 h-8 bg-white border-r border-b border-brand-divider transform rotate-45 group-hover:border-brand-accent transition-colors"></div>
+                        </div>
+                        <div class="mt-10 flex items-center gap-4 pl-6">
+                            <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-md">
+                                <img src="https://picsum.photos/seed/p6/200/200" alt="Avatar" class="w-full h-full object-cover" referrerPolicy="no-referrer">
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-brand-navy font-bold text-lg">포레스트랩</span>
+                                <span class="text-brand-caption text-xs font-semibold uppercase tracking-wider">최성우 기술이사</span>
+                            </div>
                         </div>
                     </div>
                 </div>

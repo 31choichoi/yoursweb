@@ -121,19 +121,24 @@
         const adminContent = document.getElementById('admin-content');
 
         const ADMIN_EMAIL = '31choichoi@gmail.com';
-        const ADMIN_PW = 'dnjfcjs';
+        const ADMIN_PW_EN = 'dnjfcjs';
+        const ADMIN_PW_KR = '월천';
 
         let unsubscribe = null;
 
         // Check password first
         function checkPassword() {
-            if (passwordInput.value === ADMIN_PW) {
+            const inputVal = passwordInput.value.trim().toLowerCase();
+            if (inputVal === ADMIN_PW_EN || inputVal === ADMIN_PW_KR) {
                 passwordGate.classList.add('hidden');
                 adminContent.classList.remove('hidden');
                 localStorage.setItem('admin_access', 'true');
                 handleAuth();
+                pwError.classList.add('hidden');
             } else {
                 pwError.classList.remove('hidden');
+                passwordInput.value = '';
+                passwordInput.focus();
             }
         }
 
