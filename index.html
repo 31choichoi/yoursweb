@@ -196,13 +196,14 @@
                 transition-duration: 0.01ms !important;
             }
         }
-        @keyframes hero-zoom {
-            0% { transform: scale(1.15) rotate(0.01deg); }
-            100% { transform: scale(1) rotate(0.01deg); }
+        @keyframes hero-motion {
+            0% { transform: scale(1.1) translate(0, 0); }
+            50% { transform: scale(1.2) translate(-2%, -1%); }
+            100% { transform: scale(1.1) translate(0, 0); }
         }
 
-        .animate-hero-zoom {
-            animation: hero-zoom 20s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        .animate-hero-motion {
+            animation: hero-motion 60s ease-in-out infinite;
         }
 
         .reveal-stagger {
@@ -281,7 +282,7 @@
         <!-- Hero Section -->
         <section id="hero" class="relative min-h-screen md:h-screen w-full snap-section flex items-center overflow-hidden py-24 md:py-0">
             <!-- Background Image & Overlay -->
-            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1920" referrerpolicy="no-referrer" alt="Hero Background" class="absolute inset-0 w-full h-full object-cover animate-hero-zoom">
+            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1920" referrerpolicy="no-referrer" alt="Hero Background" class="absolute inset-0 w-full h-full object-cover animate-hero-motion">
             <div class="absolute inset-0 bg-brand-navy/70 backdrop-blur-[1px]"></div>
             
             <!-- Background Elements -->
@@ -370,7 +371,7 @@
         </section>
 
         <!-- About Section -->
-        <section id="about" class="py-[160px] snap-section bg-white relative overflow-hidden">
+        <section id="about" class="pt-[80px] pb-[160px] snap-section bg-white relative overflow-hidden">
             <div class="max-w-7xl mx-auto px-12 relative z-10">
                 <span class="font-inter text-brand-accent text-xs font-semibold tracking-widest uppercase mb-8 block reveal">about us</span>
                 
