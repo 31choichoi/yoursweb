@@ -1022,6 +1022,11 @@
             const headerInquiryBtn = document.getElementById('open-inquiry-header');
             const footerInquiryBtn = document.getElementById('open-inquiry-footer');
             
+            // Check hash on load
+            if (window.location.hash === '#contact') {
+                setTimeout(openModal, 800); // Small delay for better UX
+            }
+            
             if(mainQuoteBtn) {
                 mainQuoteBtn.addEventListener('click', (e) => { 
                     e.preventDefault(); 
@@ -1081,6 +1086,19 @@
                     
                     try {
                         await addDoc(collection(db, 'inquiries'), formData);
+                        
+                        // Send email notification via backend
+                        try {
+                            await fetch('/api/notify', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(formData)
+                            });
+                        } catch (notifyError) {
+                            console.error("Notification failed:", notifyError);
+                            // We don't alert the user here because the form was already saved to DB
+                        }
+
                         alert('문의가 성공적으로 전달되었습니다. 유어스웹 팀에서 최대한 빨리 연락드리겠습니다.');
                         closeModal();
                         contactForm.reset();
