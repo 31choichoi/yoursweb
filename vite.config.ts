@@ -35,6 +35,9 @@ export default defineConfig(({mode}) => {
       },
     },
     build: {
+      modulePreload: {
+        polyfill: false
+      },
       rollupOptions: {
         input: {
           main: path.resolve(__dirname, 'index.html'),

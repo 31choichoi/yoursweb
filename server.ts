@@ -28,8 +28,8 @@ async function startServer() {
       // Setup Nodemailer
       const transporter = nodemailer.createTransport({
         host: process.env.SMTP_HOST || "smtp.gmail.com",
-        port: parseInt(process.env.SMTP_PORT || "465"),
-        secure: process.env.SMTP_PORT === "465",
+        port: parseInt(process.env.SMTP_PORT || "587"),
+        secure: process.env.SMTP_PORT === "465", // true for 465, false for other ports
         auth: {
           user: process.env.SMTP_USER,
           pass: process.env.SMTP_PASS,
@@ -69,9 +69,8 @@ ${content}
         await transporter.sendMail(mailOptions);
         console.log("Email sent successfully to", process.env.NOTIFICATION_EMAIL);
       } else {
-        console.warn("SMTP credentials not provided. Email not sent.");
-        // We still return 200 so the client doesn't see an error if they haven't configured SMTP yet
-        return res.json({ success: true, warning: "SMTP not configured" });
+        console.error("SMTP credentials missing! Please set SMTP_USER and SMTP_PASS in Settings.");
+        return res.status(500).json({ error: "SMTP configuration missing" });
       }
 
       res.json({ success: true });

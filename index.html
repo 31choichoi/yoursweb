@@ -422,7 +422,7 @@
                         </div>
                         <h3 class="text-xl font-bold text-brand-navy mb-4">브랜드 사이트 제작</h3>
                         <p class="text-brand-body text-sm leading-relaxed mb-10">코퍼레이트·서비스 소개 사이트. 브랜드 자산을 정돈된 웹 경험으로 번역합니다.</p>
-                        <a href="/service.html" class="mt-auto flex items-center text-brand-navy font-bold text-sm uppercase tracking-wider group-hover:text-brand-accent transition-colors">
+                        <a href="/service" class="mt-auto flex items-center text-brand-navy font-bold text-sm uppercase tracking-wider group-hover:text-brand-accent transition-colors">
                             자세히 보기
                             <svg class="ml-2 w-4 h-4 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                         </a>
@@ -434,7 +434,7 @@
                         </div>
                         <h3 class="text-xl font-bold text-brand-navy mb-4">블로그 관리 / 상위노출</h3>
                         <p class="text-brand-body text-sm leading-relaxed mb-10">전략적 키워드 분석 및 양질의 콘텐츠 생산을 통해 검색 엔진 상위 노출을 실현합니다.</p>
-                        <a href="/service.html" class="mt-auto flex items-center text-brand-navy font-bold text-sm uppercase tracking-wider group-hover:text-brand-accent transition-colors">
+                        <a href="/service" class="mt-auto flex items-center text-brand-navy font-bold text-sm uppercase tracking-wider group-hover:text-brand-accent transition-colors">
                             자세히 보기
                             <svg class="ml-2 w-4 h-4 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                         </a>
@@ -446,7 +446,7 @@
                         </div>
                         <h3 class="text-xl font-bold text-brand-navy mb-4">쇼핑몰 / 커머스</h3>
                         <p class="text-brand-body text-sm leading-relaxed mb-10">Imweb·Cafe24·Shopify 기반 스토어 구축. 결제 및 물류 시스템 안정적 연동.</p>
-                        <a href="/service.html" class="mt-auto flex items-center text-brand-navy font-bold text-sm uppercase tracking-wider group-hover:text-brand-accent transition-colors">
+                        <a href="/service" class="mt-auto flex items-center text-brand-navy font-bold text-sm uppercase tracking-wider group-hover:text-brand-accent transition-colors">
                             자세히 보기
                             <svg class="ml-2 w-4 h-4 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                         </a>
@@ -458,7 +458,7 @@
                         </div>
                         <h3 class="text-xl font-bold text-brand-navy mb-4">유지보수 / 운영</h3>
                         <p class="text-brand-body text-sm leading-relaxed mb-10">월 단위 파트너십 서비스. 콘텐츠 업데이트 및 정기 기술 리포트를 제공합니다.</p>
-                        <a href="/service.html" class="mt-auto flex items-center text-brand-navy font-bold text-sm uppercase tracking-wider group-hover:text-brand-accent transition-colors">
+                        <a href="/service" class="mt-auto flex items-center text-brand-navy font-bold text-sm uppercase tracking-wider group-hover:text-brand-accent transition-colors">
                             자세히 보기
                             <svg class="ml-2 w-4 h-4 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                         </a>
@@ -1089,11 +1089,13 @@
                         
                         // Send email notification via backend
                         try {
-                            await fetch('/api/notify', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify(formData)
-                            });
+                            if (typeof window.fetch === 'function') {
+                                await window.fetch('/api/notify', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(formData)
+                                });
+                            }
                         } catch (notifyError) {
                             console.error("Notification failed:", notifyError);
                             // We don't alert the user here because the form was already saved to DB
