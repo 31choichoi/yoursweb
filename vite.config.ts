@@ -21,6 +21,9 @@ export default defineConfig(({mode}) => {
              if (req.url === '/service') {
                req.url = '/service.html';
              }
+             if (req.url === '/about') {
+               req.url = '/about.html';
+             }
              next();
           });
         }
@@ -38,6 +41,7 @@ export default defineConfig(({mode}) => {
           admin: path.resolve(__dirname, 'admin.html'),
           portfolio: path.resolve(__dirname, 'portfolio.html'),
           service: path.resolve(__dirname, 'service.html'),
+          about: path.resolve(__dirname, 'about.html'),
         },
       },
     },
