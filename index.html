@@ -247,6 +247,33 @@
             transform-style: preserve-3d;
         }
 
+        /* Stat Bar Continuous Floating */
+        @keyframes stat-float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+
+        .stat-item-float {
+            animation: stat-float 4s ease-in-out infinite;
+        }
+
+        /* Shimmer Effect for Stats Bar */
+        @keyframes shimmer-sweep {
+            0% { transform: translateX(-100%) skewX(-15deg); }
+            50% { transform: translateX(100%) skewX(-15deg); }
+            100% { transform: translateX(100%) skewX(-15deg); }
+        }
+
+        .glass-shimmer {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            width: 50%;
+            animation: shimmer-sweep 8s infinite;
+            pointer-events: none;
+        }
+
         .reveal-stagger {
             opacity: 0;
             transform: translateY(30px);
@@ -473,9 +500,12 @@
             <!-- Ticker (Enhanced Stats Bar) -->
             <div class="relative mt-20 md:mt-24 w-full z-20 reveal pb-12 md:pb-20">
                 <div class="max-w-7xl mx-auto px-6 md:px-12">
-                    <div class="bg-[#050B15]/40 backdrop-blur-3xl border border-white/5 rounded-[32px] p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4">
+                    <div class="bg-[#050B15]/40 backdrop-blur-3xl border border-white/5 rounded-[32px] p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4 overflow-hidden relative">
+                        <!-- Glass Shimmer Overlay -->
+                        <div class="glass-shimmer"></div>
+                        
                         <!-- Item 1 -->
-                        <div class="flex items-center space-x-6 w-full md:w-auto">
+                        <div class="flex items-center space-x-6 w-full md:w-auto stat-item-float" style="animation-delay: 0s;">
                             <div class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-white/10 flex items-center justify-center shadow-[0_0_40px_rgba(168,85,247,0.15)] group transition-all duration-500 hover:scale-105">
                                 <svg class="w-8 h-8 md:w-10 md:h-10 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                             </div>
@@ -492,7 +522,7 @@
                         <div class="hidden lg:block w-[1px] h-16 bg-white/5 mx-4"></div>
 
                         <!-- Item 2 -->
-                        <div class="flex items-center space-x-6 w-full md:w-auto">
+                        <div class="flex items-center space-x-6 w-full md:w-auto stat-item-float" style="animation-delay: 0.5s;">
                             <div class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-white/10 flex items-center justify-center shadow-[0_0_40px_rgba(168,85,247,0.15)] group transition-all duration-500 hover:scale-105">
                                 <svg class="w-8 h-8 md:w-10 md:h-10 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             </div>
@@ -509,7 +539,7 @@
                         <div class="hidden lg:block w-[1px] h-16 bg-white/5 mx-4"></div>
 
                         <!-- Item 3 -->
-                        <div class="flex items-center space-x-6 w-full md:w-auto">
+                        <div class="flex items-center space-x-6 w-full md:w-auto stat-item-float" style="animation-delay: 1s;">
                             <div class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 border border-white/10 flex items-center justify-center shadow-[0_0_40px_rgba(59,110,255,0.15)] group transition-all duration-500 hover:scale-105">
                                 <svg class="w-8 h-8 md:w-10 md:h-10 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                             </div>
@@ -526,7 +556,7 @@
                         <div class="hidden lg:block w-[1px] h-16 bg-white/5 mx-4"></div>
 
                         <!-- Item 4 -->
-                        <div class="flex items-center space-x-6 w-full md:w-auto">
+                        <div class="flex items-center space-x-6 w-full md:w-auto stat-item-float" style="animation-delay: 1.5s;">
                             <div class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-white/10 flex items-center justify-center shadow-[0_0_40px_rgba(168,85,247,0.15)] group transition-all duration-500 hover:scale-105">
                                 <svg class="w-8 h-8 md:w-10 md:h-10 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                             </div>
@@ -1067,24 +1097,52 @@
                 
                 const target = parseInt(el.dataset.target);
                 let count = 0;
-                const duration = 1800;
+                const duration = 2000;
                 const startTime = performance.now();
 
                 function update(currentTime) {
                     const elapsed = currentTime - startTime;
                     const progress = Math.min(elapsed / duration, 1);
                     
-                    // Ease Out Cubic
-                    const easeOutCubic = 1 - Math.pow(1 - progress, 3);
-                    count = Math.floor(easeOutCubic * target);
+                    // Ease Out Expo for a more premium feel
+                    const easeOutExpo = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+                    count = Math.floor(easeOutExpo * target);
                     el.innerText = count;
 
                     if (progress < 1) {
                         requestAnimationFrame(update);
                     } else {
                         el.innerText = target;
+                        // Start continuous subtle movement (jitter)
+                        startJitter(el, target);
                     }
                 }
+                
+                function startJitter(element, baseValue) {
+                    // More dynamic and frequent jitter
+                    setInterval(() => {
+                        const jitter = Math.floor(Math.random() * 5) - 2; // -2 to 2 range for more movement
+                        let newValue = baseValue + jitter;
+                        
+                        // Prevent going too low
+                        if (newValue < Math.floor(baseValue * 0.95)) newValue = baseValue; 
+                        
+                        // Visual pulse and change
+                        element.style.transition = 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                        element.style.transform = 'scale(1.1)';
+                        element.style.color = '#6366f1'; // Temporary color shift to indigo
+                        element.style.textShadow = '0 0 15px rgba(99, 102, 241, 0.6)';
+                        element.innerText = newValue;
+                        
+                        setTimeout(() => {
+                            element.style.transform = 'scale(1)';
+                            element.style.color = 'white';
+                            element.style.textShadow = 'none';
+                            element.innerText = baseValue;
+                        }, 500);
+                    }, 1500 + Math.random() * 2000); // Faster frequency (1.5s - 3.5s)
+                }
+
                 requestAnimationFrame(update);
             }
 
