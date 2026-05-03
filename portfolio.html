@@ -132,7 +132,7 @@
                 </a>
 
                 <!-- Hamburger Toggle -->
-                <button id="mobile-menu-toggle" class="md:hidden text-brand-navy p-2 focus:outline-none z-[210] relative">
+                <button id="mobile-menu-toggle" class="md:hidden p-2 focus:outline-none z-[210] relative transition-colors duration-300">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
@@ -144,15 +144,14 @@
     <!-- Mobile Menu Overlay -->
     <div id="mobile-menu-bg" class="fixed inset-0 bg-brand-navy/60 backdrop-blur-sm z-[190] opacity-0 pointer-events-none transition-opacity duration-500 md:hidden"></div>
     <div id="mobile-menu" class="fixed top-0 right-0 bottom-0 w-[75%] max-w-[320px] bg-white z-[200] flex flex-col items-center justify-center space-y-8 transform translate-x-full transition-transform duration-500 ease-in-out md:hidden shadow-[-20px_0_60px_rgba(0,0,0,0.1)]">
+        <button id="close-mobile-menu" class="absolute top-8 right-8 text-brand-navy focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
         <a href="/service" class="mobile-nav-link text-xl font-bold text-brand-navy hover:text-brand-accent transition-colors">서비스</a>
         <a href="/portfolio" class="mobile-nav-link text-xl font-bold text-brand-accent">포트폴리오</a>
         <a href="/#testimonial" class="mobile-nav-link text-xl font-bold text-brand-navy hover:text-brand-accent transition-colors">고객후기</a>
         <a href="/about" class="mobile-nav-link text-xl font-bold text-brand-navy hover:text-brand-accent transition-colors">회사소개</a>
         <a href="/#contact" class="mobile-nav-link mt-4 bg-brand-accent text-white px-8 py-3 rounded-full font-bold text-lg">프로젝트 문의</a>
-        
-        <button id="close-mobile-menu" class="absolute top-8 right-8 text-brand-navy focus:outline-none">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-        </button>
     </div>
 
     <main class="pt-32 pb-40">
