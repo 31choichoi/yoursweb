@@ -114,9 +114,44 @@
         /* Grid Background Pattern */
         .bg-grid {
             background-image: 
-                linear-gradient(rgba(10,37,64,0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(10,37,64,0.05) 1px, transparent 1px);
-            background-size: 80px 80px;
+                linear-gradient(rgba(59, 110, 255, 0.12) 1.5px, transparent 1.5px),
+                linear-gradient(90deg, rgba(59, 110, 255, 0.12) 1.5px, transparent 1.5px);
+            background-size: 60px 60px;
+        }
+
+        /* Glowing Background Elements */
+        .hero-glow {
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(59, 110, 255, 0.15) 0%, transparent 70%);
+            filter: blur(100px);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hero-glow-purple {
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
+        }
+
+        /* Gradient Text */
+        .text-gradient-purple {
+            background: linear-gradient(90deg, #3B6EFF 0%, #A855F7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Ticker Card Styling */
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px);
         }
 
         /* Sticky Header Glassmorphism */
@@ -222,6 +257,81 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Bubble Animation */
+        .bubble-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, rgba(59, 110, 255, 0.2), rgba(168, 85, 247, 0.2));
+            border-radius: 50%;
+            filter: blur(80px);
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            animation: bubble-float 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes bubble-float {
+            0% { transform: translate(-50%, -50%) scale(1); border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            50% { transform: translate(-45%, -55%) scale(1.1); border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+            100% { transform: translate(-50%, -50%) scale(1); border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+        }
+
+        /* Portfolio Slider */
+        .hero-slider-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.5);
+            z-index: 20;
+        }
+
+        .hero-slider-track {
+            display: flex;
+            transition: transform 1s cubic-bezier(0.85, 0, 0.15, 1);
+            height: 100%;
+        }
+
+        .hero-slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .hero-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.9);
+        }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+            z-index: 30;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            width: 24px;
+            background: var(--brand-accent);
+        }
+
     </style>
 </head>
 <body class="selection:bg-brand-accent selection:text-white">
@@ -286,16 +396,14 @@
     <main class="snap-container">
         
         <!-- Hero Section -->
-        <section id="hero" class="relative min-h-screen md:h-screen w-full snap-section flex items-center overflow-hidden py-24 md:py-0">
-            <!-- Background Image & Overlay -->
-            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1920" referrerpolicy="no-referrer" alt="Hero Background" class="absolute inset-0 w-full h-full object-cover animate-hero-motion">
-            <div class="absolute inset-0 bg-brand-navy/70 backdrop-blur-[1px]"></div>
-            
+        <section id="hero" class="relative min-h-screen md:h-screen w-full snap-section flex items-center overflow-hidden py-24 md:py-0 bg-[#050B15]">
             <!-- Background Elements -->
-            <div class="absolute inset-0 bg-grid opacity-10 pointer-events-none"></div>
+            <div class="hero-glow -top-40 -left-60"></div>
+            <div class="hero-glow hero-glow-purple -bottom-40 -right-60 opacity-60"></div>
+            <div class="absolute inset-0 bg-grid opacity-20 pointer-events-none"></div>
             
             <div class="max-w-7xl mx-auto px-6 md:px-12 w-full flex flex-col md:grid md:grid-cols-12 gap-12 relative z-10">
-                <!-- Left: Content -->
+                <!-- Left: Content (Preserved Korean Text) -->
                 <div class="order-1 md:col-span-7 flex flex-col justify-center">
                     <span class="font-inter text-brand-accent text-[10px] md:text-xs font-semibold tracking-widest uppercase mb-4 md:mb-8 flex items-center reveal-stagger" style="transition-delay: 100ms;">
                         <span class="w-6 md:w-8 h-[1px] bg-brand-accent mr-3 md:mr-4"></span>
@@ -311,35 +419,53 @@
                         기획·디자인·개발을 한 팀이 책임지는 풀서비스 웹 에이전시. 결과로 증명합니다.
                     </p>
                     
-                        <div class="flex flex-col sm:flex-row gap-4 reveal-stagger" style="transition-delay: 700ms;">
-                            <button id="open-quote-hero" class="magnetic btn-primary bg-brand-accent text-white px-8 md:px-10 py-3.5 md:py-5 rounded-[4px] font-bold text-base md:text-lg focus:outline-none whitespace-nowrap">
-                                무료 견적 받기
-                            </button>
-                            <a href="/portfolio" class="magnetic group border border-white/40 text-white px-8 md:px-10 py-3.5 md:py-5 rounded-[4px] font-bold text-base md:text-lg hover:bg-white hover:text-brand-navy transition-all flex items-center justify-center whitespace-nowrap">
-                                포트폴리오 보기
-                            </a>
-                        </div>
+                    <div class="flex flex-col sm:flex-row gap-4 reveal-stagger" style="transition-delay: 700ms;">
+                        <button id="open-quote-hero" class="magnetic btn-primary bg-brand-accent text-white px-8 md:px-10 py-3.5 md:py-5 rounded-[4px] font-bold text-base md:text-lg focus:outline-none whitespace-nowrap shadow-[0_10px_40px_-5px_rgba(59,110,255,0.4)]">
+                            무료 견적 받기
+                        </button>
+                        <a href="/portfolio" class="magnetic group border border-white/20 text-white px-8 md:px-10 py-3.5 md:py-5 rounded-[4px] font-bold text-base md:text-lg hover:bg-white hover:text-brand-navy transition-all flex items-center justify-center whitespace-nowrap">
+                            포트폴리오 보기
+                        </a>
+                    </div>
                 </div>
 
-                <!-- Right: Visual -->
+                <!-- Right: Visual (Bubble Background + Portfolio Rolling Slider) -->
                 <div class="order-2 md:col-span-5 flex items-center justify-center relative reveal" style="transition-delay: 300ms;">
-                    <div id="hero-visual" class="relative w-full aspect-square max-w-[240px] sm:max-w-[400px] md:max-w-md mx-auto">
-                        <!-- Layer 1: Design Image -->
-                        <div class="parallax-layer absolute inset-0 rounded-[8px] overflow-hidden border border-white/20 shadow-2xl" style="transform: translateZ(0)">
-                            <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&q=80&w=800" referrerpolicy="no-referrer" alt="Design Workspace" class="w-full h-full object-cover opacity-80 mix-blend-luminosity">
-                            <div class="absolute inset-0 bg-brand-navy/30"></div>
+                    <!-- Floating Soap Bubbles / Moving Blobs -->
+                    <div class="bubble-bg"></div>
+                    <div class="bubble-bg" style="animation-delay: -5s; width: 450px; height: 450px; left: 40%; top: 40%; opacity: 0.7;"></div>
+                    <div class="bubble-bg" style="animation-delay: -10s; width: 350px; height: 350px; left: 60%; top: 60%; opacity: 0.5;"></div>
+                    
+                    <div id="hero-visual" class="relative w-full aspect-[4/3] md:aspect-square flex items-center justify-center z-10">
+                        <div class="hero-slider-container group">
+                            <div class="hero-slider-track" id="hero-slider-track">
+                                <!-- Slides will be injected or listed here -->
+                                <div class="hero-slide">
+                                    <img src="http://mydrim.net/img/ps.png" alt="Portfolio 1" referrerpolicy="no-referrer">
+                                </div>
+                                <div class="hero-slide">
+                                    <img src="http://mydrim.net/img/fc.png" alt="Portfolio 2" referrerpolicy="no-referrer">
+                                </div>
+                                <div class="hero-slide">
+                                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200" alt="Portfolio 3" referrerpolicy="no-referrer">
+                                </div>
+                                <div class="hero-slide">
+                                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800" alt="Portfolio 4" referrerpolicy="no-referrer">
+                                </div>
+                            </div>
+                            <!-- Dots Nav -->
+                            <div class="slider-dots" id="slider-dots">
+                                <div class="dot active"></div>
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                            </div>
                         </div>
-                        <!-- Layer 2: Grid SVG -->
-                        <div class="parallax-layer absolute inset-4 border border-white/5 bg-grid opacity-30"></div>
-                        <!-- Layer 3: Geometric Shapes -->
-                        <div class="parallax-layer absolute -top-4 -right-4 md:-top-8 md:-right-8 w-16 h-16 md:w-32 md:h-32 rounded-full border border-brand-accent/40"></div>
-                        <div class="parallax-layer absolute bottom-8 -left-2 md:bottom-12 md:-left-4 w-6 h-6 md:w-12 md:h-12 bg-brand-accent"></div>
-                        <div class="parallax-layer absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 md:w-48 h-[1px] bg-white/20 rotate-45"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Ticker -->
+            <!-- Ticker (Original Layout) -->
             <div class="absolute bottom-6 md:bottom-12 left-0 w-full z-20 reveal">
                 <div class="max-w-7xl mx-auto px-6 md:px-12">
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 py-6 md:py-8 border-t border-white/10">
@@ -1138,6 +1264,52 @@
                     layer.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
                 });
             });
+
+            // Hero Portfolio Slider Logic
+            const track = document.getElementById('hero-slider-track');
+            const dots = document.querySelectorAll('.dot');
+            let currentSlide = 0;
+            const slideCount = dots.length;
+            const autoPlayDelay = 4000;
+
+            function goToSlide(index) {
+                if (index < 0) index = slideCount - 1;
+                if (index >= slideCount) index = 0;
+                
+                currentSlide = index;
+                if (track) {
+                    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+                }
+                
+                // Update dots
+                dots.forEach((dot, i) => {
+                    if (i === currentSlide) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+
+            // Click on dots
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    goToSlide(index);
+                    resetTimer();
+                });
+            });
+
+            // Auto play
+            let slideInterval = setInterval(() => {
+                goToSlide(currentSlide + 1);
+            }, autoPlayDelay);
+
+            function resetTimer() {
+                clearInterval(slideInterval);
+                slideInterval = setInterval(() => {
+                    goToSlide(currentSlide + 1);
+                }, autoPlayDelay);
+            }
         })();
     </script>
 </body>
