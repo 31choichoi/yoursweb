@@ -17,13 +17,19 @@ async function startServer() {
   app.use(express.json());
 
   app.get("/robots.txt", (req, res) => {
+    const filePath = process.env.NODE_ENV === "production" 
+      ? path.join(process.cwd(), "dist", "robots.txt")
+      : path.join(process.cwd(), "public", "robots.txt");
     res.setHeader("Content-Type", "text/plain; charset=utf-8");
-    res.sendFile(path.join(process.cwd(), "robots.txt"));
+    res.sendFile(filePath);
   });
 
   app.get("/sitemap.xml", (req, res) => {
+    const filePath = process.env.NODE_ENV === "production"
+      ? path.join(process.cwd(), "dist", "sitemap.xml")
+      : path.join(process.cwd(), "public", "sitemap.xml");
     res.setHeader("Content-Type", "application/xml; charset=utf-8");
-    res.sendFile(path.join(process.cwd(), "sitemap.xml"));
+    res.sendFile(filePath);
   });
 
   // API Route for Inquiry Notification

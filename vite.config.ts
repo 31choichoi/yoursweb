@@ -45,6 +45,7 @@ export default defineConfig(({mode}) => {
           portfolio: path.resolve(__dirname, 'portfolio.html'),
           service: path.resolve(__dirname, 'service.html'),
           about: path.resolve(__dirname, 'about.html'),
+          request: path.resolve(__dirname, 'request.html'),
         },
       },
     },
