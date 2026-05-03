@@ -197,14 +197,17 @@
             }
         }
         @keyframes hero-motion {
-            0% { transform: scale(1.05) translate(0, 0); }
-            50% { transform: scale(1.2) translate(-1%, -1%); }
-            100% { transform: scale(1.05) translate(0, 0); }
+            0% { transform: scale(1.1) translate(0, 0); }
+            50% { transform: scale(1.25) translate(-2%, -2%); }
+            100% { transform: scale(1.1) translate(0, 0); }
         }
 
         .animate-hero-motion {
-            animation: hero-motion 20s ease-in-out infinite;
+            animation: hero-motion 12s ease-in-out infinite;
             will-change: transform;
+            /* Force hardware acceleration */
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
         }
 
         .reveal-stagger {
