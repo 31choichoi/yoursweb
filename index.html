@@ -197,13 +197,13 @@
             }
         }
         @keyframes hero-motion {
-            0% { transform: scale(1.1) translate(0, 0); }
-            50% { transform: scale(1.2) translate(-2%, -1%); }
-            100% { transform: scale(1.1) translate(0, 0); }
+            0% { transform: scale(1.05) translate(0, 0); }
+            50% { transform: scale(1.15) translate(-2%, -1%); }
+            100% { transform: scale(1.05) translate(0, 0); }
         }
 
         .animate-hero-motion {
-            animation: hero-motion 60s ease-in-out infinite;
+            animation: hero-motion 30s ease-in-out infinite;
         }
 
         .reveal-stagger {
@@ -733,7 +733,7 @@
                         <li><a href="/#about" class="hover:text-brand-accent transition-colors">Culture</a></li>
                         <li><a href="/#about" class="hover:text-brand-accent transition-colors">Career</a></li>
                         <li><a href="/#contact" class="hover:text-brand-accent transition-colors">Contact</a></li>
-                        <li><a href="/admin" class="text-brand-accent font-bold hover:underline">Admin Mode</a></li>
+                        <li><a href="/admin" target="_blank" rel="noopener noreferrer" class="text-brand-accent font-bold hover:underline">Admin Mode</a></li>
                     </ul>
                 </div>
                 <div>
@@ -759,7 +759,7 @@
     </footer>
 
     <!-- Admin Floating Button -->
-    <a href="/admin" class="fixed bottom-24 right-8 z-[150] w-14 h-14 bg-brand-navy text-white rounded-full flex items-center justify-center shadow-[0_8px_30px_rgb(10,37,64,0.3)] hover:scale-110 transition-all duration-300 group">
+    <a href="/admin" target="_blank" rel="noopener noreferrer" class="fixed bottom-24 right-8 z-[150] w-14 h-14 bg-brand-navy text-white rounded-full flex items-center justify-center shadow-[0_8px_30px_rgb(10,37,64,0.3)] hover:scale-110 transition-all duration-300 group">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         <span class="absolute right-full mr-4 bg-brand-navy text-white text-xs px-3 py-1.5 rounded-[4px] opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity pointer-events-none">관리자 모드</span>
     </a>
