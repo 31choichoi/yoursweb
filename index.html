@@ -198,16 +198,18 @@
         }
         @keyframes hero-motion {
             0% { transform: scale(1.1) translate(0, 0); }
-            50% { transform: scale(1.25) translate(-2%, -2%); }
+            50% { transform: scale(1.18) translate(-1%, -1%); }
             100% { transform: scale(1.1) translate(0, 0); }
         }
 
         .animate-hero-motion {
-            animation: hero-motion 12s ease-in-out infinite;
+            animation: hero-motion 15s ease-in-out infinite;
             will-change: transform;
-            /* Force hardware acceleration */
+            transform-origin: center center;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
         }
 
         .reveal-stagger {
@@ -1095,15 +1097,21 @@
                         // Send email notification via backend
                         try {
                             if (typeof window.fetch === 'function') {
-                                await window.fetch('/api/notify', {
+                                const response = await window.fetch('/api/notify', {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify(formData)
                                 });
+                                const notifyResult = await response.json();
+                                if (!notifyResult.success) {
+                                    console.warn("Email warning:", notifyResult.message);
+                                    if (notifyResult.message && notifyResult.message.includes('configured')) {
+                                        alert('문의는 저장되었으나, 관리자 이메일 설정이 완료되지 않았습니다. (Settings 메뉴 확인 필요)');
+                                    }
+                                }
                             }
                         } catch (notifyError) {
                             console.error("Notification failed:", notifyError);
-                            // We don't alert the user here because the form was already saved to DB
                         }
 
                         alert('문의가 성공적으로 전달되었습니다. 유어스웹 팀에서 최대한 빨리 연락드리겠습니다.');
