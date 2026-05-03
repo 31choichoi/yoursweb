@@ -14,12 +14,37 @@
         "createdAt": { "type": "string", "format": "date-time", "description": "Time of submission" }
       },
       "required": ["name", "company", "email", "phone", "type", "content", "createdAt"]
+    },
+    "productionRequest": {
+      "title": "Homepage Production Request",
+      "description": "Information from the multi-step homepage production application form",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "name": { "type": "string" },
+        "industry": { "type": "string" },
+        "color": { "type": "string" },
+        "q1": { "type": "string" },
+        "q2": { "type": "string" },
+        "q3": { "type": "array", "items": { "type": "string" } },
+        "q4": { "type": "string" },
+        "q5": { "type": "string" },
+        "q6a": { "type": "string" },
+        "q6b": { "type": "string" },
+        "q6c": { "type": "string" }
+      },
+      "required": ["name", "industry", "color", "timestamp"]
     }
   },
   "firestore": {
     "inquiries": {
       "schema": "inquiry",
       "description": "A collection of project inquiries"
+    },
+    "requests": {
+      "schema": "productionRequest",
+      "description": "A collection of homepage production requests"
     }
   }
 }

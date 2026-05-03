@@ -29,8 +29,21 @@ service cloud.firestore {
              data.createdAt == request.time;
     }
 
+    function isValidProductionRequest(data) {
+      return data.keys().hasAll(['name', 'industry', 'color', 'timestamp']) &&
+             data.name is string && data.name.size() <= 100 &&
+             data.industry is string && data.industry.size() <= 100 &&
+             data.color is string && data.color.size() <= 100 &&
+             data.timestamp == request.time;
+    }
+
     match /inquiries/{inquiryId} {
       allow create: if isValidInquiry(request.resource.data);
+      allow read, list, delete: if isAdmin();
+    }
+
+    match /requests/{requestId} {
+      allow create: if isValidProductionRequest(request.resource.data);
       allow read, list, delete: if isAdmin();
     }
   }

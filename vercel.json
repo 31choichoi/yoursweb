@@ -15,6 +15,10 @@
       "destination": "/service.html"
     },
     {
+      "source": "/request",
+      "destination": "/request.html"
+    },
+    {
       "source": "/robots.txt",
       "destination": "/robots.txt"
     },

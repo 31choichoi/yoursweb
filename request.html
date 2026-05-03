@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="naver-site-verification" content="6ec31be1e064cd57771e7a6bf92e3ff987e739e4" />
+<title>유어스웹 홈페이지제작 신청서 — Yours Web</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --primary: #1a1a2e;
+    --accent: #4f8ef7;
+    --accent2: #7c3aed;
+    --bg: #f7f8fc;
+    --card: #ffffff;
+    --text: #1a1a2e;
+    --muted: #8a93a8;
+    --border: #e2e6f0;
+    --success: #22c55e;
+    --radius: 16px;
+    --shadow: 0 4px 32px rgba(79,142,247,0.10);
+  }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── FORM WRAPPER ── */
+  #form-app {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 24px 16px 48px;
+  }
+
+  /* ── HEADER ── */
+  .form-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .form-header .logo {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .form-header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary);
+  }
+
+  /* ── PROGRESS ── */
+  .progress-wrap {
+    margin-bottom: 28px;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .progress-bar {
+    height: 5px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 99px;
+    transition: width .5s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* ── CARDS ── */
+  .page-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 36px 32px;
+    display: none;
+    animation: slideIn .35s cubic-bezier(.4,0,.2,1);
+  }
+  .page-card.active { display: block; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .page-card .step-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 99px;
+    background: linear-gradient(135deg, #e0e9ff, #ede9fe);
+    color: var(--accent2);
+    margin-bottom: 14px;
+  }
+  .page-card h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+  .page-card .sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 28px;
+    line-height: 1.7;
+  }
+
+  /* ── STEP1 INPUTS ── */
+  .field-group { display: flex; flex-direction: column; gap: 18px; }
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+  .field label span { color: var(--accent); margin-left: 2px; }
+  .field input, .field textarea {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text);
+    background: #fafbff;
+    transition: border-color .2s, box-shadow .2s;
+    outline: none;
+    resize: none;
+  }
+  .field input:focus, .field textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(79,142,247,.12);
+    background: #fff;
+  }
+  .field input::placeholder, .field textarea::placeholder {
+    color: #c0c8d8;
+    font-size: 13px;
+  }
+
+  /* ── CHOICE BUTTONS ── */
+  .choices { display: flex; flex-direction: column; gap: 10px; }
+  .choice-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: #fafbff;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text);
+    transition: all .18s ease;
+    line-height: 1.5;
+  }
+  .choice-btn:hover {
+    border-color: var(--accent);
+    background: #f0f5ff;
+    transform: translateX(3px);
+  }
+  .choice-btn.selected {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, #eef4ff, #f3eeff);
+    color: var(--accent2);
+    font-weight: 600;
+  }
+  .choice-btn .letter {
+    min-width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    flex-shrink: 0;
+    margin-top: 0px;
+    transition: all .18s;
+  }
+  .choice-btn.selected .letter, .choice-btn:hover .letter {
+    background: var(--accent);
+    color: #fff;
+  }
+  .choice-btn.multi-selected {
+    border-color: var(--accent2);
+    background: linear-gradient(135deg, #eef4ff, #f3eeff);
+  }
+  .choice-btn.multi-selected .letter {
+    background: var(--accent2);
+    color: #fff;
+  }
+
+  /* ── Q6 TEXTAREA ── */
+  .q6-fields { display: flex; flex-direction: column; gap: 16px; }
+  .q6-field label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 6px;
+    letter-spacing: .04em;
+  }
+  .q6-field textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--text);
+    background: #fafbff;
+    resize: none;
+    height: 68px;
+    transition: border-color .2s, box-shadow .2s;
+    outline: none;
+  }
+  .q6-field textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(79,142,247,.12);
+    background: #fff;
+  }
+  .q6-field textarea::placeholder { color: #c0c8d8; font-size: 12px; }
+
+  /* ── NEXT BUTTON ── */
+  .btn-next {
+    margin-top: 28px;
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity .2s, transform .15s;
+    letter-spacing: .02em;
+  }
+  .btn-next:hover { opacity: .9; transform: translateY(-1px); }
+  .btn-next:active { transform: scale(.99); }
+
+  /* ── COMPLETION ── */
+  .complete-page {
+    text-align: center;
+    padding: 20px 0 8px;
+  }
+  .complete-icon {
+    width: 72px;
+    height: 72px;
+    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 32px;
+  }
+  .complete-page h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 12px;
+  }
+  .complete-page p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 6px;
+  }
+  .complete-page .restart {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 12px 28px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all .2s;
+    font-weight: 500;
+  }
+  .complete-page .restart:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── ADMIN PANEL ── */
+  #admin-app {
+    display: none;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 20px 60px;
+  }
+  .admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .admin-header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary);
+  }
+  .admin-header .badge-count {
+    font-size: 13px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 99px;
+    font-weight: 600;
+  }
+  .admin-header .btn-back {
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all .2s;
+    font-weight: 500;
+  }
+  .admin-header .btn-back:hover { border-color: var(--accent); color: var(--accent); }
+  .admin-empty {
+    text-align: center;
+    padding: 80px 0;
+    color: var(--muted);
+    font-size: 15px;
+  }
+  .submissions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 18px;
+  }
+  .sub-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 22px 24px;
+    border: 1.5px solid var(--border);
+    cursor: pointer;
+    transition: all .2s;
+    position: relative;
+  }
+  .sub-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 40px rgba(79,142,247,.16);
+  }
+  .sub-card .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .sub-card .biz-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary);
+  }
+  .sub-card .date {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .sub-card .industry {
+    font-size: 12px;
+    color: var(--accent2);
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding: 3px 10px;
+    background: #f3eeff;
+    border-radius: 99px;
+    display: inline-block;
+  }
+  .sub-card .color-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .sub-card .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .sub-card .tag {
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--muted);
+    font-weight: 500;
+    border: 1px solid var(--border);
+  }
+  .sub-card .del-btn {
+    position: absolute;
+    top: 14px;
+    right: 48px;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 14px;
+    transition: all .2s;
+    opacity: 0;
+  }
+  .sub-card:hover .del-btn { opacity: 1; }
+  .sub-card .del-btn:hover { background: #fff0f0; border-color: #f87171; color: #f87171; }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,26,46,.55);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 32px;
+    max-width: 620px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 24px 80px rgba(0,0,0,.18);
+    animation: slideIn .3s ease;
+  }
+  .modal-box h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 4px;
+  }
+  .modal-box .modal-date {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .modal-section {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .modal-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .modal-section .ms-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .modal-section .ms-value {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.7;
+  }
+  .modal-close {
+    display: block;
+    width: 100%;
+    margin-top: 24px;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--muted);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all .2s;
+  }
+  .modal-close:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── ADMIN LOGIN ── */
+  #admin-login {
+    display: none;
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
+    padding: 48px 16px;
+  }
+  .login-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 36px 32px;
+    text-align: center;
+  }
+  .login-card h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+  .login-card p { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+  .login-card input {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    text-align: center;
+    letter-spacing: .2em;
+    outline: none;
+    background: #fafbff;
+    margin-bottom: 16px;
+    transition: border-color .2s;
+  }
+  .login-card input:focus { border-color: var(--accent); }
+  .login-card .err { font-size: 12px; color: #f87171; margin-top: -8px; margin-bottom: 12px; height: 16px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 480px) {
+    .page-card { padding: 28px 20px; }
+    .choice-btn { font-size: 13px; padding: 12px 14px; }
+    .submissions-grid { grid-template-columns: 1fr; }
+    .modal-box { padding: 24px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ FORM APP ══════════════ -->
+<div id="form-app">
+  <div class="form-header">
+    <img src="http://mydrim.net/img/logo_yoursweb.png" alt="유어스웹 로고" style="height:48px;max-width:200px;object-fit:contain;margin-bottom:12px;" onerror="this.style.display='none'" />
+    <h1>유어스웹 홈페이지제작 신청서</h1>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span id="step-label">STEP 1 · 기본 정보</span>
+      <span id="step-count">1 / 7</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width:14.28%"></div>
+    </div>
+  </div>
+
+  <!-- PAGE 0: STEP 1 -->
+  <div class="page-card active" data-page="0">
+    <div class="step-badge">STEP 1</div>
+    <h2>기본 정보를 알려주세요</h2>
+    <p class="sub">3가지 항목을 모두 입력해 주시면 맞춤 디자인 방향을 안내드립니다.</p>
+    <div class="field-group">
+      <div class="field">
+        <label>업체명 (홈페이지 제목) <span>*</span></label>
+        <input type="text" id="f-name" placeholder="예: 산들 펜션, 카페 오월, 강남 정형외과" />
+      </div>
+      <div class="field">
+        <label>업종 <span>*</span></label>
+        <input type="text" id="f-industry" placeholder="예: 펜션, 카페, 병원, 공사업, 펫푸드 브랜드" />
+      </div>
+      <div class="field">
+        <label>브랜드 컬러 <span>*</span></label>
+        <input type="text" id="f-color" placeholder="예: 흰색+블루, 오렌지, #FF6B35, 파스텔 그린" />
+      </div>
+    </div>
+    <button class="btn-next" onclick="goNext(0)">다음 단계로 →</button>
+  </div>
+
+  <!-- PAGE 1: Q1 디자인 무드 -->
+  <div class="page-card" data-page="1">
+    <div class="step-badge">STEP 2 · Q1 / 6</div>
+    <h2>디자인 무드를 선택해 주세요</h2>
+    <p class="sub">전체적인 느낌을 결정합니다. 하나를 선택하면 자동으로 다음 질문으로 넘어갑니다.</p>
+    <div class="choices" id="q1-choices">
+      <button class="choice-btn" onclick="selectSingle('q1','A',2)"><span class="letter">A</span>미니멀 · 모던 — 여백 중심, Linear/Vercel 스타일</button>
+      <button class="choice-btn" onclick="selectSingle('q1','B',2)"><span class="letter">B</span>럭셔리 · 프리미엄 — 고급 호텔·하이엔드 브랜드 느낌</button>
+      <button class="choice-btn" onclick="selectSingle('q1','C',2)"><span class="letter">C</span>따뜻함 · 친근함 — 파스텔, 라운드, 휴먼 터치</button>
+      <button class="choice-btn" onclick="selectSingle('q1','D',2)"><span class="letter">D</span>다이내믹 · 트렌디 — 그라데이션, 볼드 타이포, Z세대향</button>
+      <button class="choice-btn" onclick="selectSingle('q1','E',2)"><span class="letter">E</span>신뢰감 · 전문성 — B2B, 의료, 금융, 공공</button>
+      <button class="choice-btn" onclick="selectSingle('q1','F',2)"><span class="letter">F</span>모름 — 알아서 해주세요</button>
+    </div>
+  </div>
+
+  <!-- PAGE 2: Q2 레이아웃 -->
+  <div class="page-card" data-page="2">
+    <div class="step-badge">STEP 2 · Q2 / 6</div>
+    <h2>레이아웃 스타일을 선택해 주세요</h2>
+    <p class="sub">페이지 구성 방식을 선택합니다. 클릭하면 자동으로 다음 질문으로 넘어갑니다.</p>
+    <div class="choices" id="q2-choices">
+      <button class="choice-btn" onclick="selectSingle('q2','A',3)"><span class="letter">A</span>풀스크린 히어로 + 스크롤 스토리텔링</button>
+      <button class="choice-btn" onclick="selectSingle('q2','B',3)"><span class="letter">B</span>그리드 기반 정보 밀도형 (랜딩 + CTA 다수)</button>
+      <button class="choice-btn" onclick="selectSingle('q2','C',3)"><span class="letter">C</span>매거진형 (이미지·타이포 강조)</button>
+      <button class="choice-btn" onclick="selectSingle('q2','D',3)"><span class="letter">D</span>원페이지 단순형 (스크롤로 모든 정보)</button>
+      <button class="choice-btn" onclick="selectSingle('q2','E',3)"><span class="letter">E</span>모름 — 알아서 해주세요</button>
+    </div>
+  </div>
+
+  <!-- PAGE 3: Q3 핵심 섹션 (다중) -->
+  <div class="page-card" data-page="3">
+    <div class="step-badge">STEP 2 · Q3 / 6</div>
+    <h2>포함할 핵심 섹션을 선택해 주세요</h2>
+    <div style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#fff7e6,#fff0f9);border:2px solid #f59e42;border-radius:12px;padding:14px 18px;margin-bottom:20px;">
+      <span style="font-size:22px;">☑️</span>
+      <div>
+        <div style="font-size:17px;font-weight:800;color:#c2410c;letter-spacing:-.01em;">중복 선택 가능!</div>
+        <div style="font-size:13px;color:#92400e;margin-top:2px;font-weight:500;">원하는 섹션을 <b>모두</b> 클릭한 뒤 아래 <b>선택 완료</b> 버튼을 눌러주세요.</div>
+      </div>
+    </div>
+    <div class="choices" id="q3-choices">
+      <button class="choice-btn" onclick="toggleMulti('q3','A',this)"><span class="letter">A</span>Hero · 대표 비주얼</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','B',this)"><span class="letter">B</span>About · 브랜드 스토리</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','C',this)"><span class="letter">C</span>Service / Product</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','D',this)"><span class="letter">D</span>Portfolio / Gallery</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','E',this)"><span class="letter">E</span>고객 후기 / Testimonial</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','F',this)"><span class="letter">F</span>가격표 / Pricing</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','G',this)"><span class="letter">G</span>Process / 이용 안내</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','H',this)"><span class="letter">H</span>FAQ</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','I',this)"><span class="letter">I</span>Contact / 예약 폼</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','J',this)"><span class="letter">J</span>블로그 / 소식</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','K',this)"><span class="letter">K</span>위치 / 오시는 길</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','L',this)"><span class="letter">L</span>팀 / 멤버 소개</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','M',this)"><span class="letter">M</span>기타 추가요청</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','N',this)"><span class="letter">N</span>모름 — 알아서 해주세요</button>
+    </div>
+    <button class="btn-next" onclick="goNext(3)">선택 완료 →</button>
+  </div>
+
+  <!-- PAGE 4: Q4 타이포그래피 -->
+  <div class="page-card" data-page="4">
+    <div class="step-badge">STEP 2 · Q4 / 6</div>
+    <h2>타이포그래피 톤을 선택해 주세요</h2>
+    <p class="sub">글꼴의 분위기를 결정합니다. 클릭하면 자동으로 다음 질문으로 넘어갑니다.</p>
+    <div class="choices" id="q4-choices">
+      <button class="choice-btn" onclick="selectSingle('q4','A',5)"><span class="letter">A</span>산세리프 모던 — Pretendard, Inter</button>
+      <button class="choice-btn" onclick="selectSingle('q4','B',5)"><span class="letter">B</span>세리프 우아함 — Noto Serif KR, 명조</button>
+      <button class="choice-btn" onclick="selectSingle('q4','C',5)"><span class="letter">C</span>디스플레이 볼드 — 큰 헤드라인 임팩트형</button>
+      <button class="choice-btn" onclick="selectSingle('q4','D',5)"><span class="letter">D</span>핸드라이팅 · 캘리 포인트 혼합</button>
+      <button class="choice-btn" onclick="selectSingle('q4','E',5)"><span class="letter">E</span>모름 — 알아서 해주세요</button>
+    </div>
+  </div>
+
+  <!-- PAGE 5: Q5 인터랙션 -->
+  <div class="page-card" data-page="5">
+    <div class="step-badge">STEP 2 · Q5 / 6</div>
+    <h2>인터랙션 강도를 선택해 주세요</h2>
+    <p class="sub">애니메이션과 효과의 수준을 결정합니다. 클릭하면 자동으로 다음 질문으로 넘어갑니다.</p>
+    <div class="choices" id="q5-choices">
+      <button class="choice-btn" onclick="selectSingle('q5','A',6)"><span class="letter">A</span>정적 · 차분함 — 페이드인 정도의 최소 효과</button>
+      <button class="choice-btn" onclick="selectSingle('q5','B',6)"><span class="letter">B</span>중간 — 스크롤 패럴랙스, 호버 트랜지션</button>
+      <button class="choice-btn" onclick="selectSingle('q5','C',6)"><span class="letter">C</span>강함 — 커서 효과, 마그네틱, 스크롤 스냅, 3D 요소</button>
+      <button class="choice-btn" onclick="selectSingle('q5','D',6)"><span class="letter">D</span>모름 — 알아서 해주세요</button>
+    </div>
+  </div>
+
+  <!-- PAGE 6: Q6 추가 요구사항 -->
+  <div class="page-card" data-page="6">
+    <div class="step-badge">STEP 2 · Q6 / 6</div>
+    <h2>추가 요구사항 (선택)</h2>
+    <p class="sub">입력하지 않아도 괜찮습니다. 있으면 자유롭게 작성해 주세요.</p>
+    <div class="q6-fields">
+      <div class="q6-field">
+        <label style="font-size:15px;font-weight:700;color:var(--accent2);">A &nbsp;·&nbsp; 참고 사이트 URL <span style="font-size:12px;font-weight:500;color:var(--muted);">(1~3개)</span></label>
+        <textarea id="q6a" placeholder="https://example.com&#10;https://example2.com"></textarea>
+      </div>
+      <div class="q6-field">
+        <label style="font-size:15px;font-weight:700;color:var(--accent2);">B &nbsp;·&nbsp; 반드시 들어갈 카피 · 문구 · USP</label>
+        <textarea id="q6b" placeholder="예: '자연 속에서 쉬어가세요', '10년 경력의 전문가', 메인 슬로건 등"></textarea>
+      </div>
+      <div class="q6-field">
+        <label style="font-size:15px;font-weight:700;color:var(--accent2);">C &nbsp;·&nbsp; 피하고 싶은 스타일 · 색 · 요소</label>
+        <textarea id="q6c" placeholder="예: 빨간색은 피해주세요, 너무 복잡한 애니메이션은 싫어요 등"></textarea>
+      </div>
+    </div>
+    <button id="submit-btn" class="btn-next" onclick="submitForm()">상담 신청 완료 →</button>
+  </div>
+
+  <!-- PAGE 7: COMPLETE -->
+  <div class="page-card" data-page="7">
+    <div class="complete-page">
+      <div class="complete-icon">✅</div>
+      <h2>상담 신청이 완료됐습니다!</h2>
+      <p>입력해 주신 내용을 바탕으로<br>맞춤 홈페이지 제작을 시작합니다.</p>
+      <p style="margin-top:8px;">담당자가 검토 후 빠르게 연락드리겠습니다. 🙏</p>
+      <button class="restart" onclick="location.href='/'">메인으로 이동</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ ADMIN LOGIN ══════════════ -->
+<div id="admin-login">
+  <div class="login-card">
+    <h2>🔐 관리자 로그인</h2>
+    <p>관리자 비밀번호를 입력해 주세요</p>
+    <input type="password" id="admin-pw" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkAdmin()" />
+    <div class="err" id="admin-err"></div>
+    <button class="btn-next" onclick="checkAdmin()">로그인</button>
+  </div>
+</div>
+
+<!-- ══════════════ ADMIN PANEL ══════════════ -->
+<div id="admin-app">
+  <div class="admin-header">
+    <div>
+      <h1>📋 상담 신청 관리</h1>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <span class="badge-count" id="admin-count">0건</span>
+      <button class="btn-back" onclick="goToForm()">← 폼으로 이동</button>
+    </div>
+  </div>
+  <div id="submissions-container"></div>
+</div>
+
+<!-- ══════════════ MODAL ══════════════ -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal-box" id="modal-box"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js';
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp, query, orderBy } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js';
+
+const firebaseConfig = {
+    projectId: "yoursweb-de245",
+    appId: "1:299282121947:web:8f1cb5db8c1dfbf894f8fe",
+    apiKey: "AIzaSyDB6KhmbXGbiW8LiNgd5qZyk-TnLJ_cMG4",
+    authDomain: "yoursweb-de245.firebaseapp.com",
+    storageBucket: "yoursweb-de245.firebasestorage.app",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app, "ai-studio-c74210e1-7359-47ff-9653-df6e4c38a1ea");
+
+const ADMIN_PW = 'admin1234'; 
+let answers = { q1:'', q2:'', q3:[], q4:'', q5:'', q6a:'', q6b:'', q6c:'' };
+let currentPage = 0;
+const TOTAL_PAGES = 8;
+
+window.showPage = (n) => {
+  document.querySelectorAll('.page-card').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.page-card')[n].classList.add('active');
+  currentPage = n;
+  updateProgress(n);
+};
+
+function updateProgress(n) {
+  const labels = [
+    'STEP 1 · 기본 정보',
+    'STEP 2 · Q1 디자인 무드',
+    'STEP 2 · Q2 레이아웃 스타일',
+    'STEP 2 · Q3 핵심 섹션',
+    'STEP 2 · Q4 타이포그래피',
+    'STEP 2 · Q5 인터랙션 강도',
+    'STEP 2 · Q6 추가 요구사항',
+    '완료'
+  ];
+  const stepLabelEl = document.getElementById('step-label');
+  const stepCountEl = document.getElementById('step-count');
+  const progressFillEl = document.getElementById('progress-fill');
+
+  if(stepLabelEl) stepLabelEl.textContent = labels[n] || '';
+  if(stepCountEl) stepCountEl.textContent = (n+1) + ' / ' + TOTAL_PAGES;
+  if(progressFillEl) progressFillEl.style.width = ((n+1)/TOTAL_PAGES*100) + '%';
+}
+
+window.goNext = (from) => {
+  if (from === 0) {
+    const name = document.getElementById('f-name').value.trim();
+    const ind  = document.getElementById('f-industry').value.trim();
+    const col  = document.getElementById('f-color').value.trim();
+    if (!name || !ind || !col) {
+      alert('세 가지 항목을 모두 입력해 주세요.');
+      return;
+    }
+    answers.name = name; answers.industry = ind; answers.color = col;
+  }
+  if (from === 3) {
+    if (!answers.q3.length) {
+      alert('섹션을 하나 이상 선택해 주세요.');
+      return;
+    }
+  }
+  showPage(from + 1);
+  window.scrollTo({top:0, behavior:'smooth'});
+};
+
+window.selectSingle = (key, val, nextPage) => {
+  answers[key] = val;
+  const btns = document.querySelectorAll('#' + key + '-choices .choice-btn');
+  btns.forEach(b => b.classList.remove('selected'));
+  if(event) event.currentTarget.classList.add('selected');
+  setTimeout(() => {
+    showPage(nextPage);
+    window.scrollTo({top:0, behavior:'smooth'});
+  }, 220);
+};
+
+window.toggleMulti = (key, val, el) => {
+  const idx = answers[key].indexOf(val);
+  if (idx === -1) {
+    answers[key].push(val);
+    el.classList.add('multi-selected');
+  } else {
+    answers[key].splice(idx, 1);
+    el.classList.remove('multi-selected');
+  }
+};
+
+window.submitForm = async () => {
+  const submitBtn = document.getElementById('submit-btn');
+  submitBtn.disabled = true;
+  submitBtn.innerText = '전송 중...';
+
+  const q6a = document.getElementById('q6a').value.trim();
+  const q6b = document.getElementById('q6b').value.trim();
+  const q6c = document.getElementById('q6c').value.trim();
+  answers.q6a = q6a; answers.q6b = q6b; answers.q6c = q6c;
+
+  const submission = {
+    timestamp: serverTimestamp(),
+    ...answers
+  };
+
+  try {
+    await addDoc(collection(db, 'requests'), submission);
+    
+    // Attempt notification
+    try {
+        await fetch('/api/notify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: answers.name,
+                company: answers.industry,
+                email: 'Contact via Form',
+                phone: answers.color,
+                type: 'Production Request',
+                content: `무드: ${answers.q1}, 코카: ${answers.q2}, 추가: ${answers.q6b}`
+            })
+        });
+    } catch(e) { console.warn("Notification skipped"); }
+
+    showPage(7);
+    window.scrollTo({top:0, behavior:'smooth'});
+  } catch (err) {
+    console.error(err);
+    alert('신청 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+    submitBtn.disabled = false;
+    submitBtn.innerText = '상담 신청 완료 →';
+  }
+};
+
+window.checkAdmin = () => {
+  const pw = document.getElementById('admin-pw').value;
+  if (pw === ADMIN_PW) {
+    document.getElementById('admin-login').style.display = 'none';
+    document.getElementById('admin-app').style.display = 'block';
+    renderAdmin();
+  } else {
+    document.getElementById('admin-err').textContent = '비밀번호가 올바르지 않습니다.';
+  }
+};
+
+window.renderAdmin = async () => {
+  const container = document.getElementById('submissions-container');
+  container.innerHTML = '<div class="admin-empty">데이터를 불러오는 중...</div>';
+  
+  try {
+    const q = query(collection(db, 'requests'), orderBy('timestamp', 'desc'));
+    const snapshot = await getDocs(q);
+    const stored = [];
+    snapshot.forEach(doc => {
+        stored.push({ id: doc.id, ...doc.data() });
+    });
+
+    document.getElementById('admin-count').textContent = stored.length + '건';
+
+    if (!stored.length) {
+      container.innerHTML = '<div class="admin-empty">아직 접수된 상담이 없습니다.</div>';
+      return;
+    }
+
+    const grid = document.createElement('div');
+    grid.className = 'submissions-grid';
+
+    stored.forEach((s) => {
+      const date = s.timestamp?.toDate ? s.timestamp.toDate() : new Date();
+      const dateStr = date.getFullYear() + '.' + String(date.getMonth()+1).padStart(2,'0') + '.' + String(date.getDate()).padStart(2,'0') + ' ' + String(date.getHours()).padStart(2,'0') + ':' + String(date.getMinutes()).padStart(2,'0');
+      const colorStyle = isHex(s.color) ? s.color : '';
+
+      const card = document.createElement('div');
+      card.className = 'sub-card';
+      card.innerHTML = `
+        <button class="del-btn" onclick="deleteItem(event,'${s.id}')">✕</button>
+        <div class="card-top">
+          <span class="biz-name">${esc(s.name || '(미입력)')}</span>
+          <span class="date">${dateStr}</span>
+        </div>
+        <span class="industry">${esc(s.industry || '')}</span>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:4px;">
+          <span class="color-dot" style="background:${colorStyle||'#e2e6f0'}"></span>${esc(s.color || '')}
+        </div>
+        <div class="tag-row">
+          ${s.q1 ? `<span class="tag">무드: ${Q_LABELS.q1[s.q1]||s.q1}</span>` : ''}
+          ${s.q2 ? `<span class="tag">레이아웃: ${Q_LABELS.q2[s.q2]||s.q2}</span>` : ''}
+          ${s.q4 ? `<span class="tag">타이포: ${Q_LABELS.q4[s.q4]||s.q4}</span>` : ''}
+          ${s.q5 ? `<span class="tag">인터랙션: ${Q_LABELS.q5[s.q5]||s.q5}</span>` : ''}
+        </div>
+      `;
+      card.addEventListener('click', (e) => {
+        if (e.target.classList.contains('del-btn')) return;
+        openModal(s);
+      });
+      grid.appendChild(card);
+    });
+    container.innerHTML = '';
+    container.appendChild(grid);
+  } catch (err) {
+    console.error(err);
+    container.innerHTML = '<div class="admin-empty">오류가 발생했습니다. 권한을 확인해주세요.</div>';
+  }
+};
+
+window.deleteItem = async (e, id) => {
+  e.stopPropagation();
+  if (!confirm('이 항목을 삭제하시겠습니까?')) return;
+  try {
+    await deleteDoc(doc(db, 'requests', id));
+    renderAdmin();
+  } catch (err) {
+    alert('삭제 중 오류가 발생했습니다.');
+  }
+};
+
+window.goToForm = () => {
+    document.getElementById('form-app').style.display = 'block';
+    document.getElementById('admin-login').style.display = 'none';
+    document.getElementById('admin-app').style.display = 'none';
+};
+
+window.closeModal = (e) => {
+  if (!e || e.target === document.getElementById('modal') || e.target.classList.contains('modal-close')) {
+    document.getElementById('modal').classList.remove('open');
+  }
+};
+
+window.openModal = (s) => {
+  const date = s.timestamp?.toDate ? s.timestamp.toDate() : new Date();
+  const dateStr = date.toLocaleString('ko-KR');
+  const q3val = (s.q3||[]).map(k => Q_LABELS.q3[k]||k).join(', ') || '—';
+  const q6 = [
+    s.q6a ? `<b>참고 URL:</b> ${esc(s.q6a)}` : '',
+    s.q6b ? `<b>카피/USP:</b> ${esc(s.q6b)}` : '',
+    s.q6c ? `<b>피하고 싶은 것:</b> ${esc(s.q6c)}` : ''
+  ].filter(Boolean).join('<br>') || '없음';
+
+  document.getElementById('modal-box').innerHTML = `
+    <h3>${esc(s.name||'(미입력)')}</h3>
+    <div class="modal-date">${dateStr} · ID: ${s.id}</div>
+    <div class="modal-section">
+      <div class="ms-label">기본 정보</div>
+      <div class="ms-value">
+        <b>업종:</b> ${esc(s.industry||'—')}<br>
+        <b>브랜드 컬러:</b> ${esc(s.color||'—')}
+      </div>
+    </div>
+    <div class="modal-section">
+      <div class="ms-label">디자인 방향</div>
+      <div class="ms-value">
+        <b>무드:</b> ${s.q1 ? (Q_LABELS.q1[s.q1]||s.q1) : '—'}<br>
+        <b>레이아웃:</b> ${s.q2 ? (Q_LABELS.q2[s.q2]||s.q2) : '—'}<br>
+        <b>핵심 섹션:</b> ${q3val}<br>
+        <b>타이포:</b> ${s.q4 ? (Q_LABELS.q4[s.q4]||s.q4) : '—'}<br>
+        <b>인터랙션:</b> ${s.q5 ? (Q_LABELS.q5[s.q5]||s.q5) : '—'}
+      </div>
+    </div>
+    <div class="modal-section">
+      <div class="ms-label">추가 요구사항</div>
+      <div class="ms-value" style="line-height:1.9">${q6}</div>
+    </div>
+    <button class="modal-close" onclick="closeModal()">닫기</button>
+  `;
+  document.getElementById('modal').classList.add('open');
+};
+
+const Q_LABELS = {
+  q1: { A:'미니멀·모던', B:'럭셔리·프리미엄', C:'따뜻함·친근함', D:'다이내믹·트렌디', E:'신뢰감·전문성', F:'모름' },
+  q2: { A:'풀스크린 히어로', B:'그리드 정보밀도형', C:'매거진형', D:'원페이지 단순형', E:'모름' },
+  q3: { A:'Hero·비주얼', B:'About', C:'Service/Product', D:'Portfolio/Gallery', E:'고객후기', F:'가격표', G:'Process', H:'FAQ', I:'Contact/예약', J:'블로그', K:'위치/오시는길', L:'팀소개', M:'기타', N:'모름' },
+  q4: { A:'산세리프 모던', B:'세리프 우아함', C:'디스플레이 볼드', D:'핸드라이팅·캘리', E:'모름' },
+  q5: { A:'정적·차분함', B:'중간', C:'강함', D:'모름' }
+};
+
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+}
+function isHex(s) { return /^#[0-9a-fA-F]{3,6}$/.test((s||'').trim()); }
+
+// Secret: Ctrl+Shift+A → admin
+document.addEventListener('keydown', e => {
+  if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+    document.getElementById('form-app').style.display = 'none';
+    document.getElementById('admin-login').style.display = 'flex';
+  }
+});
+
+// URL Routing for Admin
+if (location.hash === '#admin') {
+    document.getElementById('form-app').style.display = 'none';
+    document.getElementById('admin-login').style.display = 'flex';
+}
+</script>
+</body>
+</html>
