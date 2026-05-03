@@ -16,6 +16,14 @@ async function startServer() {
 
   app.use(express.json());
 
+  app.get("/robots.txt", (req, res) => {
+    res.sendFile(path.join(process.cwd(), "robots.txt"));
+  });
+
+  app.get("/sitemap.xml", (req, res) => {
+    res.sendFile(path.join(process.cwd(), "sitemap.xml"));
+  });
+
   // API Route for Inquiry Notification
   app.post("/api/notify", async (req, res) => {
     const { name, company, email, phone, type, content } = req.body;

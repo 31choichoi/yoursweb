@@ -15,6 +15,14 @@
       "destination": "/service.html"
     },
     {
+      "source": "/robots.txt",
+      "destination": "/robots.txt"
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/sitemap.xml"
+    },
+    {
       "source": "/about",
       "destination": "/about.html"
     },
