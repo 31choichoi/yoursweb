@@ -1092,55 +1092,38 @@
 
             // Count Up Logic
             function animateCounter(el) {
-                if (el.dataset.started) return;
-                el.dataset.started = true;
+                if (el.dataset.animating === "true") return;
+                el.dataset.animating = "true";
                 
                 const target = parseInt(el.dataset.target);
-                let count = 0;
                 const duration = 2000;
-                const startTime = performance.now();
+                let startTime = null;
 
                 function update(currentTime) {
+                    if (!startTime) startTime = currentTime;
                     const elapsed = currentTime - startTime;
                     const progress = Math.min(elapsed / duration, 1);
                     
-                    // Ease Out Expo for a more premium feel
                     const easeOutExpo = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-                    count = Math.floor(easeOutExpo * target);
+                    const count = Math.floor(easeOutExpo * target);
                     el.innerText = count;
 
                     if (progress < 1) {
                         requestAnimationFrame(update);
                     } else {
                         el.innerText = target;
-                        // Start continuous subtle movement (jitter)
-                        startJitter(el, target);
-                    }
-                }
-                
-                function startJitter(element, baseValue) {
-                    // More dynamic and frequent jitter
-                    setInterval(() => {
-                        const jitter = Math.floor(Math.random() * 5) - 2; // -2 to 2 range for more movement
-                        let newValue = baseValue + jitter;
-                        
-                        // Prevent going too low
-                        if (newValue < Math.floor(baseValue * 0.95)) newValue = baseValue; 
-                        
-                        // Visual pulse and change
-                        element.style.transition = 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
-                        element.style.transform = 'scale(1.1)';
-                        element.style.color = '#6366f1'; // Temporary color shift to indigo
-                        element.style.textShadow = '0 0 15px rgba(99, 102, 241, 0.6)';
-                        element.innerText = newValue;
+                        // Pulse effect at the end
+                        el.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                        el.style.transform = 'scale(1.1)';
                         
                         setTimeout(() => {
-                            element.style.transform = 'scale(1)';
-                            element.style.color = 'white';
-                            element.style.textShadow = 'none';
-                            element.innerText = baseValue;
-                        }, 500);
-                    }, 1500 + Math.random() * 2000); // Faster frequency (1.5s - 3.5s)
+                            el.style.transform = 'scale(1)';
+                            setTimeout(() => {
+                                el.dataset.animating = "false";
+                                animateCounter(el);
+                            }, 3000); // Wait 3 seconds before resetting and starting again
+                        }, 400);
+                    }
                 }
 
                 requestAnimationFrame(update);
