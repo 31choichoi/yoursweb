@@ -125,6 +125,74 @@
         const ADMIN_PW_KR = '월천';
 
         let unsubscribe = null;
+        let lastInquiryId = null;
+        let isInitialLoad = true;
+
+        // Notification Sound (Simple Beep)
+        function playNotificationSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); // A5 note
+                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.2);
+            } catch (e) {
+                console.warn('Audio feedback failed:', e);
+            }
+        }
+
+        // Title Flash Notification
+        let flashInterval = null;
+        function startTitleFlash() {
+            if (flashInterval) return;
+            const originalTitle = document.title;
+            flashInterval = setInterval(() => {
+                document.title = document.title === originalTitle ? "🔔 NEW INQUIRY!" : originalTitle;
+            }, 1000);
+            
+            window.addEventListener('mousemove', stopTitleFlash, { once: true });
+            window.addEventListener('click', stopTitleFlash, { once: true });
+        }
+
+        function stopTitleFlash() {
+            if (flashInterval) {
+                clearInterval(flashInterval);
+                flashInterval = null;
+                document.title = "관리자 모드 — 유어스웹 (Yours Web)";
+            }
+        }
+
+        function showNotificationToast(data) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-8 right-8 bg-[#3B6EFF] text-white p-6 rounded-lg shadow-2xl flex flex-col gap-2 z-[9999] animate-bounce';
+            toast.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <div class="bg-white/20 p-2 rounded-full">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                    </div>
+                    <div>
+                        <p class="font-bold">새로운 문의가 도착했습니다!</p>
+                        <p class="text-xs opacity-90">${data.company} - ${data.name}님</p>
+                    </div>
+                </div>
+                <button class="mt-2 text-xs font-bold hover:underline self-end">닫기</button>
+            `;
+            document.body.appendChild(toast);
+            
+            toast.querySelector('button').onclick = () => toast.remove();
+            setTimeout(() => toast.remove(), 10000);
+            
+            playNotificationSound();
+            startTitleFlash();
+        }
 
         // Check password first
         function checkPassword() {
@@ -218,15 +286,28 @@
                 
                 if (snapshot.empty) {
                     emptyState.classList.remove('hidden');
+                    isInitialLoad = false;
                     return;
                 }
                 
                 emptyState.classList.add('hidden');
+                
+                let newestDoc = null;
                 snapshot.forEach((docSnap) => {
                     const data = docSnap.data();
+                    if (!newestDoc) newestDoc = { id: docSnap.id, data };
+                    
                     const card = createInquiryCard(docSnap.id, data);
                     inquiryList.appendChild(card);
                 });
+
+                // Notify if new inquiry arrives while page is open
+                if (!isInitialLoad && newestDoc && newestDoc.id !== lastInquiryId) {
+                    showNotificationToast(newestDoc.data);
+                }
+                
+                if (newestDoc) lastInquiryId = newestDoc.id;
+                isInitialLoad = false;
             }, (error) => {
                 console.error("Firestore error:", error);
                 if (error.message.includes('permission')) {
