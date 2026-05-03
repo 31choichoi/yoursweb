@@ -17,10 +17,12 @@ async function startServer() {
   app.use(express.json());
 
   app.get("/robots.txt", (req, res) => {
+    res.type("text/plain");
     res.sendFile(path.join(process.cwd(), "robots.txt"));
   });
 
   app.get("/sitemap.xml", (req, res) => {
+    res.type("application/xml");
     res.sendFile(path.join(process.cwd(), "sitemap.xml"));
   });
 
