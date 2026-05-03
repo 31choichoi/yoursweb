@@ -1,5 +1,9 @@
 User-agent: *
+Disallow: /admin
 Allow: /
+
 User-agent: Yeti
+Disallow: /admin
 Allow: /
+
 Sitemap: https://yoursweb.vercel.app/sitemap.xml
