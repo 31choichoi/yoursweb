@@ -16,6 +16,13 @@ async function startServer() {
 
   app.use(express.json());
 
+  app.use((req, res, next) => {
+    if (req.url === '/' && req.headers['user-agent']) {
+      console.log(`[DEBUG] Request from: ${req.headers['user-agent']}`);
+    }
+    next();
+  });
+
   app.get("/robots.txt", (req, res) => {
     const filePath = process.env.NODE_ENV === "production" 
       ? path.join(process.cwd(), "dist", "robots.txt")

@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="naver-site-verification" content="6ec31be1e064cd57771e7a6bf92e3ff987e739e4" />
 <title>유어스웹</title>
+<meta name="description" content="유어스웹 - 문의하기">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="유어스웹">
+<meta property="og:description" content="유어스웹 - 문의하기">
+<meta property="og:url" content="https://yoursweb.vercel.app/request">
+<meta property="og:image" content="https://mydrim.net/img/logo_yoursweb.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -587,13 +594,13 @@
 <div id="form-app">
   <div class="form-header">
     <img src="https://mydrim.net/img/logo_yoursweb.png" alt="Yours Web Logo" style="height:48px;max-width:200px;object-fit:contain;margin-bottom:12px;" onerror="this.style.display='none'" />
-    <h1>Start a Project</h1>
+    <h1>프로젝트 문의하기</h1>
   </div>
 
   <div class="progress-wrap">
     <div class="progress-label">
-      <span id="step-label">STEP 1 · Basic Info</span>
-      <span id="step-count">1 / 8</span>
+      <span id="step-label">STEP 1 · 기본 정보</span>
+      <span id="step-count">1 / 7</span>
     </div>
     <div class="progress-bar">
       <div class="progress-fill" id="progress-fill" style="width:14.28%"></div>
@@ -604,38 +611,38 @@
   <div class="page-card active" data-page="0">
     <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
     <div class="step-badge">STEP 1</div>
-    <h2>Tell us about your brand</h2>
-    <p class="sub">Please fill in these 3 items to help us understand your vision.</p>
+    <h2>브랜드에 대해 알려주세요</h2>
+    <p class="sub">비전을 이해하기 위해 아래 3가지 항목을 작성해 주세요.</p>
     <div class="field-group">
       <div class="field">
-        <label>Company/Project Name <span>*</span></label>
-        <input type="text" id="f-name" placeholder="e.g. Dream Potion, Cafe May, Sky Medical" />
+        <label>회사/프로젝트 명 <span>*</span></label>
+        <input type="text" id="f-name" placeholder="예: 유어스웹, 카페 메이, 스카이 메디컬" />
       </div>
       <div class="field">
-        <label>Industry <span>*</span></label>
-        <input type="text" id="f-industry" placeholder="e.g. Hospitality, Medical, E-commerce" />
+        <label>업종 <span>*</span></label>
+        <input type="text" id="f-industry" placeholder="예: 서비스, 의료, 이커머스" />
       </div>
       <div class="field">
-        <label>Brand Colors <span>*</span></label>
-        <input type="text" id="f-color" placeholder="e.g. White + Blue, #FF6B35, Pastel Green" />
+        <label>브랜드 컬러 <span>*</span></label>
+        <input type="text" id="f-color" placeholder="예: 화이트 + 블루, #FF6B35, 파스텔 그린" />
       </div>
     </div>
-    <button class="btn-next" onclick="goNext(0)">Next Step →</button>
+    <button class="btn-next" onclick="goNext(0)">다음 단계 →</button>
   </div>
 
   <!-- PAGE 1: Q1 디자인 무드 -->
   <div class="page-card" data-page="1">
     <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
     <div class="step-badge">STEP 2 · Q1 / 6</div>
-    <h2>Choose a design mood</h2>
-    <p class="sub">Pick the style that best fits your brand.</p>
+    <h2>디자인 무드를 선택해 주세요</h2>
+    <p class="sub">브랜드에 가장 잘 어울리는 스타일을 골라주세요.</p>
     <div class="choices" id="q1-choices">
-      <button class="choice-btn" onclick="selectSingle('q1','A',2)"><span class="letter">A</span>Minimal · Modern — Clean, Vercel-like style</button>
-      <button class="choice-btn" onclick="selectSingle('q1','B',2)"><span class="letter">B</span>Luxury · Premium — High-end, sophisticated feel</button>
-      <button class="choice-btn" onclick="selectSingle('q1','C',2)"><span class="letter">C</span>Warm · Friendly — Pastel, rounded, approachable</button>
-      <button class="choice-btn" onclick="selectSingle('q1','D',2)"><span class="letter">D</span>Dynamic · Trendy — Bold typo, gradients, Gen-Z vibe</button>
-      <button class="choice-btn" onclick="selectSingle('q1','E',2)"><span class="letter">E</span>Professional · Trusted — B2B, Medical, Finance</button>
-      <button class="choice-btn" onclick="selectSingle('q1','F',2)"><span class="letter">F</span>Not sure — You decide</button>
+      <button class="choice-btn" onclick="selectSingle('q1','A',2)"><span class="letter">A</span>미니멀 · 모던 — 깔끔한 Vercel 스타일</button>
+      <button class="choice-btn" onclick="selectSingle('q1','B',2)"><span class="letter">B</span>럭셔리 · 프리미엄 — 고급스럽고 세련된 느낌</button>
+      <button class="choice-btn" onclick="selectSingle('q1','C',2)"><span class="letter">C</span>따뜻함 · 친근함 — 파스텔톤, 둥근, 접근성 좋은</button>
+      <button class="choice-btn" onclick="selectSingle('q1','D',2)"><span class="letter">D</span>다이나믹 · 트렌디 — 과감한 타이포, 그라데이션</button>
+      <button class="choice-btn" onclick="selectSingle('q1','E',2)"><span class="letter">E</span>프로페셔널 · 신뢰 — B2B, 의료, 금융</button>
+      <button class="choice-btn" onclick="selectSingle('q1','F',2)"><span class="letter">F</span>잘 모르겠음 — 유어스웹 추천</button>
     </div>
   </div>
 
@@ -643,14 +650,14 @@
   <div class="page-card" data-page="2">
     <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
     <div class="step-badge">STEP 2 · Q2 / 6</div>
-    <h2>Select a layout style</h2>
-    <p class="sub">How would you like to present your information?</p>
+    <h2>레이아웃 스타일을 선택해 주세요</h2>
+    <p class="sub">정보를 어떻게 보여주고 싶으신가요?</p>
     <div class="choices" id="q2-choices">
-      <button class="choice-btn" onclick="selectSingle('q2','A',3)"><span class="letter">A</span>Full-screen Hero + Storytelling</button>
-      <button class="choice-btn" onclick="selectSingle('q2','B',3)"><span class="letter">B</span>Grid-based Information (Multi CTA)</button>
-      <button class="choice-btn" onclick="selectSingle('q2','C',3)"><span class="letter">C</span>Magazine Style (Visual-heavy)</button>
-      <button class="choice-btn" onclick="selectSingle('q2','D',3)"><span class="letter">D</span>One-page Simple Landing</button>
-      <button class="choice-btn" onclick="selectSingle('q2','E',3)"><span class="letter">E</span>Not sure — You decide</button>
+      <button class="choice-btn" onclick="selectSingle('q2','A',3)"><span class="letter">A</span>전체 화면 히어로 + 스토리텔링형</button>
+      <button class="choice-btn" onclick="selectSingle('q2','B',3)"><span class="letter">B</span>그리드 기반 정보 전달 (다중 CTA)</button>
+      <button class="choice-btn" onclick="selectSingle('q2','C',3)"><span class="letter">C</span>매거진 스타일 (비주얼 중심)</button>
+      <button class="choice-btn" onclick="selectSingle('q2','D',3)"><span class="letter">D</span>원페이지 심플 랜딩</button>
+      <button class="choice-btn" onclick="selectSingle('q2','E',3)"><span class="letter">E</span>잘 모르겠음 — 유어스웹 추천</button>
     </div>
   </div>
 
@@ -658,45 +665,45 @@
   <div class="page-card" data-page="3">
     <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
     <div class="step-badge">STEP 2 · Q3 / 6</div>
-    <h2>Core sections to include</h2>
+    <h2>포함할 핵심 섹션</h2>
     <div style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#fff7e6,#fff0f9);border:2px solid #f59e42;border-radius:12px;padding:14px 18px;margin-bottom:20px;">
       <span style="font-size:22px;">☑️</span>
       <div>
-        <div style="font-size:17px;font-weight:800;color:#c2410c;letter-spacing:-.01em;">Multiple Selection Possible!</div>
-        <div style="font-size:13px;color:#92400e;margin-top:2px;font-weight:500;">Select all desired sections and click <b>Next</b> below.</div>
+        <div style="font-size:17px;font-weight:800;color:#c2410c;letter-spacing:-.01em;">중복 선택 가능!</div>
+        <div style="font-size:13px;color:#92400e;margin-top:2px;font-weight:500;">원하는 섹션을 모두 선택하고 아래 <b>다음</b> 버튼을 눌러주세요.</div>
       </div>
     </div>
     <div class="choices" id="q3-choices">
-      <button class="choice-btn" onclick="toggleMulti('q3','A',this)"><span class="letter">A</span>Hero · Main Visual</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','B',this)"><span class="letter">B</span>About · Story</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','C',this)"><span class="letter">C</span>Service / Product</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','D',this)"><span class="letter">D</span>Portfolio / Gallery</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','E',this)"><span class="letter">E</span>Testimonials / Reviews</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','F',this)"><span class="letter">F</span>Pricing Table</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','G',this)"><span class="letter">G</span>Process / Guide</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','H',this)"><span class="letter">H</span>FAQ</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','I',this)"><span class="letter">I</span>Contact / Booking Form</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','J',this)"><span class="letter">J</span>Blog / News</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','K',this)"><span class="letter">K</span>Location / Maps</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','L',this)"><span class="letter">L</span>Team / Members</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','M',this)"><span class="letter">M</span>Others</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','N',this)"><span class="letter">N</span>You decide</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','A',this)"><span class="letter">A</span>히어로 · 메인 비주얼</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','B',this)"><span class="letter">B</span>회사소개 · 스토리</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','C',this)"><span class="letter">C</span>서비스 / 프로젝트</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','D',this)"><span class="letter">D</span>포트폴리오 / 갤러리</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','E',this)"><span class="letter">E</span>고객 후기 / 리뷰</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','F',this)"><span class="letter">F</span>가격 표</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','G',this)"><span class="letter">G</span>진행 프로세스 / 가이드</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','H',this)"><span class="letter">H</span>자주 묻는 질문(FAQ)</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','I',this)"><span class="letter">I</span>문의 / 예약 폼</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','J',this)"><span class="letter">J</span>블로그 / 소식</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','K',this)"><span class="letter">K</span>위치 / 지도</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','L',this)"><span class="letter">L</span>팀원 / 멤버 소개</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','M',this)"><span class="letter">M</span>기타</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','N',this)"><span class="letter">N</span>유어스웹 추천</button>
     </div>
-    <button class="btn-next" onclick="goNext(3)">Complete Selection →</button>
+    <button class="btn-next" onclick="goNext(3)">선택 완료 →</button>
   </div>
 
   <!-- PAGE 4: Q4 타이포그래피 -->
   <div class="page-card" data-page="4">
     <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
     <div class="step-badge">STEP 2 · Q4 / 6</div>
-    <h2>Typography tone</h2>
-    <p class="sub">The font defines the voice of your brand.</p>
+    <h2>타이포그래피 톤</h2>
+    <p class="sub">폰트는 브랜드의 목소리를 정의합니다.</p>
     <div class="choices" id="q4-choices">
-      <button class="choice-btn" onclick="selectSingle('q4','A',5)"><span class="letter">A</span>Modern Sans — Pretendard, Inter</button>
-      <button class="choice-btn" onclick="selectSingle('q4','B',5)"><span class="letter">B</span>Elegant Serif — Classic, refined 명조</button>
-      <button class="choice-btn" onclick="selectSingle('q4','C',5)"><span class="letter">C</span>Bold Display — High impact headlines</button>
-      <button class="choice-btn" onclick="selectSingle('q4','D',5)"><span class="letter">D</span>Handwriting · Mixed Accents</button>
-      <button class="choice-btn" onclick="selectSingle('q4','E',5)"><span class="letter">E</span>Not sure — You decide</button>
+      <button class="choice-btn" onclick="selectSingle('q4','A',5)"><span class="letter">A</span>모던 고딕 — 프리텐다드, Inter</button>
+      <button class="choice-btn" onclick="selectSingle('q4','B',5)"><span class="letter">B</span>우아한 세리프 — 클래식한 명조체</button>
+      <button class="choice-btn" onclick="selectSingle('q4','C',5)"><span class="letter">C</span>볼드 디스플레이 — 강렬한 헤드라인</button>
+      <button class="choice-btn" onclick="selectSingle('q4','D',5)"><span class="letter">D</span>핸드라이팅 · 믹스 악센트</button>
+      <button class="choice-btn" onclick="selectSingle('q4','E',5)"><span class="letter">E</span>잘 모르겠음 — 유어스웹 추천</button>
     </div>
   </div>
 
@@ -704,13 +711,13 @@
   <div class="page-card" data-page="5">
     <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
     <div class="step-badge">STEP 2 · Q5 / 6</div>
-    <h2>Interaction intensity</h2>
-    <p class="sub">How much animation should be in the design?</p>
+    <h2>인터랙션 강도</h2>
+    <p class="sub">디자인에 얼마나 많은 애니메이션을 포함시킬까요?</p>
     <div class="choices" id="q5-choices">
-      <button class="choice-btn" onclick="selectSingle('q5','A',6)"><span class="letter">A</span>Static · Calm — Minimal transitions</button>
-      <button class="choice-btn" onclick="selectSingle('q5','B',6)"><span class="letter">B</span>Medium — Scroll parallax, hover effects</button>
-      <button class="choice-btn" onclick="selectSingle('q5','C',6)"><span class="letter">C</span>Strong — 3D elements, magnetic cursors</button>
-      <button class="choice-btn" onclick="selectSingle('q5','D',6)"><span class="letter">D</span>Not sure — You decide</button>
+      <button class="choice-btn" onclick="selectSingle('q5','A',6)"><span class="letter">A</span>정적임 · 차분함 — 최소한의 전환 효과</button>
+      <button class="choice-btn" onclick="selectSingle('q5','B',6)"><span class="letter">B</span>중간 — 스크롤 패럴랙스, 호버 효과</button>
+      <button class="choice-btn" onclick="selectSingle('q5','C',6)"><span class="letter">C</span>강함 — 3D 요소, 마그네틱 커서</button>
+      <button class="choice-btn" onclick="selectSingle('q5','D',6)"><span class="letter">D</span>잘 모르겠음 — 유어스웹 추천</button>
     </div>
   </div>
 
@@ -718,23 +725,23 @@
   <div class="page-card" data-page="6">
     <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
     <div class="step-badge">STEP 2 · Q6 / 6</div>
-    <h2>Additional requirements</h2>
-    <p class="sub">Tell us any specific requests or reference sites.</p>
+    <h2>추가 요구 사항</h2>
+    <p class="sub">특별한 요청이나 참고할 사이트를 알려주세요.</p>
     <div class="q6-fields">
       <div class="q6-field">
-        <label style="font-size:15px;font-weight:700;color:var(--accent2);">A &nbsp;·&nbsp; Reference Site URLs <span style="font-size:12px;font-weight:500;color:var(--muted);">(1~3 sites)</span></label>
+        <label style="font-size:15px;font-weight:700;color:var(--accent2);">A &nbsp;·&nbsp; 참고 사이트 URL <span style="font-size:12px;font-weight:500;color:var(--muted);">(1~3개)</span></label>
         <textarea id="q6a" placeholder="https://example.com&#10;https://example2.com"></textarea>
       </div>
       <div class="q6-field">
-        <label style="font-size:15px;font-weight:700;color:var(--accent2);">B &nbsp;·&nbsp; Core Messaging / Copy</label>
-        <textarea id="q6b" placeholder="e.g. Main slogans or specific text that must be included"></textarea>
+        <label style="font-size:15px;font-weight:700;color:var(--accent2);">B &nbsp;·&nbsp; 핵심 메시지 / 카피</label>
+        <textarea id="q6b" placeholder="예: 주요 슬로건이나 반드시 포함되어야 할 문구"></textarea>
       </div>
       <div class="q6-field">
-        <label style="font-size:15px;font-weight:700;color:var(--accent2);">C &nbsp;·&nbsp; Styles to Avoid</label>
-        <textarea id="q6c" placeholder="e.g. Avoid certain colors, or specific design patterns"></textarea>
+        <label style="font-size:15px;font-weight:700;color:var(--accent2);">C &nbsp;·&nbsp; 피하고 싶은 스타일</label>
+        <textarea id="q6c" placeholder="예: 특정 색상 기피, 혹은 원치 않는 디자인 패턴"></textarea>
       </div>
     </div>
-    <button id="submit-btn" class="btn-next" onclick="submitForm()">Submit Request →</button>
+    <button id="submit-btn" class="btn-next" onclick="submitForm()">문의 신청하기 →</button>
   </div>
 
   <!-- PAGE 7: COMPLETE -->
@@ -742,10 +749,10 @@
     <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
     <div class="complete-page">
       <div class="complete-icon">✅</div>
-      <h2>Request Submitted!</h2>
-      <p>Thank you for reaching out.<br>We are reviewing your request now.</p>
-      <p style="margin-top:8px;">A representative will contact you shortly. 🙏</p>
-      <button class="restart" onclick="location.href='/'">Go to Main</button>
+      <h2>문의 신청 완료!</h2>
+      <p>보내주신 소중한 정보를 확인하고 있습니다.</p>
+      <p style="margin-top:8px;">담당자가 곧 연락드리겠습니다. 🙏</p>
+      <button class="restart" onclick="location.href='/'">메인으로 이동</button>
     </div>
   </div>
 </div>
