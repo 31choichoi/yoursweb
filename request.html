@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="naver-site-verification" content="6ec31be1e064cd57771e7a6bf92e3ff987e739e4" />
-<title>유어스웹 홈페이지제작 신청서 — Yours Web</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Application Form — Yours Web</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -24,7 +24,7 @@
   }
 
   body {
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Inter', sans-serif;
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
@@ -93,8 +93,19 @@
     padding: 36px 32px;
     display: none;
     animation: slideIn .35s cubic-bezier(.4,0,.2,1);
+    position: relative;
+    overflow: hidden;
   }
   .page-card.active { display: block; }
+
+  /* ── CARD LOGO ── */
+  .card-logo {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    height: 24px;
+    opacity: 0.8;
+  }
 
   @keyframes slideIn {
     from { opacity: 0; transform: translateY(18px); }
@@ -112,6 +123,8 @@
     background: linear-gradient(135deg, #e0e9ff, #ede9fe);
     color: var(--accent2);
     margin-bottom: 14px;
+    position: relative;
+    z-index: 2;
   }
   .page-card h2 {
     font-size: 20px;
@@ -119,12 +132,16 @@
     color: var(--primary);
     margin-bottom: 6px;
     line-height: 1.4;
+    position: relative;
+    z-index: 2;
   }
   .page-card .sub {
     font-size: 13px;
     color: var(--muted);
     margin-bottom: 28px;
     line-height: 1.7;
+    position: relative;
+    z-index: 2;
   }
 
   /* ── STEP1 INPUTS ── */
@@ -569,14 +586,14 @@
 <!-- ══════════════ FORM APP ══════════════ -->
 <div id="form-app">
   <div class="form-header">
-    <img src="http://mydrim.net/img/logo_yoursweb.png" alt="유어스웹 로고" style="height:48px;max-width:200px;object-fit:contain;margin-bottom:12px;" onerror="this.style.display='none'" />
-    <h1>유어스웹 홈페이지제작 신청서</h1>
+    <img src="https://mydrim.net/img/logo_yoursweb.png" alt="Yours Web Logo" style="height:48px;max-width:200px;object-fit:contain;margin-bottom:12px;" onerror="this.style.display='none'" />
+    <h1>Start a Project</h1>
   </div>
 
   <div class="progress-wrap">
     <div class="progress-label">
-      <span id="step-label">STEP 1 · 기본 정보</span>
-      <span id="step-count">1 / 7</span>
+      <span id="step-label">STEP 1 · Basic Info</span>
+      <span id="step-count">1 / 8</span>
     </div>
     <div class="progress-bar">
       <div class="progress-fill" id="progress-fill" style="width:14.28%"></div>
@@ -585,142 +602,150 @@
 
   <!-- PAGE 0: STEP 1 -->
   <div class="page-card active" data-page="0">
+    <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
     <div class="step-badge">STEP 1</div>
-    <h2>기본 정보를 알려주세요</h2>
-    <p class="sub">3가지 항목을 모두 입력해 주시면 맞춤 디자인 방향을 안내드립니다.</p>
+    <h2>Tell us about your brand</h2>
+    <p class="sub">Please fill in these 3 items to help us understand your vision.</p>
     <div class="field-group">
       <div class="field">
-        <label>업체명 (홈페이지 제목) <span>*</span></label>
-        <input type="text" id="f-name" placeholder="예: 산들 펜션, 카페 오월, 강남 정형외과" />
+        <label>Company/Project Name <span>*</span></label>
+        <input type="text" id="f-name" placeholder="e.g. Dream Potion, Cafe May, Sky Medical" />
       </div>
       <div class="field">
-        <label>업종 <span>*</span></label>
-        <input type="text" id="f-industry" placeholder="예: 펜션, 카페, 병원, 공사업, 펫푸드 브랜드" />
+        <label>Industry <span>*</span></label>
+        <input type="text" id="f-industry" placeholder="e.g. Hospitality, Medical, E-commerce" />
       </div>
       <div class="field">
-        <label>브랜드 컬러 <span>*</span></label>
-        <input type="text" id="f-color" placeholder="예: 흰색+블루, 오렌지, #FF6B35, 파스텔 그린" />
+        <label>Brand Colors <span>*</span></label>
+        <input type="text" id="f-color" placeholder="e.g. White + Blue, #FF6B35, Pastel Green" />
       </div>
     </div>
-    <button class="btn-next" onclick="goNext(0)">다음 단계로 →</button>
+    <button class="btn-next" onclick="goNext(0)">Next Step →</button>
   </div>
 
   <!-- PAGE 1: Q1 디자인 무드 -->
   <div class="page-card" data-page="1">
+    <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
     <div class="step-badge">STEP 2 · Q1 / 6</div>
-    <h2>디자인 무드를 선택해 주세요</h2>
-    <p class="sub">전체적인 느낌을 결정합니다. 하나를 선택하면 자동으로 다음 질문으로 넘어갑니다.</p>
+    <h2>Choose a design mood</h2>
+    <p class="sub">Pick the style that best fits your brand.</p>
     <div class="choices" id="q1-choices">
-      <button class="choice-btn" onclick="selectSingle('q1','A',2)"><span class="letter">A</span>미니멀 · 모던 — 여백 중심, Linear/Vercel 스타일</button>
-      <button class="choice-btn" onclick="selectSingle('q1','B',2)"><span class="letter">B</span>럭셔리 · 프리미엄 — 고급 호텔·하이엔드 브랜드 느낌</button>
-      <button class="choice-btn" onclick="selectSingle('q1','C',2)"><span class="letter">C</span>따뜻함 · 친근함 — 파스텔, 라운드, 휴먼 터치</button>
-      <button class="choice-btn" onclick="selectSingle('q1','D',2)"><span class="letter">D</span>다이내믹 · 트렌디 — 그라데이션, 볼드 타이포, Z세대향</button>
-      <button class="choice-btn" onclick="selectSingle('q1','E',2)"><span class="letter">E</span>신뢰감 · 전문성 — B2B, 의료, 금융, 공공</button>
-      <button class="choice-btn" onclick="selectSingle('q1','F',2)"><span class="letter">F</span>모름 — 알아서 해주세요</button>
+      <button class="choice-btn" onclick="selectSingle('q1','A',2)"><span class="letter">A</span>Minimal · Modern — Clean, Vercel-like style</button>
+      <button class="choice-btn" onclick="selectSingle('q1','B',2)"><span class="letter">B</span>Luxury · Premium — High-end, sophisticated feel</button>
+      <button class="choice-btn" onclick="selectSingle('q1','C',2)"><span class="letter">C</span>Warm · Friendly — Pastel, rounded, approachable</button>
+      <button class="choice-btn" onclick="selectSingle('q1','D',2)"><span class="letter">D</span>Dynamic · Trendy — Bold typo, gradients, Gen-Z vibe</button>
+      <button class="choice-btn" onclick="selectSingle('q1','E',2)"><span class="letter">E</span>Professional · Trusted — B2B, Medical, Finance</button>
+      <button class="choice-btn" onclick="selectSingle('q1','F',2)"><span class="letter">F</span>Not sure — You decide</button>
     </div>
   </div>
 
   <!-- PAGE 2: Q2 레이아웃 -->
   <div class="page-card" data-page="2">
+    <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
     <div class="step-badge">STEP 2 · Q2 / 6</div>
-    <h2>레이아웃 스타일을 선택해 주세요</h2>
-    <p class="sub">페이지 구성 방식을 선택합니다. 클릭하면 자동으로 다음 질문으로 넘어갑니다.</p>
+    <h2>Select a layout style</h2>
+    <p class="sub">How would you like to present your information?</p>
     <div class="choices" id="q2-choices">
-      <button class="choice-btn" onclick="selectSingle('q2','A',3)"><span class="letter">A</span>풀스크린 히어로 + 스크롤 스토리텔링</button>
-      <button class="choice-btn" onclick="selectSingle('q2','B',3)"><span class="letter">B</span>그리드 기반 정보 밀도형 (랜딩 + CTA 다수)</button>
-      <button class="choice-btn" onclick="selectSingle('q2','C',3)"><span class="letter">C</span>매거진형 (이미지·타이포 강조)</button>
-      <button class="choice-btn" onclick="selectSingle('q2','D',3)"><span class="letter">D</span>원페이지 단순형 (스크롤로 모든 정보)</button>
-      <button class="choice-btn" onclick="selectSingle('q2','E',3)"><span class="letter">E</span>모름 — 알아서 해주세요</button>
+      <button class="choice-btn" onclick="selectSingle('q2','A',3)"><span class="letter">A</span>Full-screen Hero + Storytelling</button>
+      <button class="choice-btn" onclick="selectSingle('q2','B',3)"><span class="letter">B</span>Grid-based Information (Multi CTA)</button>
+      <button class="choice-btn" onclick="selectSingle('q2','C',3)"><span class="letter">C</span>Magazine Style (Visual-heavy)</button>
+      <button class="choice-btn" onclick="selectSingle('q2','D',3)"><span class="letter">D</span>One-page Simple Landing</button>
+      <button class="choice-btn" onclick="selectSingle('q2','E',3)"><span class="letter">E</span>Not sure — You decide</button>
     </div>
   </div>
 
   <!-- PAGE 3: Q3 핵심 섹션 (다중) -->
   <div class="page-card" data-page="3">
+    <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
     <div class="step-badge">STEP 2 · Q3 / 6</div>
-    <h2>포함할 핵심 섹션을 선택해 주세요</h2>
+    <h2>Core sections to include</h2>
     <div style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#fff7e6,#fff0f9);border:2px solid #f59e42;border-radius:12px;padding:14px 18px;margin-bottom:20px;">
       <span style="font-size:22px;">☑️</span>
       <div>
-        <div style="font-size:17px;font-weight:800;color:#c2410c;letter-spacing:-.01em;">중복 선택 가능!</div>
-        <div style="font-size:13px;color:#92400e;margin-top:2px;font-weight:500;">원하는 섹션을 <b>모두</b> 클릭한 뒤 아래 <b>선택 완료</b> 버튼을 눌러주세요.</div>
+        <div style="font-size:17px;font-weight:800;color:#c2410c;letter-spacing:-.01em;">Multiple Selection Possible!</div>
+        <div style="font-size:13px;color:#92400e;margin-top:2px;font-weight:500;">Select all desired sections and click <b>Next</b> below.</div>
       </div>
     </div>
     <div class="choices" id="q3-choices">
-      <button class="choice-btn" onclick="toggleMulti('q3','A',this)"><span class="letter">A</span>Hero · 대표 비주얼</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','B',this)"><span class="letter">B</span>About · 브랜드 스토리</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','A',this)"><span class="letter">A</span>Hero · Main Visual</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','B',this)"><span class="letter">B</span>About · Story</button>
       <button class="choice-btn" onclick="toggleMulti('q3','C',this)"><span class="letter">C</span>Service / Product</button>
       <button class="choice-btn" onclick="toggleMulti('q3','D',this)"><span class="letter">D</span>Portfolio / Gallery</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','E',this)"><span class="letter">E</span>고객 후기 / Testimonial</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','F',this)"><span class="letter">F</span>가격표 / Pricing</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','G',this)"><span class="letter">G</span>Process / 이용 안내</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','E',this)"><span class="letter">E</span>Testimonials / Reviews</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','F',this)"><span class="letter">F</span>Pricing Table</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','G',this)"><span class="letter">G</span>Process / Guide</button>
       <button class="choice-btn" onclick="toggleMulti('q3','H',this)"><span class="letter">H</span>FAQ</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','I',this)"><span class="letter">I</span>Contact / 예약 폼</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','J',this)"><span class="letter">J</span>블로그 / 소식</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','K',this)"><span class="letter">K</span>위치 / 오시는 길</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','L',this)"><span class="letter">L</span>팀 / 멤버 소개</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','M',this)"><span class="letter">M</span>기타 추가요청</button>
-      <button class="choice-btn" onclick="toggleMulti('q3','N',this)"><span class="letter">N</span>모름 — 알아서 해주세요</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','I',this)"><span class="letter">I</span>Contact / Booking Form</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','J',this)"><span class="letter">J</span>Blog / News</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','K',this)"><span class="letter">K</span>Location / Maps</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','L',this)"><span class="letter">L</span>Team / Members</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','M',this)"><span class="letter">M</span>Others</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','N',this)"><span class="letter">N</span>You decide</button>
     </div>
-    <button class="btn-next" onclick="goNext(3)">선택 완료 →</button>
+    <button class="btn-next" onclick="goNext(3)">Complete Selection →</button>
   </div>
 
   <!-- PAGE 4: Q4 타이포그래피 -->
   <div class="page-card" data-page="4">
+    <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
     <div class="step-badge">STEP 2 · Q4 / 6</div>
-    <h2>타이포그래피 톤을 선택해 주세요</h2>
-    <p class="sub">글꼴의 분위기를 결정합니다. 클릭하면 자동으로 다음 질문으로 넘어갑니다.</p>
+    <h2>Typography tone</h2>
+    <p class="sub">The font defines the voice of your brand.</p>
     <div class="choices" id="q4-choices">
-      <button class="choice-btn" onclick="selectSingle('q4','A',5)"><span class="letter">A</span>산세리프 모던 — Pretendard, Inter</button>
-      <button class="choice-btn" onclick="selectSingle('q4','B',5)"><span class="letter">B</span>세리프 우아함 — Noto Serif KR, 명조</button>
-      <button class="choice-btn" onclick="selectSingle('q4','C',5)"><span class="letter">C</span>디스플레이 볼드 — 큰 헤드라인 임팩트형</button>
-      <button class="choice-btn" onclick="selectSingle('q4','D',5)"><span class="letter">D</span>핸드라이팅 · 캘리 포인트 혼합</button>
-      <button class="choice-btn" onclick="selectSingle('q4','E',5)"><span class="letter">E</span>모름 — 알아서 해주세요</button>
+      <button class="choice-btn" onclick="selectSingle('q4','A',5)"><span class="letter">A</span>Modern Sans — Pretendard, Inter</button>
+      <button class="choice-btn" onclick="selectSingle('q4','B',5)"><span class="letter">B</span>Elegant Serif — Classic, refined 명조</button>
+      <button class="choice-btn" onclick="selectSingle('q4','C',5)"><span class="letter">C</span>Bold Display — High impact headlines</button>
+      <button class="choice-btn" onclick="selectSingle('q4','D',5)"><span class="letter">D</span>Handwriting · Mixed Accents</button>
+      <button class="choice-btn" onclick="selectSingle('q4','E',5)"><span class="letter">E</span>Not sure — You decide</button>
     </div>
   </div>
 
   <!-- PAGE 5: Q5 인터랙션 -->
   <div class="page-card" data-page="5">
+    <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
     <div class="step-badge">STEP 2 · Q5 / 6</div>
-    <h2>인터랙션 강도를 선택해 주세요</h2>
-    <p class="sub">애니메이션과 효과의 수준을 결정합니다. 클릭하면 자동으로 다음 질문으로 넘어갑니다.</p>
+    <h2>Interaction intensity</h2>
+    <p class="sub">How much animation should be in the design?</p>
     <div class="choices" id="q5-choices">
-      <button class="choice-btn" onclick="selectSingle('q5','A',6)"><span class="letter">A</span>정적 · 차분함 — 페이드인 정도의 최소 효과</button>
-      <button class="choice-btn" onclick="selectSingle('q5','B',6)"><span class="letter">B</span>중간 — 스크롤 패럴랙스, 호버 트랜지션</button>
-      <button class="choice-btn" onclick="selectSingle('q5','C',6)"><span class="letter">C</span>강함 — 커서 효과, 마그네틱, 스크롤 스냅, 3D 요소</button>
-      <button class="choice-btn" onclick="selectSingle('q5','D',6)"><span class="letter">D</span>모름 — 알아서 해주세요</button>
+      <button class="choice-btn" onclick="selectSingle('q5','A',6)"><span class="letter">A</span>Static · Calm — Minimal transitions</button>
+      <button class="choice-btn" onclick="selectSingle('q5','B',6)"><span class="letter">B</span>Medium — Scroll parallax, hover effects</button>
+      <button class="choice-btn" onclick="selectSingle('q5','C',6)"><span class="letter">C</span>Strong — 3D elements, magnetic cursors</button>
+      <button class="choice-btn" onclick="selectSingle('q5','D',6)"><span class="letter">D</span>Not sure — You decide</button>
     </div>
   </div>
 
   <!-- PAGE 6: Q6 추가 요구사항 -->
   <div class="page-card" data-page="6">
+    <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
     <div class="step-badge">STEP 2 · Q6 / 6</div>
-    <h2>추가 요구사항 (선택)</h2>
-    <p class="sub">입력하지 않아도 괜찮습니다. 있으면 자유롭게 작성해 주세요.</p>
+    <h2>Additional requirements</h2>
+    <p class="sub">Tell us any specific requests or reference sites.</p>
     <div class="q6-fields">
       <div class="q6-field">
-        <label style="font-size:15px;font-weight:700;color:var(--accent2);">A &nbsp;·&nbsp; 참고 사이트 URL <span style="font-size:12px;font-weight:500;color:var(--muted);">(1~3개)</span></label>
+        <label style="font-size:15px;font-weight:700;color:var(--accent2);">A &nbsp;·&nbsp; Reference Site URLs <span style="font-size:12px;font-weight:500;color:var(--muted);">(1~3 sites)</span></label>
         <textarea id="q6a" placeholder="https://example.com&#10;https://example2.com"></textarea>
       </div>
       <div class="q6-field">
-        <label style="font-size:15px;font-weight:700;color:var(--accent2);">B &nbsp;·&nbsp; 반드시 들어갈 카피 · 문구 · USP</label>
-        <textarea id="q6b" placeholder="예: '자연 속에서 쉬어가세요', '10년 경력의 전문가', 메인 슬로건 등"></textarea>
+        <label style="font-size:15px;font-weight:700;color:var(--accent2);">B &nbsp;·&nbsp; Core Messaging / Copy</label>
+        <textarea id="q6b" placeholder="e.g. Main slogans or specific text that must be included"></textarea>
       </div>
       <div class="q6-field">
-        <label style="font-size:15px;font-weight:700;color:var(--accent2);">C &nbsp;·&nbsp; 피하고 싶은 스타일 · 색 · 요소</label>
-        <textarea id="q6c" placeholder="예: 빨간색은 피해주세요, 너무 복잡한 애니메이션은 싫어요 등"></textarea>
+        <label style="font-size:15px;font-weight:700;color:var(--accent2);">C &nbsp;·&nbsp; Styles to Avoid</label>
+        <textarea id="q6c" placeholder="e.g. Avoid certain colors, or specific design patterns"></textarea>
       </div>
     </div>
-    <button id="submit-btn" class="btn-next" onclick="submitForm()">상담 신청 완료 →</button>
+    <button id="submit-btn" class="btn-next" onclick="submitForm()">Submit Request →</button>
   </div>
 
   <!-- PAGE 7: COMPLETE -->
   <div class="page-card" data-page="7">
+    <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
     <div class="complete-page">
       <div class="complete-icon">✅</div>
-      <h2>상담 신청이 완료됐습니다!</h2>
-      <p>입력해 주신 내용을 바탕으로<br>맞춤 홈페이지 제작을 시작합니다.</p>
-      <p style="margin-top:8px;">담당자가 검토 후 빠르게 연락드리겠습니다. 🙏</p>
-      <button class="restart" onclick="location.href='/'">메인으로 이동</button>
+      <h2>Request Submitted!</h2>
+      <p>Thank you for reaching out.<br>We are reviewing your request now.</p>
+      <p style="margin-top:8px;">A representative will contact you shortly. 🙏</p>
+      <button class="restart" onclick="location.href='/'">Go to Main</button>
     </div>
   </div>
 </div>
@@ -784,14 +809,14 @@ window.showPage = (n) => {
 
 function updateProgress(n) {
   const labels = [
-    'STEP 1 · 기본 정보',
-    'STEP 2 · Q1 디자인 무드',
-    'STEP 2 · Q2 레이아웃 스타일',
-    'STEP 2 · Q3 핵심 섹션',
-    'STEP 2 · Q4 타이포그래피',
-    'STEP 2 · Q5 인터랙션 강도',
-    'STEP 2 · Q6 추가 요구사항',
-    '완료'
+    'STEP 1 · Basic Info',
+    'STEP 2 · Q1 Design Mood',
+    'STEP 2 · Q2 Layout Style',
+    'STEP 2 · Q3 Core Sections',
+    'STEP 2 · Q4 Typography',
+    'STEP 2 · Q5 Interaction',
+    'STEP 2 · Q6 Requirements',
+    'Completion'
   ];
   const stepLabelEl = document.getElementById('step-label');
   const stepCountEl = document.getElementById('step-count');
@@ -808,14 +833,14 @@ window.goNext = (from) => {
     const ind  = document.getElementById('f-industry').value.trim();
     const col  = document.getElementById('f-color').value.trim();
     if (!name || !ind || !col) {
-      alert('세 가지 항목을 모두 입력해 주세요.');
+      alert('Please fill in all three items.');
       return;
     }
     answers.name = name; answers.industry = ind; answers.color = col;
   }
   if (from === 3) {
     if (!answers.q3.length) {
-      alert('섹션을 하나 이상 선택해 주세요.');
+      alert('Please select at least one section.');
       return;
     }
   }
@@ -848,7 +873,7 @@ window.toggleMulti = (key, val, el) => {
 window.submitForm = async () => {
   const submitBtn = document.getElementById('submit-btn');
   submitBtn.disabled = true;
-  submitBtn.innerText = '전송 중...';
+  submitBtn.innerText = 'Sending...';
 
   const q6a = document.getElementById('q6a').value.trim();
   const q6b = document.getElementById('q6b').value.trim();
@@ -883,9 +908,9 @@ window.submitForm = async () => {
     window.scrollTo({top:0, behavior:'smooth'});
   } catch (err) {
     console.error(err);
-    alert('신청 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+    alert('An error occurred. Please try again later.');
     submitBtn.disabled = false;
-    submitBtn.innerText = '상담 신청 완료 →';
+    submitBtn.innerText = 'Submit Request →';
   }
 };
 
@@ -896,13 +921,13 @@ window.checkAdmin = () => {
     document.getElementById('admin-app').style.display = 'block';
     renderAdmin();
   } else {
-    document.getElementById('admin-err').textContent = '비밀번호가 올바르지 않습니다.';
+    document.getElementById('admin-err').textContent = 'Incorrect password.';
   }
 };
 
 window.renderAdmin = async () => {
   const container = document.getElementById('submissions-container');
-  container.innerHTML = '<div class="admin-empty">데이터를 불러오는 중...</div>';
+  container.innerHTML = '<div class="admin-empty">Loading data...</div>';
   
   try {
     const q = query(collection(db, 'requests'), orderBy('timestamp', 'desc'));
@@ -912,10 +937,10 @@ window.renderAdmin = async () => {
         stored.push({ id: doc.id, ...doc.data() });
     });
 
-    document.getElementById('admin-count').textContent = stored.length + '건';
+    document.getElementById('admin-count').textContent = stored.length + ' Items';
 
     if (!stored.length) {
-      container.innerHTML = '<div class="admin-empty">아직 접수된 상담이 없습니다.</div>';
+      container.innerHTML = '<div class="admin-empty">No submissions yet.</div>';
       return;
     }
 
@@ -932,7 +957,7 @@ window.renderAdmin = async () => {
       card.innerHTML = `
         <button class="del-btn" onclick="deleteItem(event,'${s.id}')">✕</button>
         <div class="card-top">
-          <span class="biz-name">${esc(s.name || '(미입력)')}</span>
+          <span class="biz-name">${esc(s.name || '(Empty)')}</span>
           <span class="date">${dateStr}</span>
         </div>
         <span class="industry">${esc(s.industry || '')}</span>
@@ -940,10 +965,10 @@ window.renderAdmin = async () => {
           <span class="color-dot" style="background:${colorStyle||'#e2e6f0'}"></span>${esc(s.color || '')}
         </div>
         <div class="tag-row">
-          ${s.q1 ? `<span class="tag">무드: ${Q_LABELS.q1[s.q1]||s.q1}</span>` : ''}
-          ${s.q2 ? `<span class="tag">레이아웃: ${Q_LABELS.q2[s.q2]||s.q2}</span>` : ''}
-          ${s.q4 ? `<span class="tag">타이포: ${Q_LABELS.q4[s.q4]||s.q4}</span>` : ''}
-          ${s.q5 ? `<span class="tag">인터랙션: ${Q_LABELS.q5[s.q5]||s.q5}</span>` : ''}
+          ${s.q1 ? `<span class="tag">Mood: ${Q_LABELS.q1[s.q1]||s.q1}</span>` : ''}
+          ${s.q2 ? `<span class="tag">Layout: ${Q_LABELS.q2[s.q2]||s.q2}</span>` : ''}
+          ${s.q4 ? `<span class="tag">Typo: ${Q_LABELS.q4[s.q4]||s.q4}</span>` : ''}
+          ${s.q5 ? `<span class="tag">Interaction: ${Q_LABELS.q5[s.q5]||s.q5}</span>` : ''}
         </div>
       `;
       card.addEventListener('click', (e) => {
@@ -956,18 +981,18 @@ window.renderAdmin = async () => {
     container.appendChild(grid);
   } catch (err) {
     console.error(err);
-    container.innerHTML = '<div class="admin-empty">오류가 발생했습니다. 권한을 확인해주세요.</div>';
+    container.innerHTML = '<div class="admin-empty">Error loading data. Check permissions.</div>';
   }
 };
 
 window.deleteItem = async (e, id) => {
   e.stopPropagation();
-  if (!confirm('이 항목을 삭제하시겠습니까?')) return;
+  if (!confirm('Are you sure you want to delete this?')) return;
   try {
     await deleteDoc(doc(db, 'requests', id));
     renderAdmin();
   } catch (err) {
-    alert('삭제 중 오류가 발생했습니다.');
+    alert('Error during deletion.');
   }
 };
 
@@ -985,49 +1010,49 @@ window.closeModal = (e) => {
 
 window.openModal = (s) => {
   const date = s.timestamp?.toDate ? s.timestamp.toDate() : new Date();
-  const dateStr = date.toLocaleString('ko-KR');
+  const dateStr = date.toLocaleString('en-US');
   const q3val = (s.q3||[]).map(k => Q_LABELS.q3[k]||k).join(', ') || '—';
   const q6 = [
-    s.q6a ? `<b>참고 URL:</b> ${esc(s.q6a)}` : '',
-    s.q6b ? `<b>카피/USP:</b> ${esc(s.q6b)}` : '',
-    s.q6c ? `<b>피하고 싶은 것:</b> ${esc(s.q6c)}` : ''
-  ].filter(Boolean).join('<br>') || '없음';
+    s.q6a ? `<b>Ref URL:</b> ${esc(s.q6a)}` : '',
+    s.q6b ? `<b>Copy/USP:</b> ${esc(s.q6b)}` : '',
+    s.q6c ? `<b>Avoid:</b> ${esc(s.q6c)}` : ''
+  ].filter(Boolean).join('<br>') || 'None';
 
   document.getElementById('modal-box').innerHTML = `
-    <h3>${esc(s.name||'(미입력)')}</h3>
+    <h3>${esc(s.name||'(No Name)')}</h3>
     <div class="modal-date">${dateStr} · ID: ${s.id}</div>
     <div class="modal-section">
-      <div class="ms-label">기본 정보</div>
+      <div class="ms-label">Basic Information</div>
       <div class="ms-value">
-        <b>업종:</b> ${esc(s.industry||'—')}<br>
-        <b>브랜드 컬러:</b> ${esc(s.color||'—')}
+        <b>Industry:</b> ${esc(s.industry||'—')}<br>
+        <b>Colors:</b> ${esc(s.color||'—')}
       </div>
     </div>
     <div class="modal-section">
-      <div class="ms-label">디자인 방향</div>
+      <div class="ms-label">Design Mood</div>
       <div class="ms-value">
-        <b>무드:</b> ${s.q1 ? (Q_LABELS.q1[s.q1]||s.q1) : '—'}<br>
-        <b>레이아웃:</b> ${s.q2 ? (Q_LABELS.q2[s.q2]||s.q2) : '—'}<br>
-        <b>핵심 섹션:</b> ${q3val}<br>
-        <b>타이포:</b> ${s.q4 ? (Q_LABELS.q4[s.q4]||s.q4) : '—'}<br>
-        <b>인터랙션:</b> ${s.q5 ? (Q_LABELS.q5[s.q5]||s.q5) : '—'}
+        <b>Mood:</b> ${s.q1 ? (Q_LABELS.q1[s.q1]||s.q1) : '—'}<br>
+        <b>Layout:</b> ${s.q2 ? (Q_LABELS.q2[s.q2]||s.q2) : '—'}<br>
+        <b>Sections:</b> ${q3val}<br>
+        <b>Typo:</b> ${s.q4 ? (Q_LABELS.q4[s.q4]||s.q4) : '—'}<br>
+        <b>Interaction:</b> ${s.q5 ? (Q_LABELS.q5[s.q5]||s.q5) : '—'}
       </div>
     </div>
     <div class="modal-section">
-      <div class="ms-label">추가 요구사항</div>
+      <div class="ms-label">Requirements</div>
       <div class="ms-value" style="line-height:1.9">${q6}</div>
     </div>
-    <button class="modal-close" onclick="closeModal()">닫기</button>
+    <button class="modal-close" onclick="closeModal()">Close</button>
   `;
   document.getElementById('modal').classList.add('open');
 };
 
 const Q_LABELS = {
-  q1: { A:'미니멀·모던', B:'럭셔리·프리미엄', C:'따뜻함·친근함', D:'다이내믹·트렌디', E:'신뢰감·전문성', F:'모름' },
-  q2: { A:'풀스크린 히어로', B:'그리드 정보밀도형', C:'매거진형', D:'원페이지 단순형', E:'모름' },
-  q3: { A:'Hero·비주얼', B:'About', C:'Service/Product', D:'Portfolio/Gallery', E:'고객후기', F:'가격표', G:'Process', H:'FAQ', I:'Contact/예약', J:'블로그', K:'위치/오시는길', L:'팀소개', M:'기타', N:'모름' },
-  q4: { A:'산세리프 모던', B:'세리프 우아함', C:'디스플레이 볼드', D:'핸드라이팅·캘리', E:'모름' },
-  q5: { A:'정적·차분함', B:'중간', C:'강함', D:'모름' }
+  q1: { A:'Minimal·Modern', B:'Luxury·Premium', C:'Warm·Friendly', D:'Dynamic·Trendy', E:'Professional·Trusted', F:'N/A' },
+  q2: { A:'Full-screen Hero', B:'Grid Information', C:'Magazine', D:'One-page', E:'N/A' },
+  q3: { A:'Hero·Visual', B:'About', C:'Service/Product', D:'Portfolio/Gallery', E:'Testimonials', F:'Pricing', G:'Process', H:'FAQ', I:'Contact/Booking', J:'Blog', K:'Location', L:'Team', M:'Others', N:'N/A' },
+  q4: { A:'Modern Sans', B:'Elegant Serif', C:'Bold Display', D:'Handwriting', E:'N/A' },
+  q5: { A:'Static', B:'Medium', C:'Strong', D:'N/A' }
 };
 
 function esc(s) {
