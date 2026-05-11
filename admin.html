@@ -121,8 +121,7 @@
         const adminContent = document.getElementById('admin-content');
 
         const ADMIN_EMAIL = '31choichoi@gmail.com';
-        const ADMIN_PW_EN = 'dnjfcjs';
-        const ADMIN_PW_KR = '월천';
+        const ADMIN_PW = '7777';
 
         let unsubscribe = null;
         let lastInquiryId = null;
@@ -196,8 +195,8 @@
 
         // Check password first
         function checkPassword() {
-            const inputVal = passwordInput.value.trim().toLowerCase();
-            if (inputVal === ADMIN_PW_EN || inputVal === ADMIN_PW_KR) {
+            const inputVal = passwordInput.value.trim();
+            if (inputVal === ADMIN_PW) {
                 passwordGate.classList.add('hidden');
                 adminContent.classList.remove('hidden');
                 localStorage.setItem('admin_access', 'true');
