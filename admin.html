@@ -21,9 +21,9 @@
             </div>
             <span class="font-bold tracking-tight text-lg">Admin Dashboard</span>
         </div>
-        <div id="auth-section" class="flex items-center gap-4">
-            <span id="user-name" class="text-sm opacity-80 hidden md:block"></span>
-            <button id="auth-btn" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-[4px] text-sm font-semibold transition-colors">
+        <div id="auth-section" class="flex items-center gap-2 sm:gap-4">
+            <span id="user-name" class="text-[10px] sm:text-sm opacity-80 max-w-[120px] sm:max-w-none truncate"></span>
+            <button id="auth-btn" class="bg-white/10 hover:bg-white/20 px-3 py-1.5 sm:px-4 sm:py-2 rounded-[4px] text-[10px] sm:text-sm font-semibold transition-colors shrink-0">
                 로그인 중...
             </button>
         </div>
@@ -122,6 +122,48 @@
 
         const ADMIN_EMAIL = '31choichoi@gmail.com';
         const ADMIN_PW = '7777';
+
+        const SURVEY_MAP = {
+            q1: {
+                title: '디자인 무드',
+                A: '미니멀 · 모던',
+                B: '럭셔리 · 프리미엄',
+                C: '따뜻함 · 친근함',
+                D: '다이나믹 · 트렌디',
+                E: '프로페셔널 · 신뢰',
+                F: '잘 모르겠음'
+            },
+            q2: {
+                title: '레이아웃 스타일',
+                A: '전체 화면 히어로 + 스토리텔링형',
+                B: '그리드 기반 정보 전달',
+                C: '매거진 스타일',
+                D: '원페이지 심플 랜딩',
+                E: '잘 모르겠음'
+            },
+            q3: {
+                title: '핵심 섹션',
+                A: '히어로', B: '회사소개', C: '서비스/프로젝트', D: '포트폴리오',
+                E: '고객 후기', F: '가격 표', G: '진행 프로세스', H: 'FAQ',
+                I: '문의/예약 폼', J: '블로그', K: '위치/지도', L: '팀원',
+                M: '기타', N: '추천'
+            },
+            q4: {
+                title: '타이포그래피',
+                A: '모던 고딕',
+                B: '우아한 세리프',
+                C: '볼드 디스플레이',
+                D: '핸드라이팅',
+                E: '잘 모르겠음'
+            },
+            q5: {
+                title: '인터랙션 강도',
+                A: '정적임 · 차분함',
+                B: '중간',
+                C: '강함',
+                D: '잘 모르겠음'
+            }
+        };
 
         let inquiryUnsubscribe = null;
         let requestUnsubscribe = null;
@@ -225,7 +267,7 @@
         function handleAuth() {
             onAuthStateChanged(auth, (user) => {
                 if (user) {
-                    userNameSpan.textContent = user.displayName;
+                    userNameSpan.textContent = `${user.displayName} (${user.email})`;
                     userNameSpan.classList.remove('hidden');
                     authBtn.textContent = '로그아웃';
                     
@@ -234,13 +276,14 @@
                         loadData();
                     } else {
                         inquiryList.innerHTML = '';
+                        const noAccessMsg = noAccess.querySelector('p');
+                        if (noAccessMsg) noAccessMsg.textContent = `현재 계정(${user.email})은 관리자 권한이 없습니다.`;
                         noAccess.classList.remove('hidden');
                     }
                 } else {
                     userNameSpan.classList.add('hidden');
                     authBtn.textContent = 'Google 로그인';
                     inquiryList.innerHTML = '';
-                    // Removed automatic signInWithPopup to prevent browser blocking and multiple popup errors
                 }
             });
         }
@@ -382,31 +425,72 @@
                 hour: '2-digit', minute: '2-digit' 
             });
 
+            const mood = SURVEY_MAP.q1[data.q1] || data.q1 || '—';
+            const layout = SURVEY_MAP.q2[data.q2] || data.q2 || '—';
+            const typo = SURVEY_MAP.q4[data.q4] || data.q4 || '—';
+            const interaction = SURVEY_MAP.q5[data.q5] || data.q5 || '—';
+            
+            // Handle multi-select Q3
+            const sections = (data.q3 || []).map(code => SURVEY_MAP.q3[code] || code).join(', ') || '—';
+
             div.innerHTML = `
-                <div class="flex-1">
+                <div class="flex-1 w-full overflow-hidden">
                     <div class="flex flex-wrap items-center gap-3 mb-4">
                         <span class="bg-indigo-50 text-indigo-600 text-xs font-bold px-2 py-1 rounded-sm uppercase tracking-wider">
-                            설계 신청 (Survey)
+                            설계 신청 (Detailed Survey)
                         </span>
                         <span class="text-xs text-slate-400">${dateStr}</span>
                     </div>
-                    <h3 class="text-xl font-bold text-[#0A2540] mb-2">${data.name || '미입력'} / ${data.industry || '미입력'}</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 text-sm text-slate-600">
-                        <div><span class="font-bold text-slate-800">컬러:</span> ${data.color || '—'}</div>
-                        <div><span class="font-bold text-slate-800">무드:</span> ${data.q1 || '—'}</div>
-                        <div><span class="font-bold text-slate-800">레이아웃:</span> ${data.q2 || '—'}</div>
-                        <div><span class="font-bold text-slate-800">폰트:</span> ${data.q4 || '—'}</div>
+                    <h3 class="text-2xl font-bold text-[#0A2540] mb-4">${data.name || '미입력'} / ${data.industry || '미입력'}</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 mb-6 p-5 bg-slate-50 rounded-xl border border-slate-100">
+                        <div class="flex flex-col gap-1">
+                            <span class="text-[11px] font-bold text-indigo-500 uppercase">브랜드 컬러</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm text-slate-800 font-medium">${data.color || '—'}</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <span class="text-[11px] font-bold text-indigo-500 uppercase">디자인 무드</span>
+                            <span class="text-sm text-slate-800 font-medium">${mood}</span>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <span class="text-[11px] font-bold text-indigo-500 uppercase">레이아웃 스타일</span>
+                            <span class="text-sm text-slate-800 font-medium">${layout}</span>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <span class="text-[11px] font-bold text-indigo-500 uppercase">타이포그래피</span>
+                            <span class="text-sm text-slate-800 font-medium">${typo}</span>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <span class="text-[11px] font-bold text-indigo-500 uppercase">인터랙션 강도</span>
+                            <span class="text-sm text-slate-800 font-medium">${interaction}</span>
+                        </div>
+                        <div class="flex flex-col gap-1 md:col-span-2">
+                            <span class="text-[11px] font-bold text-indigo-500 uppercase">핵심 섹션</span>
+                            <span class="text-sm text-slate-800 font-medium">${sections}</span>
+                        </div>
                     </div>
-                    <div class="bg-indigo-50 p-4 rounded-md text-sm text-slate-700 whitespace-pre-wrap leading-relaxed">
-                        <p class="font-bold mb-1 text-indigo-900 border-b border-indigo-100 pb-1">요청사항 / 참고사이트</p>
-                        ${data.q6a ? 'URL: ' + data.q6a + '\n' : ''}
-                        ${data.q6b ? '메시지: ' + data.q6b + '\n' : ''}
-                        ${data.q6c ? '기피요소: ' + data.q6c : ''}
+
+                    <div class="space-y-4">
+                        <div class="bg-indigo-50/50 p-4 rounded-lg text-sm text-slate-700 leading-relaxed border-l-2 border-indigo-200">
+                            <p class="font-bold mb-2 text-indigo-900 text-xs">A. 참고 사이트 URL</p>
+                            <div class="text-slate-600 break-all">${data.q6a ? data.q6a : '<span class="text-slate-400">내용 없음</span>'}</div>
+                        </div>
+                        <div class="bg-indigo-50/50 p-4 rounded-lg text-sm text-slate-700 leading-relaxed border-l-2 border-indigo-200">
+                            <p class="font-bold mb-2 text-indigo-900 text-xs">B. 핵심 메시지 / 카피</p>
+                            <div class="text-slate-600">${data.q6b ? data.q6b : '<span class="text-slate-400">내용 없음</span>'}</div>
+                        </div>
+                        <div class="bg-indigo-50/50 p-4 rounded-lg text-sm text-slate-700 leading-relaxed border-l-2 border-indigo-200">
+                            <p class="font-bold mb-2 text-indigo-900 text-xs">C. 피하고 싶은 스타일</p>
+                            <div class="text-slate-600">${data.q6c ? data.q6c : '<span class="text-slate-400">내용 없음</span>'}</div>
+                        </div>
                     </div>
                 </div>
-                <div class="flex md:flex-col justify-end gap-2 shrink-0">
-                    <button class="delete-btn bg-red-50 text-red-500 hover:bg-red-100 p-2 rounded transition-colors" data-id="${id}" data-type="requests">
+                <div class="flex md:flex-col justify-end gap-2 shrink-0 border-t md:border-t-0 md:border-l border-slate-100 pt-4 md:pt-0 md:pl-4">
+                    <button class="delete-btn bg-red-50 text-red-500 hover:bg-red-100 p-3 rounded-lg transition-colors flex items-center justify-center gap-2 md:w-full" data-id="${id}" data-type="requests">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                        <span class="md:hidden font-bold">삭제</span>
                     </button>
                 </div>
             `;
@@ -426,7 +510,7 @@
 
         function createInquiryCard(id, data) {
             const div = document.createElement('div');
-            div.className = 'inquiry-card bg-white border border-slate-200 rounded-lg p-6 sm:p-8 flex flex-col md:flex-row gap-6';
+            div.className = 'inquiry-card bg-white border border-slate-200 rounded-lg p-6 sm:p-8 flex flex-col md:flex-row gap-6 border-l-4 border-l-blue-500';
             
             const date = data.createdAt?.toDate ? data.createdAt.toDate() : new Date();
             const dateStr = date.toLocaleString('ko-KR', { 
@@ -435,32 +519,39 @@
             });
 
             div.innerHTML = `
-                <div class="flex-1">
+                <div class="flex-1 w-full overflow-hidden">
                     <div class="flex flex-wrap items-center gap-3 mb-4">
                         <span class="bg-blue-50 text-blue-600 text-xs font-bold px-2 py-1 rounded-sm uppercase tracking-wider">
-                            ${data.type || 'Unknown'}
+                            ${data.type || '일반 문의'}
                         </span>
                         <span class="text-xs text-slate-400">${dateStr}</span>
                     </div>
-                    <h3 class="text-xl font-bold text-[#0A2540] mb-2">${data.company}</h3>
-                    <div class="flex flex-wrap gap-x-6 gap-y-2 mb-6">
-                        <div class="flex items-center gap-2 text-sm text-slate-600">
-                            <span class="font-bold text-slate-800">담당자:</span> ${data.name}
+                    <h3 class="text-2xl font-bold text-[#0A2540] mb-4">${data.company}</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 p-4 bg-slate-50 rounded-lg border border-slate-100">
+                        <div class="flex flex-col">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase mb-1">담당자</span>
+                            <span class="text-sm text-slate-800 font-semibold">${data.name}</span>
                         </div>
-                        <div class="flex items-center gap-2 text-sm text-slate-600">
-                            <span class="font-bold text-slate-800">연락처:</span> ${data.phone}
+                        <div class="flex flex-col">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase mb-1">연락처</span>
+                            <span class="text-sm text-slate-800 font-semibold">${data.phone}</span>
                         </div>
-                        <div class="flex items-center gap-2 text-sm text-slate-600">
-                            <span class="font-bold text-slate-800">이메일:</span> ${data.email}
+                        <div class="flex flex-col">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase mb-1">이메일</span>
+                            <span class="text-sm text-slate-800 font-semibold break-all">${data.email}</span>
                         </div>
                     </div>
-                    <div class="bg-slate-50 p-4 rounded-md text-sm text-slate-700 whitespace-pre-wrap leading-relaxed border-l-4 border-slate-200">
-                        ${data.content}
+
+                    <div class="bg-white p-5 rounded-lg text-sm text-slate-700 whitespace-pre-wrap leading-relaxed border border-slate-100 shadow-sm overflow-hidden">
+                        <p class="font-bold mb-3 text-slate-800 border-b border-slate-100 pb-2">문의 내용</p>
+                        <div class="break-words">${data.content}</div>
                     </div>
                 </div>
-                <div class="flex md:flex-col justify-end gap-2 shrink-0">
-                    <button class="delete-btn bg-red-50 text-red-500 hover:bg-red-100 p-2 rounded transition-colors" data-id="${id}">
+                <div class="flex md:flex-col justify-end gap-2 shrink-0 border-t md:border-t-0 md:border-l border-slate-100 pt-4 md:pt-0 md:pl-4">
+                    <button class="delete-btn bg-red-50 text-red-500 hover:bg-red-100 p-3 rounded-lg transition-colors flex items-center justify-center gap-2 md:w-full" data-id="${id}">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                        <span class="md:hidden font-bold">삭제</span>
                     </button>
                 </div>
             `;

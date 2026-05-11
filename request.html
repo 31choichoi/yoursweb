@@ -1017,49 +1017,49 @@ window.closeModal = (e) => {
 
 window.openModal = (s) => {
   const date = s.timestamp?.toDate ? s.timestamp.toDate() : new Date();
-  const dateStr = date.toLocaleString('en-US');
+  const dateStr = date.toLocaleString('ko-KR');
   const q3val = (s.q3||[]).map(k => Q_LABELS.q3[k]||k).join(', ') || '—';
   const q6 = [
-    s.q6a ? `<b>Ref URL:</b> ${esc(s.q6a)}` : '',
-    s.q6b ? `<b>Copy/USP:</b> ${esc(s.q6b)}` : '',
-    s.q6c ? `<b>Avoid:</b> ${esc(s.q6c)}` : ''
-  ].filter(Boolean).join('<br>') || 'None';
+    s.q6a ? `<b>A. 참고 사이트:</b> ${esc(s.q6a)}` : '',
+    s.q6b ? `<b>B. 핵심 메시지:</b> ${esc(s.q6b)}` : '',
+    s.q6c ? `<b>C. 피하고 싶은 스타일:</b> ${esc(s.q6c)}` : ''
+  ].filter(Boolean).join('<br>') || '없음';
 
   document.getElementById('modal-box').innerHTML = `
-    <h3>${esc(s.name||'(No Name)')}</h3>
+    <h3>${esc(s.name||'(성함 없음)')}</h3>
     <div class="modal-date">${dateStr} · ID: ${s.id}</div>
     <div class="modal-section">
-      <div class="ms-label">Basic Information</div>
+      <div class="ms-label">기본 정보</div>
       <div class="ms-value">
-        <b>Industry:</b> ${esc(s.industry||'—')}<br>
-        <b>Colors:</b> ${esc(s.color||'—')}
+        <b>업종:</b> ${esc(s.industry||'—')}<br>
+        <b>컬러:</b> ${esc(s.color||'—')}
       </div>
     </div>
     <div class="modal-section">
-      <div class="ms-label">Design Mood</div>
+      <div class="ms-label">디자인 설문</div>
       <div class="ms-value">
-        <b>Mood:</b> ${s.q1 ? (Q_LABELS.q1[s.q1]||s.q1) : '—'}<br>
-        <b>Layout:</b> ${s.q2 ? (Q_LABELS.q2[s.q2]||s.q2) : '—'}<br>
-        <b>Sections:</b> ${q3val}<br>
-        <b>Typo:</b> ${s.q4 ? (Q_LABELS.q4[s.q4]||s.q4) : '—'}<br>
-        <b>Interaction:</b> ${s.q5 ? (Q_LABELS.q5[s.q5]||s.q5) : '—'}
+        <b>무드:</b> ${s.q1 ? (Q_LABELS.q1[s.q1]||s.q1) : '—'}<br>
+        <b>레이아웃:</b> ${s.q2 ? (Q_LABELS.q2[s.q2]||s.q2) : '—'}<br>
+        <b>선택 섹션:</b> ${q3val}<br>
+        <b>타이포:</b> ${s.q4 ? (Q_LABELS.q4[s.q4]||s.q4) : '—'}<br>
+        <b>인터랙션:</b> ${s.q5 ? (Q_LABELS.q5[s.q5]||s.q5) : '—'}
       </div>
     </div>
     <div class="modal-section">
-      <div class="ms-label">Requirements</div>
+      <div class="ms-label">추가 요구사항</div>
       <div class="ms-value" style="line-height:1.9">${q6}</div>
     </div>
-    <button class="modal-close" onclick="closeModal()">Close</button>
+    <button class="modal-close" onclick="closeModal()">닫기</button>
   `;
   document.getElementById('modal').classList.add('open');
 };
 
 const Q_LABELS = {
-  q1: { A:'Minimal·Modern', B:'Luxury·Premium', C:'Warm·Friendly', D:'Dynamic·Trendy', E:'Professional·Trusted', F:'N/A' },
-  q2: { A:'Full-screen Hero', B:'Grid Information', C:'Magazine', D:'One-page', E:'N/A' },
-  q3: { A:'Hero·Visual', B:'About', C:'Service/Product', D:'Portfolio/Gallery', E:'Testimonials', F:'Pricing', G:'Process', H:'FAQ', I:'Contact/Booking', J:'Blog', K:'Location', L:'Team', M:'Others', N:'N/A' },
-  q4: { A:'Modern Sans', B:'Elegant Serif', C:'Bold Display', D:'Handwriting', E:'N/A' },
-  q5: { A:'Static', B:'Medium', C:'Strong', D:'N/A' }
+  q1: { A:'미니멀 · 모던', B:'럭셔리 · 프리미엄', C:'따뜻함 · 친근함', D:'다이나믹 · 트렌디', E:'프로페셔널 · 신뢰', F:'잘 모르겠음' },
+  q2: { A:'전체 화면 히어로 + 스토리텔링형', B:'그리드 기반 정보 전달', C:'매거진 스타일', D:'원페이지 심플 랜딩', E:'잘 모르겠음' },
+  q3: { A:'히어로', B:'회사소개', C:'서비스/프로젝트', D:'포트폴리오', E:'고객 후기', F:'가격 표', G:'진행 프로세스', H:'FAQ', I:'문의/예약 폼', J:'블로그', K:'위치/지도', L:'팀원', M:'기타', N:'추천' },
+  q4: { A:'모던 고딕', B:'우아한 세리프', C:'볼드 디스플레이', D:'핸드라이팅', E:'잘 모르겠음' },
+  q5: { A:'정적임 · 차분함', B:'중간', C:'강함', D:'잘 모르겠음' }
 };
 
 function esc(s) {
