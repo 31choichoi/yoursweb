@@ -252,6 +252,10 @@
         let isInitialLoad = true;
         let currentTab = 'all';
 
+        let allInquiries = [];
+        let allRequests = [];
+        let allPortfolio = [];
+
         // Tab Logic
         function setTab(tab) {
             currentTab = tab;
@@ -557,10 +561,6 @@
                 showError("상세 설문 불러오기 실패: " + error.message);
             });
         }
-
-        let allInquiries = [];
-        let allRequests = [];
-        let allPortfolio = [];
 
         function renderAll() {
             inquiryList.innerHTML = '';
