@@ -106,6 +106,10 @@
                             <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">보조 설명 (선택)</label>
                             <input type="text" id="p-subtitle" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-accent focus:outline-none transition-all" placeholder="예: 브랜드 고유의 가치를 웹에 담았습니다.">
                         </div>
+                        <div class="md:col-span-2 flex items-center gap-2">
+                            <input type="checkbox" id="p-pinned" class="w-4 h-4 text-[#3B6EFF] border-slate-300 rounded focus:ring-[#3B6EFF]">
+                            <label for="p-pinned" class="text-xs font-bold text-slate-600 uppercase tracking-wider cursor-pointer">최상단 고정 (Pin to Top)</label>
+                        </div>
                         <div class="md:col-span-2 flex justify-end">
                             <button type="submit" class="bg-[#3B6EFF] text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-600 transition-all flex items-center gap-2">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
@@ -483,17 +487,29 @@
             portfolioGrid.innerHTML = '';
             portfolioCount.textContent = allPortfolio.length;
 
-            allPortfolio.forEach(item => {
+            // Sort by pinned first, then date
+            const sortedPortfolio = [...allPortfolio].sort((a, b) => {
+                if (a.data.isPinned && !b.data.isPinned) return -1;
+                if (!a.data.isPinned && b.data.isPinned) return 1;
+                return (b.data.createdAt?.toDate() || 0) - (a.data.createdAt?.toDate() || 0);
+            });
+
+            sortedPortfolio.forEach(item => {
                 const div = document.createElement('div');
-                div.className = 'bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm group';
+                const isPinned = item.data.isPinned === true;
+                div.className = `bg-white rounded-lg border ${isPinned ? 'border-[#3B6EFF] ring-1 ring-[#3B6EFF]/20' : 'border-slate-200'} overflow-hidden shadow-sm group relative`;
                 div.innerHTML = `
                     <div class="aspect-square bg-slate-100 overflow-hidden relative">
                         <img src="${item.data.imageUrl}" class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110" onerror="this.src='https://via.placeholder.com/400?text=Invalid+Image';">
                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                             <button class="pin-p-btn p-2 ${isPinned ? 'bg-[#3B6EFF]' : 'bg-white/20 hover:bg-white/40'} text-white rounded-full transition-colors" data-id="${item.id}" title="${isPinned ? '고정 해제' : '상단 고정'}">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+                             </button>
                              <button class="delete-p-btn p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors" data-id="${item.id}">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                              </button>
                         </div>
+                        ${isPinned ? '<div class="absolute top-2 left-2 bg-[#3B6EFF] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-sm uppercase tracking-tighter">Pinned</div>' : ''}
                     </div>
                     <div class="p-4">
                         <div class="text-[10px] font-bold text-brand-accent uppercase mb-1">${item.data.category}</div>
@@ -502,6 +518,14 @@
                     </div>
                 `;
                 
+                div.querySelector('.pin-p-btn').onclick = async () => {
+                    try {
+                        await updateDoc(doc(db, 'portfolio', item.id), {
+                            isPinned: !isPinned
+                        });
+                    } catch (err) { alert('업데이트 실패: ' + err.message); }
+                };
+
                 div.querySelector('.delete-p-btn').onclick = async () => {
                     if (confirm('이 포트폴리오를 삭제하시겠습니까?')) {
                         try {
@@ -527,6 +551,7 @@
                     imageUrl: document.getElementById('p-image').value,
                     link: document.getElementById('p-link').value || '',
                     subtitle: document.getElementById('p-subtitle').value || '',
+                    isPinned: document.getElementById('p-pinned').checked,
                     createdAt: serverTimestamp()
                 });
                 portfolioForm.reset();

@@ -46,6 +46,7 @@
         "imageUrl": { "type": "string" },
         "category": { "type": "string", "enum": ["commercial", "brand", "platform"] },
         "link": { "type": "string" },
+        "isPinned": { "type": "boolean" },
         "createdAt": { "type": "string", "format": "date-time" }
       },
       "required": ["title", "imageUrl", "category", "createdAt"]

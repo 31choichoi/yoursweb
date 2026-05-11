@@ -561,21 +561,32 @@
         const q = query(collection(db, 'portfolio'), orderBy('createdAt', 'desc'));
         
         onSnapshot(q, (snapshot) => {
+            const items = [];
+            snapshot.forEach(docSnap => items.push({ id: docSnap.id, ...docSnap.data() }));
+
+            // Sort: Pinned first, then by date
+            items.sort((a, b) => {
+                if (a.isPinned && !b.isPinned) return -1;
+                if (!a.isPinned && b.isPinned) return 1;
+                return (b.createdAt?.toDate() || 0) - (a.createdAt?.toDate() || 0);
+            });
+
             galleryGrid.innerHTML = '';
             loadingState.classList.add('hidden');
             dynamicCount.textContent = snapshot.size;
 
-            snapshot.forEach(docSnap => {
-                const data = docSnap.data();
+            items.forEach(data => {
                 const colMap = { commercial: '커머스', brand: '브랜드', platform: '플랫폼' };
                 
                 const card = document.createElement('div');
-                card.className = 'group reveal active opacity-100 transform-none';
+                const isPinned = data.isPinned === true;
+                card.className = 'group reveal active opacity-100 transform-none relative';
                 card.innerHTML = `
                     <div class="cursor-pointer">
-                        <div class="aspect-square overflow-hidden rounded-xl bg-slate-100 border border-slate-200 mb-4 shadow-sm group-hover:shadow-md transition-all duration-300 gallery-img-container">
+                        <div class="aspect-square overflow-hidden rounded-xl bg-slate-100 border ${isPinned ? 'border-brand-accent ring-1 ring-brand-accent/20' : 'border-slate-200'} mb-4 shadow-sm group-hover:shadow-md transition-all duration-300 gallery-img-container relative">
                             <img src="${data.imageUrl}" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110" 
                                  referrerpolicy="no-referrer" alt="${data.title}">
+                            ${isPinned ? '<div class="absolute top-2 left-2 bg-brand-accent text-white text-[9px] font-bold px-1.5 py-0.5 rounded-sm uppercase tracking-tighter z-10">Pinned</div>' : ''}
                         </div>
                         <div class="px-1">
                             <span class="text-[10px] font-bold text-brand-accent uppercase tracking-wider mb-1 block">${colMap[data.category] || data.category}</span>
