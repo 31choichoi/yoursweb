@@ -202,12 +202,14 @@
         </section>
 
         <!-- Image Popup Modal -->
-        <div id="image-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-brand-navy/95 cursor-zoom-out p-4 md:p-10">
-            <div class="relative max-w-7xl max-h-full flex items-center justify-center">
-                <img id="modal-img" src="" alt="Portfolio Detail" class="max-w-full max-h-[90vh] object-contain rounded-sm shadow-2xl cursor-default border border-white/10">
-                <button id="modal-close" class="absolute -top-12 right-0 text-white hover:text-brand-accent transition-colors">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                </button>
+        <div id="image-modal" class="fixed inset-0 z-[100] hidden bg-brand-navy/95 overflow-y-auto cursor-zoom-out">
+            <div class="min-h-screen w-full flex items-start justify-center">
+                <div class="relative w-full">
+                    <img id="modal-img" src="" alt="Portfolio Detail" class="w-full h-auto block shadow-2xl">
+                    <button id="modal-close" class="fixed top-6 right-6 text-white bg-black/40 hover:bg-brand-accent p-2 rounded-full transition-colors z-[110] backdrop-blur-md">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -554,7 +556,6 @@
 
         imageModal.onclick = closeModal;
         modalClose.onclick = closeModal;
-        modalImg.onclick = (e) => e.stopPropagation();
 
         const q = query(collection(db, 'portfolio'), orderBy('createdAt', 'desc'));
         
