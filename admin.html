@@ -23,9 +23,14 @@
         </div>
         <div id="auth-section" class="flex items-center gap-2 sm:gap-4">
             <span id="user-name" class="text-[10px] sm:text-sm opacity-80 max-w-[120px] sm:max-w-none truncate"></span>
-            <button id="auth-btn" class="bg-white/10 hover:bg-white/20 px-3 py-1.5 sm:px-4 sm:py-2 rounded-[4px] text-[10px] sm:text-sm font-semibold transition-colors shrink-0">
-                로그인 중...
-            </button>
+            <div class="flex gap-1 sm:gap-2">
+                <button id="auth-btn" class="bg-white/10 hover:bg-white/20 px-3 py-1.5 sm:px-4 sm:py-2 rounded-[4px] text-[10px] sm:text-sm font-semibold transition-colors shrink-0">
+                    로그인 중...
+                </button>
+                <button id="auth-redirect-btn" class="hidden bg-white/10 hover:bg-white/20 px-3 py-1.5 sm:px-4 sm:py-2 rounded-[4px] text-[10px] sm:text-sm font-semibold transition-colors shrink-0">
+                    리다이렉트 로그인
+                </button>
+            </div>
         </div>
     </nav>
 
@@ -49,13 +54,23 @@
     <main id="admin-content" class="max-w-7xl mx-auto px-6 py-12 hidden">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
-                <h1 class="text-3xl font-bold text-[#0A2540] mb-2">프로젝트 문의 내역</h1>
-                <p class="text-slate-500">유어스웹에 접수된 모든 문의를 관리합니다.</p>
+                <h1 class="text-3xl font-bold text-[#0A2540] mb-2 leading-tight">프로젝트 문의 관리</h1>
+                <p class="text-slate-500 text-sm sm:text-base">유어스웹에 접수된 모든 문의를 체계적으로 관리합니다.</p>
             </div>
-            <div class="bg-white p-2 rounded-lg border border-slate-200 flex items-center gap-2">
-                <span id="inquiry-count" class="bg-[#3B6EFF] text-white text-xs font-bold px-2 py-1 rounded-full">0</span>
-                <span class="text-sm font-medium text-slate-600 pr-2">Total Inquiries</span>
+            
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div class="flex bg-white rounded-lg p-1 border border-slate-200 shadow-sm w-full sm:w-auto overflow-x-auto whitespace-nowrap scrollbar-hide">
+                    <button id="tab-all" class="flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-md transition-all bg-[#3B6EFF] text-white">전체</button>
+                    <button id="tab-inquiry" class="flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-md transition-all text-slate-500 hover:text-slate-700">유지보수 · 일반 문의</button>
+                    <button id="tab-request" class="flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-md transition-all text-slate-500 hover:text-slate-700">상세 설계 설문</button>
+                </div>
+                <div class="bg-white p-2 px-4 rounded-lg border border-slate-200 flex items-center gap-2 shadow-sm w-full sm:w-auto justify-center">
+                    <span id="inquiry-count" class="bg-[#3B6EFF] text-white text-xs font-bold px-2 py-1 rounded-full">0</span>
+                    <span class="text-xs font-medium text-slate-600">건 접수됨</span>
+                </div>
             </div>
+            <!-- Error Alert Area -->
+            <div id="error-alert" class="hidden mt-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-600 text-xs sm:text-sm"></div>
         </div>
 
         <!-- Inquiry List -->
@@ -90,7 +105,7 @@
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js';
-        import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js';
+        import { getAuth, onAuthStateChanged, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js';
         import { getFirestore, collection, query, orderBy, onSnapshot, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js';
 
         // Fetch config from the secret file (since this is client side, we use the values directly from what we read earlier)
@@ -108,11 +123,17 @@
         const provider = new GoogleAuthProvider();
 
         const authBtn = document.getElementById('auth-btn');
+        const authRedirectBtn = document.getElementById('auth-redirect-btn');
         const userNameSpan = document.getElementById('user-name');
         const inquiryList = document.getElementById('inquiry-list');
         const inquiryCount = document.getElementById('inquiry-count');
         const emptyState = document.getElementById('empty-state');
         const noAccess = document.getElementById('no-access');
+        const errorAlert = document.getElementById('error-alert');
+
+        const tabAll = document.getElementById('tab-all');
+        const tabInquiry = document.getElementById('tab-inquiry');
+        const tabRequest = document.getElementById('tab-request');
 
         const passwordGate = document.getElementById('password-gate');
         const passwordInput = document.getElementById('admin-password');
@@ -170,6 +191,26 @@
         let lastInquiryId = null;
         let lastRequestId = null;
         let isInitialLoad = true;
+        let currentTab = 'all';
+
+        // Tab Logic
+        function setTab(tab) {
+            currentTab = tab;
+            [tabAll, tabInquiry, tabRequest].forEach(btn => {
+                btn.classList.remove('bg-[#3B6EFF]', 'text-white');
+                btn.classList.add('text-slate-500');
+            });
+
+            const activeBtn = tab === 'all' ? tabAll : (tab === 'inquiry' ? tabInquiry : tabRequest);
+            activeBtn.classList.remove('text-slate-500');
+            activeBtn.classList.add('bg-[#3B6EFF]', 'text-white');
+
+            renderAll();
+        }
+
+        tabAll.onclick = () => setTab('all');
+        tabInquiry.onclick = () => setTab('inquiry');
+        tabRequest.onclick = () => setTab('request');
 
         // Notification Sound (Simple Beep)
         function playNotificationSound() {
@@ -265,12 +306,19 @@
         }
 
         function handleAuth() {
+            // Check for redirect result first
+            getRedirectResult(auth).catch(err => {
+                showError("리다이렉트 결과 처리 중: " + err.message);
+            });
+
             onAuthStateChanged(auth, (user) => {
                 if (user) {
                     userNameSpan.textContent = `${user.displayName} (${user.email})`;
                     userNameSpan.classList.remove('hidden');
                     authBtn.textContent = '로그아웃';
+                    authRedirectBtn.classList.add('hidden');
                     
+                    adminContent.classList.remove('hidden'); // Ensure visible
                     if (user.email === ADMIN_EMAIL) {
                         noAccess.classList.add('hidden');
                         loadData();
@@ -282,10 +330,23 @@
                     }
                 } else {
                     userNameSpan.classList.add('hidden');
-                    authBtn.textContent = 'Google 로그인';
+                    authBtn.textContent = 'Google 로그인 (팝업)';
+                    authRedirectBtn.classList.remove('hidden');
+                    authRedirectBtn.textContent = 'Google 로그인 (리다이렉트)';
                     inquiryList.innerHTML = '';
+                    
+                    // Show content area so login prompts are visible if they unlocked it
+                    if (localStorage.getItem('admin_access') === 'true') {
+                        adminContent.classList.remove('hidden');
+                    }
                 }
             });
+        }
+
+        function showError(msg) {
+            errorAlert.textContent = msg;
+            errorAlert.classList.remove('hidden');
+            setTimeout(() => errorAlert.classList.add('hidden'), 10000);
         }
 
         if (localStorage.getItem('admin_access') === 'true') handleAuth();
@@ -302,23 +363,26 @@
                     authBtn.disabled = false;
                 }).catch(err => {
                     authBtn.disabled = false;
-                    authBtn.textContent = 'Google 로그인';
+                    authBtn.textContent = 'Google 로그인 (팝업)';
                     console.error("Login failed:", err);
                     
                     let errorMsg = "로그인 중 오류가 발생했습니다.";
                     if (err.code === 'auth/popup-blocked') {
-                        errorMsg = "팝업이 차단되었습니다. 브라우저 설정에서 팝업을 허용해주세요.";
+                        errorMsg = "팝업이 차단되었습니다. 모바일이라면 아래 '리다이렉트' 버튼을 사용해보세요.";
                     } else if (err.code === 'auth/unauthorized-domain') {
-                        errorMsg = "승인되지 않은 도메인입니다. Firebase Console에서 현재 도메인을 '승인된 도메인'에 추가해야 합니다.\n현재 도메인: " + window.location.hostname;
-                    } else if (err.code === 'auth/popup-closed-by-user') {
-                        errorMsg = "로그인 창이 닫혔습니다. 다시 시도해주세요.";
-                    } else if (err.code === 'auth/cancelled-popup-request') {
-                        errorMsg = "이미 로그인 창이 열려있습니다.";
+                        errorMsg = "승인되지 않은 도메인입니다.";
+                    } else {
+                        errorMsg = err.message;
                     }
                     
-                    alert(errorMsg + "\n(Error Code: " + err.code + ")");
+                    showError(errorMsg);
+                    alert(errorMsg);
                 });
             }
+        });
+
+        authRedirectBtn.addEventListener('click', () => {
+            signInWithRedirect(auth, provider);
         });
 
         function loadData() {
@@ -330,10 +394,10 @@
             const q = query(collection(db, 'inquiries'), orderBy('createdAt', 'desc'));
             
             inquiryUnsubscribe = onSnapshot(q, (snapshot) => {
-                // We'll manage two lists, so we need a containers
                 renderInquiries(snapshot);
             }, (error) => {
                 console.error("Inquiries error:", error);
+                showError("일반 문의 불러오기 실패: " + error.message);
                 if (error.message.includes('permission')) noAccess.classList.remove('hidden');
             });
         }
@@ -345,6 +409,7 @@
                 renderRequests(snapshot);
             }, (error) => {
                 console.error("Requests error:", error);
+                showError("상세 설문 불러오기 실패: " + error.message);
             });
         }
 
@@ -354,26 +419,56 @@
         function renderAll() {
             inquiryList.innerHTML = '';
             
-            const combined = [
-                ...allInquiries.map(item => ({ ...item, sortDate: item.data.createdAt?.toDate() || new Date(0), type: 'inquiry' })),
-                ...allRequests.map(item => ({ ...item, sortDate: item.data.timestamp?.toDate() || new Date(0), type: 'request' }))
-            ].sort((a, b) => b.sortDate - a.sortDate);
+            let filteredInquiries = [...allInquiries].sort((a, b) => (b.data.createdAt?.toDate() || 0) - (a.data.createdAt?.toDate() || 0));
+            let filteredRequests = [...allRequests].sort((a, b) => (b.data.timestamp?.toDate() || 0) - (a.data.timestamp?.toDate() || 0));
 
-            inquiryCount.textContent = combined.length;
+            const showInquiry = currentTab === 'all' || currentTab === 'inquiry';
+            const showRequest = currentTab === 'all' || currentTab === 'request';
 
-            if (combined.length === 0) {
+            inquiryCount.textContent = (showInquiry ? filteredInquiries.length : 0) + (showRequest ? filteredRequests.length : 0);
+
+            if (filteredInquiries.length === 0 && filteredRequests.length === 0) {
                 emptyState.classList.remove('hidden');
                 return;
             }
             
             emptyState.classList.add('hidden');
-            
-            combined.forEach(item => {
-                const card = item.type === 'inquiry' ? 
-                    createInquiryCard(item.id, item.data) : 
-                    createRequestCard(item.id, item.data);
-                inquiryList.appendChild(card);
-            });
+
+            // Render Requests Board
+            if (showRequest && filteredRequests.length > 0) {
+                const section = document.createElement('div');
+                section.className = 'mb-16';
+                section.innerHTML = `
+                    <div class="flex items-center gap-3 mb-6 pb-2 border-b-2 border-indigo-500">
+                        <h2 class="text-xl font-bold text-[#0A2540]">상세 설계 설문 게시판</h2>
+                        <span class="bg-indigo-100 text-indigo-600 text-xs font-bold px-2 py-0.5 rounded-full">${filteredRequests.length}</span>
+                    </div>
+                    <div class="grid gap-6" id="request-board-list"></div>
+                `;
+                inquiryList.appendChild(section);
+                const listContainer = section.querySelector('#request-board-list');
+                filteredRequests.forEach(item => {
+                    listContainer.appendChild(createRequestCard(item.id, item.data));
+                });
+            }
+
+            // Render Inquiries Board
+            if (showInquiry && filteredInquiries.length > 0) {
+                const section = document.createElement('div');
+                section.className = 'mb-16';
+                section.innerHTML = `
+                    <div class="flex items-center gap-3 mb-6 pb-2 border-b-2 border-blue-500">
+                        <h2 class="text-xl font-bold text-[#0A2540]">유지보수 · 일반 문의 게시판</h2>
+                        <span class="bg-blue-100 text-blue-600 text-xs font-bold px-2 py-0.5 rounded-full">${filteredInquiries.length}</span>
+                    </div>
+                    <div class="grid gap-6" id="inquiry-board-list"></div>
+                `;
+                inquiryList.appendChild(section);
+                const listContainer = section.querySelector('#inquiry-board-list');
+                filteredInquiries.forEach(item => {
+                    listContainer.appendChild(createInquiryCard(item.id, item.data));
+                });
+            }
         }
 
         function renderInquiries(snapshot) {
