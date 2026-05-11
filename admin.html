@@ -123,8 +123,10 @@
         const ADMIN_EMAIL = '31choichoi@gmail.com';
         const ADMIN_PW = '7777';
 
-        let unsubscribe = null;
+        let inquiryUnsubscribe = null;
+        let requestUnsubscribe = null;
         let lastInquiryId = null;
+        let lastRequestId = null;
         let isInitialLoad = true;
 
         // Notification Sound (Simple Beep)
@@ -178,8 +180,8 @@
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
                     </div>
                     <div>
-                        <p class="font-bold">새로운 문의가 도착했습니다!</p>
-                        <p class="text-xs opacity-90">${data.company} - ${data.name}님</p>
+                        <p class="font-bold">🔔 새로운 ${data.type || '문의'} 도착!</p>
+                        <p class="text-xs opacity-90">${data.company || '회사명 없음'} - ${data.name || '성함 없음'}님</p>
                     </div>
                 </div>
                 <button class="mt-2 text-xs font-bold hover:underline self-end">닫기</button>
@@ -229,7 +231,7 @@
                     
                     if (user.email === ADMIN_EMAIL) {
                         noAccess.classList.add('hidden');
-                        loadInquiries();
+                        loadData();
                     } else {
                         inquiryList.innerHTML = '';
                         noAccess.classList.remove('hidden');
@@ -276,43 +278,150 @@
             }
         });
 
+        function loadData() {
+            loadInquiries();
+            loadRequests();
+        }
+
         function loadInquiries() {
             const q = query(collection(db, 'inquiries'), orderBy('createdAt', 'desc'));
             
-            unsubscribe = onSnapshot(q, (snapshot) => {
-                inquiryList.innerHTML = '';
-                inquiryCount.textContent = snapshot.size;
-                
-                if (snapshot.empty) {
-                    emptyState.classList.remove('hidden');
-                    isInitialLoad = false;
-                    return;
-                }
-                
-                emptyState.classList.add('hidden');
-                
-                let newestDoc = null;
-                snapshot.forEach((docSnap) => {
-                    const data = docSnap.data();
-                    if (!newestDoc) newestDoc = { id: docSnap.id, data };
-                    
-                    const card = createInquiryCard(docSnap.id, data);
-                    inquiryList.appendChild(card);
-                });
-
-                // Notify if new inquiry arrives while page is open
-                if (!isInitialLoad && newestDoc && newestDoc.id !== lastInquiryId) {
-                    showNotificationToast(newestDoc.data);
-                }
-                
-                if (newestDoc) lastInquiryId = newestDoc.id;
-                isInitialLoad = false;
+            inquiryUnsubscribe = onSnapshot(q, (snapshot) => {
+                // We'll manage two lists, so we need a containers
+                renderInquiries(snapshot);
             }, (error) => {
-                console.error("Firestore error:", error);
-                if (error.message.includes('permission')) {
-                    noAccess.classList.remove('hidden');
+                console.error("Inquiries error:", error);
+                if (error.message.includes('permission')) noAccess.classList.remove('hidden');
+            });
+        }
+
+        function loadRequests() {
+            const q = query(collection(db, 'requests'), orderBy('timestamp', 'desc'));
+            
+            requestUnsubscribe = onSnapshot(q, (snapshot) => {
+                renderRequests(snapshot);
+            }, (error) => {
+                console.error("Requests error:", error);
+            });
+        }
+
+        let allInquiries = [];
+        let allRequests = [];
+
+        function renderAll() {
+            inquiryList.innerHTML = '';
+            
+            const combined = [
+                ...allInquiries.map(item => ({ ...item, sortDate: item.data.createdAt?.toDate() || new Date(0), type: 'inquiry' })),
+                ...allRequests.map(item => ({ ...item, sortDate: item.data.timestamp?.toDate() || new Date(0), type: 'request' }))
+            ].sort((a, b) => b.sortDate - a.sortDate);
+
+            inquiryCount.textContent = combined.length;
+
+            if (combined.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            
+            emptyState.classList.add('hidden');
+            
+            combined.forEach(item => {
+                const card = item.type === 'inquiry' ? 
+                    createInquiryCard(item.id, item.data) : 
+                    createRequestCard(item.id, item.data);
+                inquiryList.appendChild(card);
+            });
+        }
+
+        function renderInquiries(snapshot) {
+            allInquiries = [];
+            snapshot.forEach(docSnap => {
+                allInquiries.push({ id: docSnap.id, data: docSnap.data() });
+            });
+            
+            const newest = allInquiries[0];
+            if (!isInitialLoad && newest && newest.id !== lastInquiryId) {
+                showNotificationToast({ ...newest.data, type: '일반 문의' });
+                lastInquiryId = newest.id;
+            } else if (isInitialLoad && newest) {
+                lastInquiryId = newest.id;
+            }
+            
+            renderAll();
+        }
+
+        function renderRequests(snapshot) {
+            allRequests = [];
+            snapshot.forEach(docSnap => {
+                allRequests.push({ id: docSnap.id, data: docSnap.data() });
+            });
+            
+            const newest = allRequests[0];
+            if (!isInitialLoad && newest && newest.id !== lastRequestId) {
+                showNotificationToast({ 
+                    company: newest.data.industry || 'Survey', 
+                    name: newest.data.name || 'Anonymous',
+                    type: '설계 신청' 
+                });
+                lastRequestId = newest.id;
+            } else if (isInitialLoad && newest) {
+                lastRequestId = newest.id;
+            }
+
+            renderAll();
+            isInitialLoad = false;
+        }
+
+        function createRequestCard(id, data) {
+            const div = document.createElement('div');
+            div.className = 'inquiry-card bg-white border border-slate-200 rounded-lg p-6 sm:p-8 flex flex-col md:flex-row gap-6 border-l-4 border-l-indigo-500';
+            
+            const date = data.timestamp?.toDate ? data.timestamp.toDate() : new Date();
+            const dateStr = date.toLocaleString('ko-KR', { 
+                year: 'numeric', month: '2-digit', day: '2-digit', 
+                hour: '2-digit', minute: '2-digit' 
+            });
+
+            div.innerHTML = `
+                <div class="flex-1">
+                    <div class="flex flex-wrap items-center gap-3 mb-4">
+                        <span class="bg-indigo-50 text-indigo-600 text-xs font-bold px-2 py-1 rounded-sm uppercase tracking-wider">
+                            설계 신청 (Survey)
+                        </span>
+                        <span class="text-xs text-slate-400">${dateStr}</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-[#0A2540] mb-2">${data.name || '미입력'} / ${data.industry || '미입력'}</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 text-sm text-slate-600">
+                        <div><span class="font-bold text-slate-800">컬러:</span> ${data.color || '—'}</div>
+                        <div><span class="font-bold text-slate-800">무드:</span> ${data.q1 || '—'}</div>
+                        <div><span class="font-bold text-slate-800">레이아웃:</span> ${data.q2 || '—'}</div>
+                        <div><span class="font-bold text-slate-800">폰트:</span> ${data.q4 || '—'}</div>
+                    </div>
+                    <div class="bg-indigo-50 p-4 rounded-md text-sm text-slate-700 whitespace-pre-wrap leading-relaxed">
+                        <p class="font-bold mb-1 text-indigo-900 border-b border-indigo-100 pb-1">요청사항 / 참고사이트</p>
+                        ${data.q6a ? 'URL: ' + data.q6a + '\n' : ''}
+                        ${data.q6b ? '메시지: ' + data.q6b + '\n' : ''}
+                        ${data.q6c ? '기피요소: ' + data.q6c : ''}
+                    </div>
+                </div>
+                <div class="flex md:flex-col justify-end gap-2 shrink-0">
+                    <button class="delete-btn bg-red-50 text-red-500 hover:bg-red-100 p-2 rounded transition-colors" data-id="${id}" data-type="requests">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                    </button>
+                </div>
+            `;
+
+            div.querySelector('.delete-btn').addEventListener('click', async (e) => {
+                if (confirm('이 설계 신청 내역을 정말 삭제하시겠습니까?')) {
+                    try {
+                        await deleteDoc(doc(db, 'requests', id));
+                    } catch (err) {
+                        alert('삭제 실패: ' + err.message);
+                    }
                 }
             });
+
+            return div;
         }
 
         function createInquiryCard(id, data) {
