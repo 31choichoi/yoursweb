@@ -260,6 +260,61 @@
         let allRequests = [];
         let allPortfolio = [];
 
+        let editMode = false;
+        let editingId = null;
+
+        function enterEditMode(item) {
+            editMode = true;
+            editingId = item.id;
+            
+            document.getElementById('p-title').value = item.data.title;
+            document.getElementById('p-category').value = item.data.category;
+            document.getElementById('p-image').value = item.data.imageUrl;
+            document.getElementById('p-link').value = item.data.link || '';
+            document.getElementById('p-subtitle').value = item.data.subtitle || '';
+            document.getElementById('p-pinned').checked = item.data.isPinned || false;
+            
+            document.querySelector('#portfolio-manager h2').textContent = '포트폴리오 수정하기';
+            const submitBtn = portfolioForm.querySelector('button[type="submit"]');
+            submitBtn.innerHTML = `
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                수정 완료
+            `;
+            submitBtn.classList.replace('bg-[#3B6EFF]', 'bg-amber-500');
+            submitBtn.classList.replace('hover:bg-blue-600', 'hover:bg-amber-600');
+            
+            // Add cancel button if not exists
+            if (!document.getElementById('p-cancel')) {
+                const cancelBtn = document.createElement('button');
+                cancelBtn.id = 'p-cancel';
+                cancelBtn.type = 'button';
+                cancelBtn.className = 'ml-2 bg-slate-200 text-slate-600 px-6 py-3 rounded-lg font-bold hover:bg-slate-300 transition-all';
+                cancelBtn.textContent = '취소';
+                cancelBtn.onclick = exitEditMode;
+                submitBtn.parentNode.appendChild(cancelBtn);
+            }
+            
+            document.querySelector('#portfolio-manager').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function exitEditMode() {
+            editMode = false;
+            editingId = null;
+            portfolioForm.reset();
+            
+            document.querySelector('#portfolio-manager h2').textContent = '새 포트폴리오 추가';
+            const submitBtn = portfolioForm.querySelector('button[type="submit"]');
+            submitBtn.innerHTML = `
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+                등록하기
+            `;
+            submitBtn.classList.replace('bg-amber-500', 'bg-[#3B6EFF]');
+            submitBtn.classList.replace('hover:bg-amber-600', 'hover:bg-blue-600');
+            
+            const cancelBtn = document.getElementById('p-cancel');
+            if (cancelBtn) cancelBtn.remove();
+        }
+
         // Tab Logic
         function setTab(tab) {
             currentTab = tab;
@@ -502,6 +557,9 @@
                     <div class="aspect-square bg-slate-100 overflow-hidden relative">
                         <img src="${item.data.imageUrl}" class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110" onerror="this.src='https://via.placeholder.com/400?text=Invalid+Image';">
                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                             <button class="edit-p-btn p-2 bg-white/20 hover:bg-white/40 text-white rounded-full transition-colors" title="수정">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                             </button>
                              <button class="pin-p-btn p-2 ${isPinned ? 'bg-[#3B6EFF]' : 'bg-white/20 hover:bg-white/40'} text-white rounded-full transition-colors" data-id="${item.id}" title="${isPinned ? '고정 해제' : '상단 고정'}">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
                              </button>
@@ -511,12 +569,14 @@
                         </div>
                         ${isPinned ? '<div class="absolute top-2 left-2 bg-[#3B6EFF] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-sm uppercase tracking-tighter">Pinned</div>' : ''}
                     </div>
-                    <div class="p-4">
+                    <div class="p-4 text-center">
                         <div class="text-[10px] font-bold text-brand-accent uppercase mb-1">${item.data.category}</div>
                         <h4 class="font-bold text-slate-800 truncate mb-1">${item.data.title}</h4>
                         <p class="text-[11px] text-slate-500 truncate">${item.data.subtitle || '설명 없음'}</p>
                     </div>
                 `;
+                
+                div.querySelector('.edit-p-btn').onclick = () => enterEditMode(item);
                 
                 div.querySelector('.pin-p-btn').onclick = async () => {
                     try {
@@ -542,25 +602,34 @@
             e.preventDefault();
             const btn = e.target.querySelector('button[type="submit"]');
             btn.disabled = true;
-            btn.textContent = '등록 중...';
+            const originalBtnText = btn.innerHTML;
+            btn.textContent = editMode ? '수정 중...' : '등록 중...';
+            
+            const formData = {
+                title: document.getElementById('p-title').value,
+                category: document.getElementById('p-category').value,
+                imageUrl: document.getElementById('p-image').value,
+                link: document.getElementById('p-link').value || '',
+                subtitle: document.getElementById('p-subtitle').value || '',
+                isPinned: document.getElementById('p-pinned').checked,
+                createdAt: serverTimestamp() // Note: On update we might want to keep original? But the rules check request.time
+            };
 
             try {
-                await addDoc(collection(db, 'portfolio'), {
-                    title: document.getElementById('p-title').value,
-                    category: document.getElementById('p-category').value,
-                    imageUrl: document.getElementById('p-image').value,
-                    link: document.getElementById('p-link').value || '',
-                    subtitle: document.getElementById('p-subtitle').value || '',
-                    isPinned: document.getElementById('p-pinned').checked,
-                    createdAt: serverTimestamp()
-                });
-                portfolioForm.reset();
-                alert('등록되었습니다.');
+                if (editMode) {
+                    await updateDoc(doc(db, 'portfolio', editingId), formData);
+                    alert('수정되었습니다.');
+                    exitEditMode();
+                } else {
+                    await addDoc(collection(db, 'portfolio'), formData);
+                    portfolioForm.reset();
+                    alert('등록되었습니다.');
+                }
             } catch (err) {
-                alert('등록 실패: ' + err.message);
+                alert((editMode ? '수정' : '등록') + ' 실패: ' + err.message);
             } finally {
                 btn.disabled = false;
-                btn.textContent = '등록하기';
+                btn.innerHTML = originalBtnText;
             }
         };
 
