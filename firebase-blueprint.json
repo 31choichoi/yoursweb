@@ -35,6 +35,20 @@
         "q6c": { "type": "string" }
       },
       "required": ["name", "industry", "color", "timestamp"]
+    },
+    "portfolioItem": {
+      "title": "Portfolio Item",
+      "description": "Information about a portfolio project for the gallery board",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "category": { "type": "string", "enum": ["commercial", "brand", "platform"] },
+        "link": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "imageUrl", "category", "createdAt"]
     }
   },
   "firestore": {
@@ -45,6 +59,10 @@
     "requests": {
       "schema": "productionRequest",
       "description": "A collection of homepage production requests"
+    },
+    "portfolio": {
+      "schema": "portfolioItem",
+      "description": "A collection of portfolio gallery items"
     }
   }
 }
