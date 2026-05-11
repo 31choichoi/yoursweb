@@ -106,7 +106,7 @@
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js';
         import { getAuth, onAuthStateChanged, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js';
-        import { getFirestore, collection, query, orderBy, onSnapshot, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js';
+        import { getFirestore, collection, query, orderBy, onSnapshot, deleteDoc, doc, updateDoc } from 'https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js';
 
         // Fetch config from the secret file (since this is client side, we use the values directly from what we read earlier)
         const firebaseConfig = {
@@ -510,9 +510,23 @@
             isInitialLoad = false;
         }
 
+        async function saveComment(collectionName, id, comment) {
+            try {
+                await updateDoc(doc(db, collectionName, id), {
+                    adminComment: comment,
+                    lastCommentedAt: new Date()
+                });
+                return true;
+            } catch (err) {
+                console.error("Comment save failed:", err);
+                alert("코멘트 저장에 실패했습니다: " + err.message);
+                return false;
+            }
+        }
+
         function createRequestCard(id, data) {
             const div = document.createElement('div');
-            div.className = 'inquiry-card bg-white border border-slate-200 rounded-lg p-6 sm:p-8 flex flex-col md:flex-row gap-6 border-l-4 border-l-indigo-500';
+            div.className = 'inquiry-card bg-white border border-slate-200 rounded-lg overflow-hidden border-l-4 border-l-indigo-500 shadow-sm transition-all duration-300';
             
             const date = data.timestamp?.toDate ? data.timestamp.toDate() : new Date();
             const dateStr = date.toLocaleString('ko-KR', { 
@@ -524,71 +538,130 @@
             const layout = SURVEY_MAP.q2[data.q2] || data.q2 || '—';
             const typo = SURVEY_MAP.q4[data.q4] || data.q4 || '—';
             const interaction = SURVEY_MAP.q5[data.q5] || data.q5 || '—';
-            
-            // Handle multi-select Q3
             const sections = (data.q3 || []).map(code => SURVEY_MAP.q3[code] || code).join(', ') || '—';
 
+            const commentValue = data.adminComment || '';
+
             div.innerHTML = `
-                <div class="flex-1 w-full overflow-hidden">
-                    <div class="flex flex-wrap items-center gap-3 mb-4">
-                        <span class="bg-indigo-50 text-indigo-600 text-xs font-bold px-2 py-1 rounded-sm uppercase tracking-wider">
-                            설계 신청 (Detailed Survey)
-                        </span>
-                        <span class="text-xs text-slate-400">${dateStr}</span>
+                <!-- Header (Visible) -->
+                <div class="p-6 cursor-pointer hover:bg-slate-50 flex justify-between items-center group sticky top-0 bg-white z-10 border-b border-transparent transition-colors toggle-trigger">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="bg-indigo-50 text-indigo-600 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-sm uppercase">상세 설계 설문</span>
+                            <span class="text-[10px] sm:text-xs text-slate-400">${dateStr}</span>
+                            ${commentValue ? '<span class="bg-amber-100 text-amber-700 text-[10px] px-1.5 rounded-full font-bold">코멘트 있음</span>' : ''}
+                        </div>
+                        <h3 class="text-base sm:text-lg font-bold text-[#0A2540] truncate">
+                            ${data.name || '미입력'} / ${data.industry || '미입력'}
+                        </h3>
                     </div>
-                    <h3 class="text-2xl font-bold text-[#0A2540] mb-4">${data.name || '미입력'} / ${data.industry || '미입력'}</h3>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 mb-6 p-5 bg-slate-50 rounded-xl border border-slate-100">
-                        <div class="flex flex-col gap-1">
-                            <span class="text-[11px] font-bold text-indigo-500 uppercase">브랜드 컬러</span>
-                            <div class="flex items-center gap-2">
+                    <div class="flex items-center gap-3 shrink-0 ml-4">
+                        <svg class="w-5 h-5 text-slate-300 group-hover:text-slate-500 transform transition-transform duration-300 arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Body (Collapsible) -->
+                <div class="card-details hidden border-t border-slate-100">
+                    <div class="p-6 sm:p-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 mb-8 p-5 bg-slate-50 rounded-xl border border-slate-100">
+                            <div class="flex flex-col gap-0.5">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase">브랜드 컬러</span>
                                 <span class="text-sm text-slate-800 font-medium">${data.color || '—'}</span>
                             </div>
+                            <div class="flex flex-col gap-0.5">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase">디자인 무드</span>
+                                <span class="text-sm text-slate-800 font-medium">${mood}</span>
+                            </div>
+                            <div class="flex flex-col gap-0.5">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase">레이아웃 스타일</span>
+                                <span class="text-sm text-slate-800 font-medium">${layout}</span>
+                            </div>
+                            <div class="flex flex-col gap-0.5">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase">타이포그래피</span>
+                                <span class="text-sm text-slate-800 font-medium">${typo}</span>
+                            </div>
+                            <div class="flex flex-col gap-0.5">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase">인터랙션 강도</span>
+                                <span class="text-sm text-slate-800 font-medium">${interaction}</span>
+                            </div>
+                            <div class="flex flex-col gap-0.5 md:col-span-2">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase">핵심 섹션</span>
+                                <span class="text-sm text-slate-800 font-medium">${sections}</span>
+                            </div>
                         </div>
-                        <div class="flex flex-col gap-1">
-                            <span class="text-[11px] font-bold text-indigo-500 uppercase">디자인 무드</span>
-                            <span class="text-sm text-slate-800 font-medium">${mood}</span>
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <span class="text-[11px] font-bold text-indigo-500 uppercase">레이아웃 스타일</span>
-                            <span class="text-sm text-slate-800 font-medium">${layout}</span>
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <span class="text-[11px] font-bold text-indigo-500 uppercase">타이포그래피</span>
-                            <span class="text-sm text-slate-800 font-medium">${typo}</span>
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <span class="text-[11px] font-bold text-indigo-500 uppercase">인터랙션 강도</span>
-                            <span class="text-sm text-slate-800 font-medium">${interaction}</span>
-                        </div>
-                        <div class="flex flex-col gap-1 md:col-span-2">
-                            <span class="text-[11px] font-bold text-indigo-500 uppercase">핵심 섹션</span>
-                            <span class="text-sm text-slate-800 font-medium">${sections}</span>
-                        </div>
-                    </div>
 
-                    <div class="space-y-4">
-                        <div class="bg-indigo-50/50 p-4 rounded-lg text-sm text-slate-700 leading-relaxed border-l-2 border-indigo-200">
-                            <p class="font-bold mb-2 text-indigo-900 text-xs">A. 참고 사이트 URL</p>
-                            <div class="text-slate-600 break-all">${data.q6a ? data.q6a : '<span class="text-slate-400">내용 없음</span>'}</div>
+                        <div class="space-y-4 mb-8">
+                            <div class="bg-slate-50 p-4 rounded-lg text-sm border-l-2 border-slate-200">
+                                <p class="font-bold mb-1 text-slate-800 text-[11px]">A. 참고 사이트 URL</p>
+                                <div class="text-slate-600 break-all text-xs">${data.q6a ? data.q6a : '<span class="text-slate-300 italic">내용 없음</span>'}</div>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-lg text-sm border-l-2 border-slate-200">
+                                <p class="font-bold mb-1 text-slate-800 text-[11px]">B. 핵심 메시지 / 카피</p>
+                                <div class="text-slate-600 text-xs">${data.q6b ? data.q6b : '<span class="text-slate-300 italic">내용 없음</span>'}</div>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-lg text-sm border-l-2 border-slate-200">
+                                <p class="font-bold mb-1 text-slate-800 text-[11px]">C. 피하고 싶은 스타일</p>
+                                <div class="text-slate-600 text-xs">${data.q6c ? data.q6c : '<span class="text-slate-300 italic">내용 없음</span>'}</div>
+                            </div>
                         </div>
-                        <div class="bg-indigo-50/50 p-4 rounded-lg text-sm text-slate-700 leading-relaxed border-l-2 border-indigo-200">
-                            <p class="font-bold mb-2 text-indigo-900 text-xs">B. 핵심 메시지 / 카피</p>
-                            <div class="text-slate-600">${data.q6b ? data.q6b : '<span class="text-slate-400">내용 없음</span>'}</div>
-                        </div>
-                        <div class="bg-indigo-50/50 p-4 rounded-lg text-sm text-slate-700 leading-relaxed border-l-2 border-indigo-200">
-                            <p class="font-bold mb-2 text-indigo-900 text-xs">C. 피하고 싶은 스타일</p>
-                            <div class="text-slate-600">${data.q6c ? data.q6c : '<span class="text-slate-400">내용 없음</span>'}</div>
+
+                        <!-- Comment Section -->
+                        <div class="mt-8 pt-8 border-t border-slate-100">
+                            <div class="flex items-center gap-2 mb-3">
+                                <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                <h4 class="text-sm font-bold text-slate-800">관리자 메모</h4>
+                            </div>
+                            <textarea class="comment-input w-full p-4 bg-amber-50/30 border border-amber-100 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-200 min-h-[100px] placeholder:text-slate-300" placeholder="기억해야 할 사항이나 진행 상태를 메모하세요...">${commentValue}</textarea>
+                            <div class="flex justify-between items-center mt-3">
+                                <span class="text-[10px] text-slate-400">${data.lastCommentedAt ? '마지막 수정: ' + data.lastCommentedAt.toDate().toLocaleString() : ''}</span>
+                                <div class="flex gap-2">
+                                    <button class="save-comment-btn bg-amber-500 text-white px-4 py-2 rounded text-xs font-bold hover:bg-amber-600 transition-colors">메모 저장</button>
+                                    <button class="delete-btn bg-red-50 text-red-500 hover:bg-red-100 px-4 py-2 rounded text-xs font-bold transition-colors">데이터 삭제</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="flex md:flex-col justify-end gap-2 shrink-0 border-t md:border-t-0 md:border-l border-slate-100 pt-4 md:pt-0 md:pl-4">
-                    <button class="delete-btn bg-red-50 text-red-500 hover:bg-red-100 p-3 rounded-lg transition-colors flex items-center justify-center gap-2 md:w-full" data-id="${id}" data-type="requests">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                        <span class="md:hidden font-bold">삭제</span>
-                    </button>
                 </div>
             `;
+
+            // Toggle functionality
+            const trigger = div.querySelector('.toggle-trigger');
+            const details = div.querySelector('.card-details');
+            const arrow = div.querySelector('.arrow-icon');
+
+            trigger.onclick = () => {
+                const isHidden = details.classList.contains('hidden');
+                details.classList.toggle('hidden');
+                arrow.classList.toggle('rotate-180', isHidden);
+                trigger.classList.toggle('border-slate-100', isHidden);
+            };
+
+            // Stop propagation for delete/save inside details if they ever move to bubble, but here elements are separate.
+            // Comment Save
+            div.querySelector('.save-comment-btn').onclick = async (e) => {
+                const btn = e.currentTarget;
+                const originalText = btn.textContent;
+                btn.disabled = true;
+                btn.textContent = '저장 중...';
+                
+                const comment = div.querySelector('.comment-input').value;
+                const success = await saveComment('requests', id, comment);
+                
+                if (success) {
+                    btn.textContent = '저장 완료!';
+                    btn.classList.replace('bg-amber-500', 'bg-green-500');
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                        btn.classList.replace('bg-green-500', 'bg-amber-500');
+                        btn.disabled = false;
+                    }, 2000);
+                } else {
+                    btn.disabled = false;
+                    btn.textContent = originalText;
+                }
+            };
 
             div.querySelector('.delete-btn').addEventListener('click', async (e) => {
                 if (confirm('이 설계 신청 내역을 정말 삭제하시겠습니까?')) {
@@ -605,7 +678,7 @@
 
         function createInquiryCard(id, data) {
             const div = document.createElement('div');
-            div.className = 'inquiry-card bg-white border border-slate-200 rounded-lg p-6 sm:p-8 flex flex-col md:flex-row gap-6 border-l-4 border-l-blue-500';
+            div.className = 'inquiry-card bg-white border border-slate-200 rounded-lg overflow-hidden border-l-4 border-l-blue-500 shadow-sm transition-all duration-300';
             
             const date = data.createdAt?.toDate ? data.createdAt.toDate() : new Date();
             const dateStr = date.toLocaleString('ko-KR', { 
@@ -613,43 +686,105 @@
                 hour: '2-digit', minute: '2-digit' 
             });
 
-            div.innerHTML = `
-                <div class="flex-1 w-full overflow-hidden">
-                    <div class="flex flex-wrap items-center gap-3 mb-4">
-                        <span class="bg-blue-50 text-blue-600 text-xs font-bold px-2 py-1 rounded-sm uppercase tracking-wider">
-                            ${data.type || '일반 문의'}
-                        </span>
-                        <span class="text-xs text-slate-400">${dateStr}</span>
-                    </div>
-                    <h3 class="text-2xl font-bold text-[#0A2540] mb-4">${data.company}</h3>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 p-4 bg-slate-50 rounded-lg border border-slate-100">
-                        <div class="flex flex-col">
-                            <span class="text-[10px] font-bold text-slate-400 uppercase mb-1">담당자</span>
-                            <span class="text-sm text-slate-800 font-semibold">${data.name}</span>
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-[10px] font-bold text-slate-400 uppercase mb-1">연락처</span>
-                            <span class="text-sm text-slate-800 font-semibold">${data.phone}</span>
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-[10px] font-bold text-slate-400 uppercase mb-1">이메일</span>
-                            <span class="text-sm text-slate-800 font-semibold break-all">${data.email}</span>
-                        </div>
-                    </div>
+            const commentValue = data.adminComment || '';
 
-                    <div class="bg-white p-5 rounded-lg text-sm text-slate-700 whitespace-pre-wrap leading-relaxed border border-slate-100 shadow-sm overflow-hidden">
-                        <p class="font-bold mb-3 text-slate-800 border-b border-slate-100 pb-2">문의 내용</p>
-                        <div class="break-words">${data.content}</div>
+            div.innerHTML = `
+                <!-- Header (Visible) -->
+                <div class="p-6 cursor-pointer hover:bg-slate-50 flex justify-between items-center group sticky top-0 bg-white z-10 border-b border-transparent transition-colors toggle-trigger">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="bg-blue-50 text-blue-600 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider">${data.type || '일반 문의'}</span>
+                            <span class="text-[10px] sm:text-xs text-slate-400">${dateStr}</span>
+                            ${commentValue ? '<span class="bg-amber-100 text-amber-700 text-[10px] px-1.5 rounded-full font-bold">코멘트 있음</span>' : ''}
+                        </div>
+                        <h3 class="text-base sm:text-lg font-bold text-[#0A2540] truncate">
+                            ${data.company} - ${data.name}
+                        </h3>
+                    </div>
+                    <div class="flex items-center gap-3 shrink-0 ml-4">
+                        <svg class="w-5 h-5 text-slate-300 group-hover:text-slate-500 transform transition-transform duration-300 arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
                     </div>
                 </div>
-                <div class="flex md:flex-col justify-end gap-2 shrink-0 border-t md:border-t-0 md:border-l border-slate-100 pt-4 md:pt-0 md:pl-4">
-                    <button class="delete-btn bg-red-50 text-red-500 hover:bg-red-100 p-3 rounded-lg transition-colors flex items-center justify-center gap-2 md:w-full" data-id="${id}">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                        <span class="md:hidden font-bold">삭제</span>
-                    </button>
+
+                <!-- Body (Collapsible) -->
+                <div class="card-details hidden border-t border-slate-100">
+                    <div class="p-6 sm:p-8">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 p-4 bg-slate-50 rounded-lg border border-slate-100">
+                            <div class="flex flex-col">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase mb-0.5">담당자</span>
+                                <span class="text-sm text-slate-800 font-semibold">${data.name}</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase mb-0.5">연락처</span>
+                                <span class="text-sm text-slate-800 font-semibold">${data.phone}</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase mb-0.5">이메일</span>
+                                <span class="text-sm text-slate-800 font-semibold break-all">${data.email}</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50/50 p-6 rounded-lg text-sm text-slate-700 whitespace-pre-wrap leading-relaxed border border-slate-100 mb-8">
+                            <p class="font-bold mb-3 text-slate-800 border-b border-slate-200 pb-2 text-xs">문의 내용</p>
+                            <div class="break-words text-xs leading-relaxed">${data.content}</div>
+                        </div>
+
+                        <!-- Comment Section -->
+                        <div class="mt-8 pt-8 border-t border-slate-100">
+                            <div class="flex items-center gap-2 mb-3">
+                                <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                <h4 class="text-sm font-bold text-slate-800">관리자 메모</h4>
+                            </div>
+                            <textarea class="comment-input w-full p-4 bg-amber-50/30 border border-amber-100 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-200 min-h-[100px] placeholder:text-slate-300" placeholder="기억해야 할 사항이나 진행 상태를 메모하세요...">${commentValue}</textarea>
+                            <div class="flex justify-between items-center mt-3">
+                                <span class="text-[10px] text-slate-400">${data.lastCommentedAt ? '마지막 수정: ' + data.lastCommentedAt.toDate().toLocaleString() : ''}</span>
+                                <div class="flex gap-2">
+                                    <button class="save-comment-btn bg-amber-500 text-white px-4 py-2 rounded text-xs font-bold hover:bg-amber-600 transition-colors">메모 저장</button>
+                                    <button class="delete-btn bg-red-50 text-red-500 hover:bg-red-100 px-4 py-2 rounded text-xs font-bold transition-colors">데이터 삭제</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             `;
+
+            // Toggle functionality
+            const trigger = div.querySelector('.toggle-trigger');
+            const details = div.querySelector('.card-details');
+            const arrow = div.querySelector('.arrow-icon');
+
+            trigger.onclick = () => {
+                const isHidden = details.classList.contains('hidden');
+                details.classList.toggle('hidden');
+                arrow.classList.toggle('rotate-180', isHidden);
+                trigger.classList.toggle('border-slate-100', isHidden);
+            };
+
+            // Comment Save
+            div.querySelector('.save-comment-btn').onclick = async (e) => {
+                const btn = e.currentTarget;
+                const originalText = btn.textContent;
+                btn.disabled = true;
+                btn.textContent = '저장 중...';
+                
+                const comment = div.querySelector('.comment-input').value;
+                const success = await saveComment('inquiries', id, comment);
+                
+                if (success) {
+                    btn.textContent = '저장 완료!';
+                    btn.classList.replace('bg-amber-500', 'bg-green-500');
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                        btn.classList.replace('bg-green-500', 'bg-amber-500');
+                        btn.disabled = false;
+                    }, 2000);
+                } else {
+                    btn.disabled = false;
+                    btn.textContent = originalText;
+                }
+            };
 
             div.querySelector('.delete-btn').addEventListener('click', async (e) => {
                 if (confirm('이 문의 내역을 정말 삭제하시겠습니까?')) {
