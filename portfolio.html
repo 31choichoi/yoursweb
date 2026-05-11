@@ -545,6 +545,7 @@
         function openModal(url) {
             modalImg.src = url;
             imageModal.classList.remove('hidden');
+            imageModal.scrollTop = 0; // Ensure it starts from the top
             document.body.style.overflow = 'hidden';
         }
 
