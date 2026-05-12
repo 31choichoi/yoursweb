@@ -611,9 +611,17 @@
   <div class="page-card active" data-page="0">
     <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
     <div class="step-badge">STEP 1</div>
-    <h2>브랜드에 대해 알려주세요</h2>
-    <p class="sub">비전을 이해하기 위해 아래 3가지 항목을 작성해 주세요.</p>
+    <h2>성함과 연락처를 알려주세요</h2>
+    <p class="sub">비전을 이해하기 위해 아래 항목을 작성해 주세요.</p>
     <div class="field-group">
+      <div class="field">
+        <label>성함 <span>*</span></label>
+        <input type="text" id="f-user-name" placeholder="예: 홍길동" />
+      </div>
+      <div class="field">
+        <label>연락처 <span>*</span></label>
+        <input type="text" id="f-user-contact" placeholder="예: 010-1234-5678" />
+      </div>
       <div class="field">
         <label>회사/프로젝트 명 <span>*</span></label>
         <input type="text" id="f-name" placeholder="예: 유어스웹, 카페 메이, 스카이 메디컬" />
@@ -621,10 +629,6 @@
       <div class="field">
         <label>업종 <span>*</span></label>
         <input type="text" id="f-industry" placeholder="예: 서비스, 의료, 이커머스" />
-      </div>
-      <div class="field">
-        <label>브랜드 컬러 <span>*</span></label>
-        <input type="text" id="f-color" placeholder="예: 화이트 + 블루, #FF6B35, 파스텔 그린" />
       </div>
     </div>
     <button class="btn-next" onclick="goNext(0)">다음 단계 →</button>
@@ -664,7 +668,7 @@
   <!-- PAGE 3: Q3 핵심 섹션 (다중) -->
   <div class="page-card" data-page="3">
     <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
-    <div class="step-badge">STEP 2 · Q3 / 6</div>
+    <div class="step-badge">Step 2 · Q3 / 6</div>
     <h2>포함할 핵심 섹션</h2>
     <div style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#fff7e6,#fff0f9);border:2px solid #f59e42;border-radius:12px;padding:14px 18px;margin-bottom:20px;">
       <span style="font-size:22px;">☑️</span>
@@ -674,7 +678,7 @@
       </div>
     </div>
     <div class="choices" id="q3-choices">
-      <button class="choice-btn" onclick="toggleMulti('q3','A',this)"><span class="letter">A</span>히어로 · 메인 비주얼</button>
+      <button class="choice-btn" onclick="toggleMulti('q3','A',this)"><span class="letter">A</span>메인페이지 · 홈페이지 첫화면</button>
       <button class="choice-btn" onclick="toggleMulti('q3','B',this)"><span class="letter">B</span>회사소개 · 스토리</button>
       <button class="choice-btn" onclick="toggleMulti('q3','C',this)"><span class="letter">C</span>서비스 / 프로젝트</button>
       <button class="choice-btn" onclick="toggleMulti('q3','D',this)"><span class="letter">D</span>포트폴리오 / 갤러리</button>
@@ -724,7 +728,7 @@
   <!-- PAGE 6: Q6 추가 요구사항 -->
   <div class="page-card" data-page="6">
     <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
-    <div class="step-badge">STEP 2 · Q6 / 6</div>
+    <div class="step-badge">Step 2 · Q6 / 6</div>
     <h2>추가 요구 사항</h2>
     <p class="sub">특별한 요청이나 참고할 사이트를 알려주세요.</p>
     <div class="q6-fields">
@@ -803,7 +807,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app, "ai-studio-c74210e1-7359-47ff-9653-df6e4c38a1ea");
 
 const ADMIN_PW = '7777'; 
-let answers = { q1:'', q2:'', q3:[], q4:'', q5:'', q6a:'', q6b:'', q6c:'' };
+let answers = { userName:'', userContact:'', name:'', industry:'', color:'', q1:'', q2:'', q3:[], q4:'', q5:'', q6a:'', q6b:'', q6c:'' };
 let currentPage = 0;
 const TOTAL_PAGES = 8;
 
@@ -836,14 +840,16 @@ function updateProgress(n) {
 
 window.goNext = (from) => {
   if (from === 0) {
+    const uName = document.getElementById('f-user-name').value.trim();
+    const uContact = document.getElementById('f-user-contact').value.trim();
     const name = document.getElementById('f-name').value.trim();
     const ind  = document.getElementById('f-industry').value.trim();
-    const col  = document.getElementById('f-color').value.trim();
-    if (!name || !ind || !col) {
-      alert('Please fill in all three items.');
+    if (!uName || !uContact || !name || !ind) {
+      alert('모든 항목을 입력해 주세요.');
       return;
     }
-    answers.name = name; answers.industry = ind; answers.color = col;
+    answers.userName = uName; answers.userContact = uContact; answers.name = name; answers.industry = ind;
+    // Note: color field was removed from first screen in this update
   }
   if (from === 3) {
     if (!answers.q3.length) {
@@ -964,12 +970,12 @@ window.renderAdmin = async () => {
       card.innerHTML = `
         <button class="del-btn" onclick="deleteItem(event,'${s.id}')">✕</button>
         <div class="card-top">
-          <span class="biz-name">${esc(s.name || '(Empty)')}</span>
+          <span class="biz-name">${esc(s.userName || s.name || '(이름없음)')}</span>
           <span class="date">${dateStr}</span>
         </div>
-        <span class="industry">${esc(s.industry || '')}</span>
+        <span class="industry">${esc(s.name || s.industry || '')}</span>
         <div style="font-size:12px;color:var(--muted);margin-bottom:4px;">
-          <span class="color-dot" style="background:${colorStyle||'#e2e6f0'}"></span>${esc(s.color || '')}
+          ${esc(s.userContact || '')}
         </div>
         <div class="tag-row">
           ${s.q1 ? `<span class="tag">Mood: ${Q_LABELS.q1[s.q1]||s.q1}</span>` : ''}
@@ -1026,13 +1032,15 @@ window.openModal = (s) => {
   ].filter(Boolean).join('<br>') || '없음';
 
   document.getElementById('modal-box').innerHTML = `
-    <h3>${esc(s.name||'(성함 없음)')}</h3>
+    <h3>${esc(s.userName||s.name||'(이름 없음)')}</h3>
     <div class="modal-date">${dateStr} · ID: ${s.id}</div>
     <div class="modal-section">
-      <div class="ms-label">기본 정보</div>
+      <div class="ms-label">신청자 정보</div>
       <div class="ms-value">
-        <b>업종:</b> ${esc(s.industry||'—')}<br>
-        <b>컬러:</b> ${esc(s.color||'—')}
+        <b>성함:</b> ${esc(s.userName||'—')}<br>
+        <b>연락처:</b> ${esc(s.userContact||'—')}<br>
+        <b>회사/프로젝트:</b> ${esc(s.name||'—')}<br>
+        <b>업종:</b> ${esc(s.industry||'—')}
       </div>
     </div>
     <div class="modal-section">
@@ -1057,7 +1065,7 @@ window.openModal = (s) => {
 const Q_LABELS = {
   q1: { A:'미니멀 · 모던', B:'럭셔리 · 프리미엄', C:'따뜻함 · 친근함', D:'다이나믹 · 트렌디', E:'프로페셔널 · 신뢰', F:'잘 모르겠음' },
   q2: { A:'전체 화면 히어로 + 스토리텔링형', B:'그리드 기반 정보 전달', C:'매거진 스타일', D:'원페이지 심플 랜딩', E:'잘 모르겠음' },
-  q3: { A:'히어로', B:'회사소개', C:'서비스/프로젝트', D:'포트폴리오', E:'고객 후기', F:'가격 표', G:'진행 프로세스', H:'FAQ', I:'문의/예약 폼', J:'블로그', K:'위치/지도', L:'팀원', M:'기타', N:'추천' },
+  q3: { A:'메인페이지 · 홈페이지 첫화면', B:'회사소개', C:'서비스/프로젝트', D:'포트폴리오', E:'고객 후기', F:'가격 표', G:'진행 프로세스', H:'FAQ', I:'문의/예약 폼', J:'블로그', K:'위치/지도', L:'팀원', M:'기타', N:'추천' },
   q4: { A:'모던 고딕', B:'우아한 세리프', C:'볼드 디스플레이', D:'핸드라이팅', E:'잘 모르겠음' },
   q5: { A:'정적임 · 차분함', B:'중간', C:'강함', D:'잘 모르겠음' }
 };
