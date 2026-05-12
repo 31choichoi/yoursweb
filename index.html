@@ -8,7 +8,7 @@
     <meta name="description" content="유어스웹 - 프리미엄 웹 에이전시">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" href="https://mydrim.net/img/logo_yoursweb.png" type="image/png">
     
     <!-- Open Graph for Naver/Kakao/Facebook -->
     <meta property="og:type" content="website">
@@ -395,8 +395,12 @@
                     포트폴리오
                     <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-accent transition-all duration-300 group-hover:w-full"></span>
                 </a>
-                <a href="#testimonial" class="hover:text-brand-accent transition-colors relative group">
-                    고객후기
+                <a href="/pricing" class="hover:text-brand-accent transition-colors relative group">
+                    비용안내
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-accent transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="/faq" class="hover:text-brand-accent transition-colors relative group">
+                    FAQ
                     <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-accent transition-all duration-300 group-hover:w-full"></span>
                 </a>
                 <a href="/about" class="hover:text-brand-accent transition-colors relative group">
@@ -426,13 +430,14 @@
 
     <!-- Mobile Menu Overlay -->
     <div id="mobile-menu-bg" class="fixed inset-0 bg-brand-navy/60 backdrop-blur-sm z-[190] opacity-0 pointer-events-none transition-opacity duration-500 md:hidden"></div>
-    <div id="mobile-menu" class="fixed top-0 right-0 bottom-0 w-[75%] max-w-[320px] bg-white z-[200] flex flex-col items-center justify-center space-y-8 transform translate-x-full transition-transform duration-500 ease-in-out md:hidden shadow-[-20px_0_60px_rgba(0,0,0,0.1)]">
-        <a href="/service" class="mobile-nav-link text-xl font-bold text-brand-navy hover:text-brand-accent transition-colors">서비스</a>
-        <a href="/portfolio" class="mobile-nav-link text-xl font-bold text-brand-navy hover:text-brand-accent transition-colors">포트폴리오</a>
-        <a href="#testimonial" class="mobile-nav-link text-xl font-bold text-brand-navy hover:text-brand-accent transition-colors">고객후기</a>
-        <a href="/about" class="mobile-nav-link text-xl font-bold text-brand-navy hover:text-brand-accent transition-colors">회사소개</a>
-        <a href="/request.html" id="mobile-request-btn" class="mobile-nav-link text-xl font-bold text-brand-navy hover:text-brand-accent transition-colors">제작신청</a>
-        <a href="#contact" class="mobile-nav-link mt-4 bg-brand-accent text-white px-8 py-3 rounded-full font-bold text-lg text-center">상담/문의</a>
+    <div id="mobile-menu" class="fixed top-0 right-0 bottom-0 w-[75%] max-w-[320px] bg-white z-[200] flex flex-col items-center justify-center space-y-6 transform translate-x-full transition-transform duration-500 ease-in-out md:hidden shadow-[-20px_0_60px_rgba(0,0,0,0.1)]">
+        <a href="/service" class="mobile-nav-link text-lg font-bold text-brand-navy hover:text-brand-accent transition-colors">서비스</a>
+        <a href="/portfolio" class="mobile-nav-link text-lg font-bold text-brand-navy hover:text-brand-accent transition-colors">포트폴리오</a>
+        <a href="/pricing" class="mobile-nav-link text-lg font-bold text-brand-navy hover:text-brand-accent transition-colors">비용안내</a>
+        <a href="/faq" class="mobile-nav-link text-lg font-bold text-brand-navy hover:text-brand-accent transition-colors">FAQ</a>
+        <a href="/about" class="mobile-nav-link text-lg font-bold text-brand-navy hover:text-brand-accent transition-colors">회사소개</a>
+        <a href="/request.html" id="mobile-request-btn" class="mobile-nav-link text-lg font-bold text-brand-navy hover:text-brand-accent transition-colors">제작신청</a>
+        <a href="#contact" class="mobile-nav-link mt-4 bg-brand-accent text-white px-8 py-3 rounded-full font-bold text-base text-center">상담/문의</a>
         
         <button id="close-mobile-menu" class="absolute top-8 right-8 text-brand-navy focus:outline-none">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -456,12 +461,13 @@
                         yours web — web agency since 2018
                     </span>
                     
-                    <h1 class="text-white headline-impact text-3xl sm:text-4xl md:text-6xl mb-6 md:mb-10 reveal-stagger" style="transition-delay: 300ms;">
-                        <span class="line-mask"><span class="line-item">브랜드 가치를</span></span>
-                        <span class="line-mask"><span class="line-item">올리는 웹사이트.</span></span>
+                    <h1 class="text-white headline-impact text-2xl sm:text-3xl md:text-5xl mb-6 md:mb-10 reveal-stagger" style="transition-delay: 300ms;">
+                        <span class="line-mask"><span class="line-item">단순히 예쁜 디자인을 넘어,</span></span>
+                        <span class="line-mask"><span class="line-item">비즈니스의 성장과 브랜드의 목적을</span></span>
+                        <span class="line-mask"><span class="line-item">달성하는 웹사이트를 만듭니다.</span></span>
                     </h1>
                     
-                    <p class="text-white/60 text-sm md:text-xl font-medium leading-relaxed max-w-lg mb-8 md:mb-12 mx-auto md:mx-0 reveal-stagger" style="transition-delay: 500ms;">
+                    <p class="text-white/60 text-xs md:text-lg font-medium leading-relaxed max-w-lg mb-8 md:mb-12 mx-auto md:mx-0 reveal-stagger" style="transition-delay: 500ms;">
                         기획·디자인·개발을 한 팀이 책임지는 풀서비스 웹 에이전시. 결과로 증명합니다.
                     </p>
                     
@@ -607,11 +613,11 @@
                 
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-20">
                     <div class="lg:col-span-7">
-                        <h2 class="text-brand-navy headline-impact text-3xl sm:text-4xl md:text-6xl mb-8 md:mb-12 reveal">
+                        <h2 class="text-brand-navy headline-impact text-2xl sm:text-3xl md:text-4xl mb-8 md:mb-12 reveal">
                             <span class="line-mask"><span class="line-item">디자인은 결과로</span></span>
                             <span class="line-mask"><span class="line-item">증명되어야 합니다.</span></span>
                         </h2>
-                        <div class="space-y-6 md:space-y-8 text-brand-body text-base md:text-lg leading-relaxed max-w-2xl reveal" style="transition-delay: 200ms;">
+                        <div class="space-y-6 md:space-y-8 text-brand-body text-sm md:text-base leading-relaxed max-w-2xl reveal" style="transition-delay: 200ms;">
                             <p>유어스웹은 단순히 예쁜 웹사이트를 만드는 것을 넘어, 고객사의 비즈니스 문제를 해결하고 실질적인 성장을 견인하는 디지털 파트너입니다.</p>
                             <p>기획부터 디자인, 개발까지 전 공정을 내부의 전문 팀이 일원화하여 진행함으로써, 메시지의 왜곡 없이 가장 선명한 브랜드 경험을 시장에 선보입니다.</p>
                             <p>우리는 프로젝트의 종료를 끝이 아닌 시작으로 봅니다. 제작 이후의 철저한 사후 운영과 성능 최적화를 통해 시간이 갈수록 단단해지는 가치를 약속드립니다.</p>
@@ -640,7 +646,7 @@
         <section id="service" class="py-[80px] md:py-[160px] snap-section bg-brand-offwhite">
             <div class="max-w-7xl mx-auto px-6 md:px-12">
                 <span class="font-inter text-brand-accent text-xs font-semibold tracking-widest uppercase mb-8 block reveal">제공 서비스</span>
-                <h2 class="text-brand-navy headline-impact text-3xl sm:text-4xl md:text-6xl mb-12 md:mb-20 reveal">
+                <h2 class="text-brand-navy headline-impact text-2xl sm:text-3xl md:text-4xl mb-12 md:mb-20 reveal">
                     <span class="line-mask"><span class="line-item">어떤 비즈니스든 그에 맞는</span></span>
                     <span class="line-mask"><span class="line-item">웹사이트가 있습니다.</span></span>
                 </h2>
@@ -703,7 +709,7 @@
             <div class="max-w-7xl mx-auto px-6 md:px-12">
                 <span class="font-inter text-brand-accent text-xs font-semibold tracking-widest uppercase mb-8 block reveal">주요 포트폴리오</span>
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-20 gap-8">
-                    <h2 class="text-brand-navy headline-impact text-3xl sm:text-4xl md:text-5xl reveal">
+                    <h2 class="text-brand-navy headline-impact text-2xl sm:text-3xl md:text-4xl reveal">
                         <span class="line-mask"><span class="line-item">단순히 예쁜 디자인을 넘어,</span></span>
                         <span class="line-mask"><span class="line-item">비즈니스의 성장과 브랜드의 목적을</span></span>
                         <span class="line-mask"><span class="line-item">달성하는 웹사이트를 만듭니다.</span></span>
@@ -769,14 +775,6 @@
                             <h3 class="text-white text-xl font-bold">순수스킨케어 커머스 플랫폼</h3>
                         </div>
                     </div>
-                    <!-- Item 6: Ondo Coffee -->
-                    <div class="md:col-span-4 group relative aspect-square bg-brand-navy rounded-[4px] overflow-hidden portfolio-card reveal" style="transition-delay: 100ms;">
-                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800" referrerpolicy="no-referrer" alt="Portfolio 2" class="absolute inset-0 w-full h-full object-cover portfolio-img">
-                        <div class="absolute inset-0 bg-brand-navy/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0 transition-transform">
-                            <span class="text-brand-accent text-xs font-bold tracking-widest uppercase mb-2">쇼핑몰</span>
-                            <h3 class="text-white text-xl font-bold">온도커피 온라인 스토어</h3>
-                        </div>
-                    </div>
                     <!-- Item 7: Blue Seller -->
                     <div class="md:col-span-4 group relative aspect-square bg-brand-navy rounded-[4px] overflow-hidden portfolio-card reveal" style="transition-delay: 200ms;">
                         <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=800" referrerpolicy="no-referrer" alt="Portfolio 3" class="absolute inset-0 w-full h-full object-cover portfolio-img">
@@ -805,7 +803,7 @@
         <section id="testimonial" class="py-[80px] md:py-[160px] bg-brand-offwhite overflow-hidden">
             <div class="max-w-7xl mx-auto px-6 md:px-12">
                 <span class="font-inter text-brand-accent text-xs font-semibold tracking-widest uppercase mb-8 block reveal">고객후기</span>
-                <h2 class="text-brand-navy headline-impact text-3xl sm:text-4xl md:text-6xl mb-16 md:mb-24 reveal">
+                <h2 class="text-brand-navy headline-impact text-2xl sm:text-3xl md:text-4xl mb-16 md:mb-24 reveal">
                     <span class="line-mask"><span class="line-item">유어스웹과 함께한</span></span>
                     <span class="line-mask"><span class="line-item">브랜드들의 이야기.</span></span>
                 </h2>
@@ -935,7 +933,7 @@
         <section id="contact-bottom" class="bg-brand-navy py-[120px] md:py-[160px] text-center snap-section relative overflow-hidden">
             <div class="absolute inset-0 bg-grid opacity-10 pointer-events-none"></div>
             <div class="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-                <h2 class="text-white headline-impact text-3xl sm:text-4xl md:text-7xl mb-8 md:mb-12 reveal">
+                <h2 class="text-white headline-impact text-2xl sm:text-3xl md:text-5xl mb-8 md:mb-12 reveal">
                     <span class="line-mask"><span class="line-item">다음 프로젝트,</span></span>
                     <span class="line-mask"><span class="line-item">같이 만들어볼까요?</span></span>
                 </h2>
@@ -1041,7 +1039,7 @@
 
                 <div class="p-8 sm:p-12">
                 <span class="font-inter text-brand-accent text-xs font-semibold tracking-widest uppercase mb-4 block">project inquiry</span>
-                <h3 class="text-3xl font-bold text-brand-navy mb-8">브랜드의 첫인상을 디자인합니다</h3>
+                    <h3 class="text-2xl font-bold text-brand-navy mb-8">브랜드의 첫인상을 디자인합니다</h3>
                 
                 <form id="inquiry-form" class="space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

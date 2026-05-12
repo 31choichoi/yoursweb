@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비용안내 - 유어스웹</title>
+    <!-- Favicon -->
+    <link rel="icon" href="https://mydrim.net/img/logo_yoursweb.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            navy: '#0A2540',
+                            accent: '#3B6EFF',
+                            offwhite: '#F4F6FA',
+                            text: '#0F1A2E',
+                            body: '#4A5468',
+                            caption: '#8A94A6',
+                            divider: '#E5E9F0'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Pretendard Variable', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Pretendard Variable', sans-serif; }
+    </style>
+</head>
+<body class="bg-white text-brand-navy">
+    <!-- Header (Copy from index.html) -->
+    <header class="fixed top-0 left-0 w-full z-[100] bg-white/80 backdrop-blur-xl border-b border-brand-navy/5 py-4">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
+            <a href="/" class="flex items-center">
+                <img src="https://mydrim.net/img/logo_yoursweb.png" alt="유어스웹" class="h-8 md:h-9 w-auto">
+            </a>
+            <nav class="hidden md:flex space-x-12 font-bold text-base tracking-wide">
+                <a href="/service" class="hover:text-brand-accent transition-colors">서비스</a>
+                <a href="/portfolio" class="hover:text-brand-accent transition-colors">포트폴리오</a>
+                <a href="/pricing" class="text-brand-accent">비용안내</a>
+                <a href="/faq" class="hover:text-brand-accent transition-colors">FAQ</a>
+                <a href="/about" class="hover:text-brand-accent transition-colors">회사소개</a>
+            </nav>
+            <a href="/request.html" class="bg-brand-navy text-white px-6 py-2.5 rounded-[4px] font-bold text-sm">상담/문의</a>
+        </div>
+    </header>
+
+    <main class="pt-32 pb-24">
+        <section class="max-w-7xl mx-auto px-6 md:px-12 text-center mb-16 md:mb-24">
+            <span class="text-brand-accent font-bold text-xs tracking-widest uppercase mb-4 block">Pricing Guide</span>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tighter mb-8 italic">투명한 비용, 확실한 가치.</h1>
+            <p class="text-brand-body text-sm md:text-lg max-w-2xl mx-auto">
+                유어스웹은 숨김 없는 정찰제 가격을 지향합니다.<br>비즈니스의 규모와 목적에 맞는 최적의 플랜을 선택하세요.
+            </p>
+        </section>
+
+        <section class="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Basic Plan -->
+            <div class="bg-brand-offwhite rounded-3xl p-8 md:p-10 border border-brand-divider flex flex-col">
+                <div class="mb-8">
+                    <h2 class="text-xl font-bold text-brand-navy mb-2">스타트업 패키지</h2>
+                    <p class="text-brand-caption text-sm mb-6">초기 창업 및 소규모 비즈니스용</p>
+                    <div class="flex items-baseline gap-1">
+                        <span class="text-3xl md:text-4xl font-extrabold">150</span>
+                        <span class="text-brand-body font-bold">만원 ~</span>
+                    </div>
+                </div>
+                <ul class="space-y-4 mb-10 flex-1 text-sm md:text-base">
+                    <li class="flex items-center gap-3 text-brand-body">
+                        <svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        핵심 페이지 5매 내외
+                    </li>
+                    <li class="flex items-center gap-3 text-brand-body">
+                        <svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        반응형 웹 사이트 상용화
+                    </li>
+                    <li class="flex items-center gap-3 text-brand-body">
+                        <svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        기본 검색 엔진(SEO) 최적화
+                    </li>
+                    <li class="flex items-center gap-3 text-brand-body">
+                        <svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        문의 폼 & 관리자 기능 제공
+                    </li>
+                </ul>
+                <a href="/request.html" class="w-full bg-white text-brand-navy border border-brand-navy/10 py-4 rounded-xl font-bold text-center hover:bg-brand-navy hover:text-white transition-all">신청하기</a>
+            </div>
+
+            <!-- Pro Plan -->
+            <div class="bg-brand-navy rounded-3xl p-8 md:p-10 text-white relative transform md:scale-105 shadow-2xl flex flex-col">
+                <div class="absolute top-6 right-8 bg-brand-accent text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Recommended</div>
+                <div class="mb-8">
+                    <h2 class="text-xl font-bold mb-2">프리미엄 비즈니스</h2>
+                    <p class="text-white/40 text-sm mb-6">전문적인 브랜드 이미지가 필요한 기업</p>
+                    <div class="flex items-baseline gap-1">
+                        <span class="text-3xl md:text-4xl font-extrabold">350</span>
+                        <span class="text-white/40 font-bold">만원 ~</span>
+                    </div>
+                </div>
+                <ul class="space-y-4 mb-10 flex-1 text-sm md:text-base">
+                    <li class="flex items-center gap-3 text-white/80">
+                        <svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        고품격 브랜드 스토리 기획
+                    </li>
+                    <li class="flex items-center gap-3 text-white/80">
+                        <svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        커스텀 마이크로 애니메이션
+                    </li>
+                    <li class="flex items-center gap-3 text-white/80">
+                        <svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        고성능 SEO & 속도 최적화
+                    </li>
+                    <li class="flex items-center gap-3 text-white/80">
+                        <svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        제작 후 3개월 유지보수 무료
+                    </li>
+                </ul>
+                <a href="/request.html" class="w-full bg-brand-accent text-white py-4 rounded-xl font-bold text-center hover:bg-white hover:text-brand-navy transition-all">상담 시작하기</a>
+            </div>
+
+            <!-- Custom Plan -->
+            <div class="bg-white rounded-3xl p-8 md:p-10 border border-brand-divider flex flex-col">
+                <div class="mb-8">
+                    <h2 class="text-xl font-bold text-brand-navy mb-2">엔터프라이즈 하이엔드</h2>
+                    <p class="text-brand-caption text-sm mb-6">커스텀 기능 및 플랫폼 대규모 확장</p>
+                    <div class="flex items-baseline gap-1">
+                        <span class="text-3xl md:text-4xl font-extrabold uppercase">Custom</span>
+                    </div>
+                </div>
+                <ul class="space-y-4 mb-10 flex-1 text-sm md:text-base">
+                    <li class="flex items-center gap-3 text-brand-body">
+                        <svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        이커머스 / 결제 시스템 구축
+                    </li>
+                    <li class="flex items-center gap-3 text-brand-body">
+                        <svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        회원 관리 & DB 연동 시스템
+                    </li>
+                    <li class="flex items-center gap-3 text-brand-body">
+                        <svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        다국어 지원 & 글로벌 배포
+                    </li>
+                    <li class="flex items-center gap-3 text-brand-body">
+                        <svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        전담 매니저 1:1 밀착 케어
+                    </li>
+                </ul>
+                <a href="/#contact" class="w-full bg-brand-navy text-white py-4 rounded-xl font-bold text-center hover:bg-brand-accent transition-all">별도 협의</a>
+            </div>
+        </section>
+
+        <section class="max-w-4xl mx-auto px-6 mt-24 text-center">
+            <p class="text-brand-caption text-sm">
+                * 위 비용은 부가세 별도 금액입니다.<br>
+                * 프로젝트의 복잡도와 페이지 수에 따라 최종 견적은 변동될 수 있습니다.
+            </p>
+        </section>
+    </main>
+
+    <!-- Footer (Copy from about.html) -->
+    <footer class="bg-brand-offwhite py-12 border-t border-brand-divider text-center">
+        <div class="max-w-7xl mx-auto px-6">
+            <p class="text-brand-caption text-sm mb-4">© 2026 Yours Web. All rights reserved.</p>
+            <div class="flex justify-center space-x-6 text-brand-body text-xs font-bold">
+                <a href="/about">회사소개</a>
+                <a href="/service">서비스</a>
+                <a href="/portfolio">포트폴리오</a>
+                <a href="/admin">관리자</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

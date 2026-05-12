@@ -41,14 +41,19 @@ service cloud.firestore {
 
     function isValidPortfolio(data) {
       return data.keys().hasAll(['title', 'imageUrl', 'category', 'createdAt', 'link', 'subtitle', 'isPinned']) &&
-             data.keys().size() == 7 &&
              data.title is string && data.title.size() <= 200 &&
              data.imageUrl is string && data.imageUrl.size() <= 1000 &&
              data.category in ['commercial', 'brand', 'platform'] &&
              data.link is string && data.link.size() <= 1000 &&
              data.subtitle is string && data.subtitle.size() <= 1000 &&
-             data.isPinned is bool &&
-             data.createdAt == request.time;
+             data.isPinned is bool;
+    }
+
+    function isValidFaq(data) {
+       return data.keys().hasAll(['question', 'answer', 'order', 'updatedAt']) &&
+              data.question is string && data.question.size() <= 500 &&
+              data.answer is string && data.answer.size() <= 5000 &&
+              data.order is int;
     }
 
     match /inquiries/{inquiryId} {
@@ -65,7 +70,12 @@ service cloud.firestore {
 
     match /portfolio/{itemId} {
       allow read, list: if true;
-      allow create, update, delete: if isAdmin() && isValidPortfolio(request.resource.data);
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /faqs/{faqId} {
+      allow read, list: if true;
+      allow create, update, delete: if isAdmin();
     }
   }
 }

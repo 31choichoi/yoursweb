@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>유어스웹 | 관리자</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" href="https://mydrim.net/img/logo_yoursweb.png" type="image/png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" />
     <style>
@@ -65,6 +65,7 @@
                     <button id="tab-inquiry" class="flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-md transition-all text-slate-500 hover:text-slate-700">유지보수 · 일반 문의</button>
                     <button id="tab-request" class="flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-md transition-all text-slate-500 hover:text-slate-700">상세 설계 설문</button>
                     <button id="tab-portfolio" class="flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-md transition-all text-slate-500 hover:text-slate-700">포트폴리오 관리</button>
+                    <button id="tab-faq" class="flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-md transition-all text-slate-500 hover:text-slate-700">FAQ 관리</button>
                 </div>
                 <div class="bg-white p-2 px-4 rounded-lg border border-slate-200 flex items-center gap-2 shadow-sm w-full sm:w-auto justify-center">
                     <span id="inquiry-count" class="bg-[#3B6EFF] text-white text-xs font-bold px-2 py-1 rounded-full">0</span>
@@ -131,6 +132,44 @@
             </div>
         </div>
 
+        <!-- FAQ Manager Section -->
+        <div id="faq-manager" class="hidden">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-12">
+                <div class="p-6 border-b border-slate-100 bg-slate-50/50">
+                    <h2 class="text-lg font-bold text-[#0A2540]">FAQ 추가/수정</h2>
+                </div>
+                <div class="p-6 sm:p-8">
+                    <form id="faq-form" class="space-y-6">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">질문 (Question)</label>
+                            <input type="text" id="f-question" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-accent focus:outline-none transition-all" placeholder="예: 제작 기간은 얼마나 걸리나요?">
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">답변 (Answer)</label>
+                            <textarea id="f-answer" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-accent focus:outline-none transition-all min-h-[150px]" placeholder="상세한 답변을 입력하세요."></textarea>
+                        </div>
+                        <div class="flex flex-col gap-2 w-32">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">노출 순서</label>
+                            <input type="number" id="f-order" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-accent focus:outline-none transition-all" value="0">
+                        </div>
+                        <div class="flex justify-end gap-3">
+                            <button type="button" id="f-cancel" class="hidden bg-slate-200 text-slate-600 px-8 py-3 rounded-lg font-bold hover:bg-slate-300 transition-all">취소</button>
+                            <button type="submit" class="bg-[#3B6EFF] text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-600 transition-all">등록하기</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3 mb-6">
+                <h2 class="text-xl font-bold text-[#0A2540]">등록된 FAQ</h2>
+                <span id="faq-count" class="bg-slate-200 text-slate-600 text-xs font-bold px-2 py-0.5 rounded-full">0</span>
+            </div>
+            
+            <div id="faq-admin-list" class="space-y-4">
+                <!-- FAQ items will be rendered here -->
+            </div>
+        </div>
+
         <!-- Inquiry List -->
         <div id="inquiry-list" class="grid grid-cols-1 gap-6">
             <!-- Shimmer Loading -->
@@ -193,11 +232,18 @@
         const tabInquiry = document.getElementById('tab-inquiry');
         const tabRequest = document.getElementById('tab-request');
         const tabPortfolio = document.getElementById('tab-portfolio');
+        const tabFaq = document.getElementById('tab-faq');
 
         const portfolioManager = document.getElementById('portfolio-manager');
         const portfolioGrid = document.getElementById('portfolio-grid');
         const portfolioCount = document.getElementById('portfolio-count');
         const portfolioForm = document.getElementById('portfolio-form');
+
+        const faqManager = document.getElementById('faq-manager');
+        const faqAdminList = document.getElementById('faq-admin-list');
+        const faqCountDisplay = document.getElementById('faq-count');
+        const faqForm = document.getElementById('faq-form');
+        const faqCancelBtn = document.getElementById('f-cancel');
 
         const passwordGate = document.getElementById('password-gate');
         const passwordInput = document.getElementById('admin-password');
@@ -319,25 +365,34 @@
         // Tab Logic
         function setTab(tab) {
             currentTab = tab;
-            [tabAll, tabInquiry, tabRequest, tabPortfolio].forEach(btn => {
+            [tabAll, tabInquiry, tabRequest, tabPortfolio, tabFaq].forEach(btn => {
                 btn.classList.remove('bg-[#3B6EFF]', 'text-white');
                 btn.classList.add('text-slate-500');
             });
 
             const activeBtn = tab === 'all' ? tabAll : 
                              (tab === 'inquiry' ? tabInquiry : 
-                             (tab === 'request' ? tabRequest : tabPortfolio));
+                             (tab === 'request' ? tabRequest : 
+                             (tab === 'portfolio' ? tabPortfolio : tabFaq)));
             
             activeBtn.classList.remove('text-slate-500');
             activeBtn.classList.add('bg-[#3B6EFF]', 'text-white');
 
             if (tab === 'portfolio') {
                 portfolioManager.classList.remove('hidden');
+                faqManager.classList.add('hidden');
+                inquiryList.classList.add('hidden');
+                emptyState.classList.add('hidden');
+                inquiryCount.parentElement.classList.add('hidden');
+            } else if (tab === 'faq') {
+                portfolioManager.classList.add('hidden');
+                faqManager.classList.remove('hidden');
                 inquiryList.classList.add('hidden');
                 emptyState.classList.add('hidden');
                 inquiryCount.parentElement.classList.add('hidden');
             } else {
                 portfolioManager.classList.add('hidden');
+                faqManager.classList.add('hidden');
                 inquiryList.classList.remove('hidden');
                 inquiryCount.parentElement.classList.remove('hidden');
                 renderAll();
@@ -348,6 +403,7 @@
         tabInquiry.onclick = () => setTab('inquiry');
         tabRequest.onclick = () => setTab('request');
         tabPortfolio.onclick = () => setTab('portfolio');
+        tabFaq.onclick = () => setTab('faq');
 
         // Notification Sound (Simple Beep)
         function playNotificationSound() {
@@ -526,7 +582,120 @@
             loadInquiries();
             loadRequests();
             loadPortfolio();
+            loadFaqs();
         }
+
+        function loadFaqs() {
+            const q = query(collection(db, 'faqs'), orderBy('order', 'asc'));
+            onSnapshot(q, (snapshot) => {
+                allFaqs = [];
+                snapshot.forEach(docSnap => {
+                    allFaqs.push({ id: docSnap.id, data: docSnap.data() });
+                });
+                renderFaqs();
+            });
+        }
+
+        let allFaqs = [];
+        let faqEditMode = false;
+        let faqEditingId = null;
+
+        function renderFaqs() {
+            faqAdminList.innerHTML = '';
+            faqCountDisplay.textContent = allFaqs.length;
+
+            allFaqs.forEach(faq => {
+                const div = document.createElement('div');
+                div.className = 'bg-white p-6 rounded-lg border border-slate-200 flex justify-between items-start gap-4';
+                div.innerHTML = `
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-2">
+                             <span class="bg-slate-100 text-slate-500 text-[10px] font-bold px-2 py-0.5 rounded">순서: ${faq.data.order}</span>
+                             <h4 class="font-bold text-slate-800">${faq.data.question}</h4>
+                        </div>
+                        <p class="text-sm text-slate-500 whitespace-pre-wrap">${faq.data.answer}</p>
+                    </div>
+                    <div class="flex gap-2 shrink-0">
+                        <button class="edit-faq-btn text-slate-400 hover:text-brand-accent transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                        </button>
+                        <button class="delete-faq-btn text-slate-400 hover:text-red-500 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                        </button>
+                    </div>
+                `;
+
+                div.querySelector('.edit-faq-btn').onclick = () => startFaqEdit(faq);
+                div.querySelector('.delete-faq-btn').onclick = async () => {
+                    if (confirm('이 FAQ를 삭제하시겠습니까?')) {
+                        try {
+                            await deleteDoc(doc(db, 'faqs', faq.id));
+                        } catch (err) { alert('삭제 실패: ' + err.message); }
+                    }
+                };
+
+                faqAdminList.appendChild(div);
+            });
+        }
+
+        function startFaqEdit(faq) {
+            faqEditMode = true;
+            faqEditingId = faq.id;
+            document.getElementById('f-question').value = faq.data.question;
+            document.getElementById('f-answer').value = faq.data.answer;
+            document.getElementById('f-order').value = faq.data.order;
+            
+            faqCancelBtn.classList.remove('hidden');
+            faqForm.querySelector('button[type="submit"]').textContent = '수정 완료';
+            faqManager.querySelector('h2').textContent = 'FAQ 수정하기';
+            document.getElementById('f-question').focus();
+        }
+
+        function stopFaqEdit() {
+            faqEditMode = false;
+            faqEditingId = null;
+            faqForm.reset();
+            faqCancelBtn.classList.add('hidden');
+            faqForm.querySelector('button[type="submit"]').textContent = '등록하기';
+            faqManager.querySelector('h2').textContent = 'FAQ 추가/수정';
+        }
+
+        faqCancelBtn.onclick = stopFaqEdit;
+
+        faqForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            const originalText = btn.textContent;
+            btn.textContent = '처리 중...';
+
+            const formData = {
+                question: document.getElementById('f-question').value,
+                answer: document.getElementById('f-answer').value,
+                order: parseInt(document.getElementById('f-order').value) || 0,
+                updatedAt: serverTimestamp()
+            };
+
+            try {
+                if (faqEditMode) {
+                    await updateDoc(doc(db, 'faqs', faqEditingId), formData);
+                    alert('수정되었습니다.');
+                    stopFaqEdit();
+                } else {
+                    await addDoc(collection(db, 'faqs'), {
+                        ...formData,
+                        createdAt: serverTimestamp()
+                    });
+                    faqForm.reset();
+                    alert('등록되었습니다.');
+                }
+            } catch (err) {
+                alert('실패: ' + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }
+        };
 
         function loadPortfolio() {
             const q = query(collection(db, 'portfolio'), orderBy('createdAt', 'desc'));
