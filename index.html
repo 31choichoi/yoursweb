@@ -65,6 +65,10 @@
             --brand-accent: #3B6EFF;
         }
 
+        html {
+            font-size: 16px;
+        }
+
         body {
             font-family: 'Pretendard Variable', sans-serif;
             background-color: #FFFFFF;
@@ -96,7 +100,7 @@
         .headline-impact {
             font-weight: 800;
             letter-spacing: -0.045em;
-            line-height: 1.1;
+            line-height: 1.4;
         }
 
         /* Animations */
@@ -386,28 +390,28 @@
             </a>
             
             <!-- Desktop Nav -->
-            <nav class="hidden md:flex space-x-12 font-bold text-base tracking-wide">
-                <a href="/service" class="hover:text-brand-accent transition-colors relative group">
+            <nav class="hidden md:flex space-x-12 font-bold text-lg tracking-wide items-center">
+                <a href="/service.html" class="hover:text-brand-accent transition-colors relative group">
                     서비스
                     <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-accent transition-all duration-300 group-hover:w-full"></span>
                 </a>
-                <a href="/portfolio" class="hover:text-brand-accent transition-colors relative group">
+                <a href="/portfolio.html" class="hover:text-brand-accent transition-colors relative group">
                     포트폴리오
                     <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-accent transition-all duration-300 group-hover:w-full"></span>
                 </a>
-                <a href="/pricing" class="hover:text-brand-accent transition-colors relative group">
+                <a href="/pricing.html" class="hover:text-brand-accent transition-colors relative group">
                     비용안내
                     <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-accent transition-all duration-300 group-hover:w-full"></span>
                 </a>
-                <a href="/faq" class="hover:text-brand-accent transition-colors relative group">
+                <a href="/faq.html" class="hover:text-brand-accent transition-colors relative group">
                     FAQ
                     <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-accent transition-all duration-300 group-hover:w-full"></span>
                 </a>
-                <a href="/about" class="hover:text-brand-accent transition-colors relative group">
+                <a href="/about.html" class="hover:text-brand-accent transition-colors relative group">
                     회사소개
                     <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-accent transition-all duration-300 group-hover:w-full"></span>
                 </a>
-                <a href="/request.html" id="nav-request-btn" class="bg-brand-accent text-white px-5 py-2 border border-brand-accent rounded-[2px] font-bold text-sm hover:bg-transparent hover:text-brand-accent transition-all transform hover:-translate-y-0.5 shadow-md flex items-center justify-center">
+                <a href="/request.html" id="nav-request-btn" class="bg-brand-accent text-white px-5 py-2 border border-brand-accent rounded-[2px] font-bold text-base hover:bg-transparent hover:text-brand-accent transition-all transform hover:-translate-y-0.5 shadow-md flex items-center justify-center">
                     제작신청
                 </a>
             </nav>
@@ -431,11 +435,11 @@
     <!-- Mobile Menu Overlay -->
     <div id="mobile-menu-bg" class="fixed inset-0 bg-brand-navy/60 backdrop-blur-sm z-[190] opacity-0 pointer-events-none transition-opacity duration-500 md:hidden"></div>
     <div id="mobile-menu" class="fixed top-0 right-0 bottom-0 w-[75%] max-w-[320px] bg-white z-[200] flex flex-col items-center justify-center space-y-6 transform translate-x-full transition-transform duration-500 ease-in-out md:hidden shadow-[-20px_0_60px_rgba(0,0,0,0.1)]">
-        <a href="/service" class="mobile-nav-link text-lg font-bold text-brand-navy hover:text-brand-accent transition-colors">서비스</a>
-        <a href="/portfolio" class="mobile-nav-link text-lg font-bold text-brand-navy hover:text-brand-accent transition-colors">포트폴리오</a>
-        <a href="/pricing" class="mobile-nav-link text-lg font-bold text-brand-navy hover:text-brand-accent transition-colors">비용안내</a>
-        <a href="/faq" class="mobile-nav-link text-lg font-bold text-brand-navy hover:text-brand-accent transition-colors">FAQ</a>
-        <a href="/about" class="mobile-nav-link text-lg font-bold text-brand-navy hover:text-brand-accent transition-colors">회사소개</a>
+        <a href="/service.html" class="mobile-nav-link text-lg font-bold text-brand-navy hover:text-brand-accent transition-colors">서비스</a>
+        <a href="/portfolio.html" class="mobile-nav-link text-lg font-bold text-brand-navy hover:text-brand-accent transition-colors">포트폴리오</a>
+        <a href="/pricing.html" class="mobile-nav-link text-lg font-bold text-brand-navy hover:text-brand-accent transition-colors">비용안내</a>
+        <a href="/faq.html" class="mobile-nav-link text-lg font-bold text-brand-navy hover:text-brand-accent transition-colors">FAQ</a>
+        <a href="/about.html" class="mobile-nav-link text-lg font-bold text-brand-navy hover:text-brand-accent transition-colors">회사소개</a>
         <a href="/request.html" id="mobile-request-btn" class="mobile-nav-link text-lg font-bold text-brand-navy hover:text-brand-accent transition-colors">제작신청</a>
         <a href="#contact" class="mobile-nav-link mt-4 bg-brand-accent text-white px-8 py-3 rounded-full font-bold text-base text-center">상담/문의</a>
         
@@ -461,7 +465,7 @@
                         yours web — web agency since 2018
                     </span>
                     
-                    <h1 class="text-white headline-impact text-2xl sm:text-3xl md:text-5xl mb-6 md:mb-10 reveal-stagger" style="transition-delay: 300ms;">
+                    <h1 class="text-white headline-impact text-2xl sm:text-3xl md:text-5xl mb-6 md:mb-10 reveal-stagger leading-relaxed" style="transition-delay: 300ms;">
                         <span class="line-mask"><span class="line-item">단순히 예쁜 디자인을 넘어,</span></span>
                         <span class="line-mask"><span class="line-item">비즈니스의 성장과 브랜드의 목적을</span></span>
                         <span class="line-mask"><span class="line-item">달성하는 웹사이트를 만듭니다.</span></span>
@@ -475,7 +479,7 @@
                         <a href="#contact" id="open-quote-hero" class="magnetic btn-primary bg-brand-accent text-white px-8 md:px-10 py-3.5 md:py-5 rounded-[4px] font-bold text-base md:text-lg focus:outline-none whitespace-nowrap shadow-[0_10px_40px_-5px_rgba(59,110,255,0.4)]">
                             무료 견적 받기
                         </a>
-                        <a href="/portfolio" class="magnetic group border border-white/20 text-white px-8 md:px-10 py-3.5 md:py-5 rounded-[4px] font-bold text-base md:text-lg hover:bg-white hover:text-brand-navy transition-all flex items-center justify-center whitespace-nowrap">
+                        <a href="/portfolio.html" class="magnetic group border border-white/20 text-white px-8 md:px-10 py-3.5 md:py-5 rounded-[4px] font-bold text-base md:text-lg hover:bg-white hover:text-brand-navy transition-all flex items-center justify-center whitespace-nowrap">
                             포트폴리오 보기
                         </a>
                     </div>
@@ -962,22 +966,21 @@
                 <div>
                     <h4 class="text-brand-navy font-bold text-sm uppercase tracking-wider mb-6">서비스</h4>
                     <ul class="text-brand-body text-sm space-y-4 font-medium">
-                        <li><a href="/service" class="hover:text-brand-accent transition-colors">회사 홈페이지 제작</a></li>
-                        <li><a href="/service" class="hover:text-brand-accent transition-colors">블로그 상위 노출</a></li>
-                        <li><a href="/service" class="hover:text-brand-accent transition-colors">쇼핑몰 제작</a></li>
-                        <li><a href="/service" class="hover:text-brand-accent transition-colors">유지보수 및 운영</a></li>
+                        <li><a href="/service.html" class="hover:text-brand-accent transition-colors">회사 홈페이지 제작</a></li>
+                        <li><a href="/service.html" class="hover:text-brand-accent transition-colors">블로그 상위 노출</a></li>
+                        <li><a href="/service.html" class="hover:text-brand-accent transition-colors">쇼핑몰 제작</a></li>
+                        <li><a href="/service.html" class="hover:text-brand-accent transition-colors">유지보수 및 운영</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="text-brand-navy font-bold text-sm uppercase tracking-wider mb-6">커뮤니티</h4>
                     <ul class="text-brand-body text-sm space-y-4 font-medium">
-                        <li><a href="/portfolio" class="hover:text-brand-accent transition-colors">포트폴리오</a></li>
-                        <li><a href="/about" class="hover:text-brand-accent transition-colors">회사소개</a></li>
-                        <li><a href="/request.html" class="open-request-modal hover:text-brand-accent transition-colors">프로젝트 문의</a></li>
+                        <li><a href="/portfolio.html" class="hover:text-brand-accent transition-colors">포트폴리오</a></li>
+                        <li><a href="/about.html" class="hover:text-brand-accent transition-colors">회사소개</a></li>
+                        <li><a href="#" id="footer-inquiry-btn" class="hover:text-brand-accent transition-colors">프로젝트 문의</a></li>
                         <li><a href="/#about" class="hover:text-brand-accent transition-colors">사내 문화</a></li>
                         <li><a href="/#about" class="hover:text-brand-accent transition-colors">채용 정보</a></li>
                         <li><a href="/#contact" class="hover:text-brand-accent transition-colors">문의하기</a></li>
-                        <li><a href="/admin" target="_blank" rel="noopener noreferrer" class="text-brand-accent font-bold hover:underline">관리자 모드</a></li>
                     </ul>
                 </div>
                 <div>
@@ -1002,10 +1005,12 @@
         </div>
     </footer>
 
-    <!-- Admin Floating Button -->
-    <a href="/admin" target="_blank" rel="noopener noreferrer" class="fixed bottom-24 right-8 z-[150] w-14 h-14 bg-brand-navy text-white rounded-full flex items-center justify-center shadow-[0_8px_30px_rgb(10,37,64,0.3)] hover:scale-110 transition-all duration-300 group">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-        <span class="absolute right-full mr-4 bg-brand-navy text-white text-xs px-3 py-1.5 rounded-[4px] opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity pointer-events-none">관리자 모드</span>
+    <!-- Kakao Consultation Floating Button -->
+    <a href="https://open.kakao.com/o/shDiqGui" target="_blank" rel="noopener noreferrer" class="fixed bottom-24 right-8 z-[150] w-14 h-14 bg-[#FEE500] text-white rounded-full flex items-center justify-center shadow-[0_8px_30px_rgba(254,229,0,0.3)] hover:scale-110 transition-all duration-300 group">
+        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 3c-4.97 0-9 3.134-9 7 0 2.41 1.58 4.54 3.96 5.82-.16.59-.58 2.16-.66 2.48-.1.4.15.39.31.28.12-.08 1.95-1.32 2.73-1.85.86.17 1.74.27 2.66.27 4.97 0 9-3.134 9-7s-4.03-7-9-7z"/>
+        </svg>
+        <span class="absolute right-full mr-4 bg-[#FEE500] text-white text-xs font-bold px-3 py-1.5 rounded-[4px] opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity pointer-events-none shadow-sm">카카오톡 상담</span>
     </a>
 
     <!-- Back to Top Button -->
@@ -1347,6 +1352,7 @@
             const mainQuoteBtn = document.getElementById('open-quote-hero');
             const headerInquiryBtn = document.getElementById('open-inquiry-header');
             const footerInquiryBtn = document.getElementById('open-inquiry-footer');
+            const footerInquiryBtn2 = document.getElementById('footer-inquiry-btn');
             
             // Check hash on load
             if (window.location.hash === '#contact') {
@@ -1369,6 +1375,13 @@
             }
             if(footerInquiryBtn) {
                 footerInquiryBtn.addEventListener('click', (e) => { 
+                    e.preventDefault(); 
+                    e.stopPropagation();
+                    openModal(); 
+                });
+            }
+            if(footerInquiryBtn2) {
+                footerInquiryBtn2.addEventListener('click', (e) => { 
                     e.preventDefault(); 
                     e.stopPropagation();
                     openModal(); 
