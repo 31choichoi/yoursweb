@@ -611,24 +611,20 @@
   <div class="page-card active" data-page="0">
     <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
     <div class="step-badge">STEP 1</div>
-    <h2>성함과 연락처를 알려주세요</h2>
-    <p class="sub">비전을 이해하기 위해 아래 항목을 작성해 주세요.</p>
+    <h2>성함과 브랜드에 대해 알려주세요</h2>
+    <p class="sub">비전을 이해하기 위해 아래 3가지 항목을 작성해 주세요.</p>
     <div class="field-group">
       <div class="field">
-        <label>성함 <span>*</span></label>
-        <input type="text" id="f-user-name" placeholder="예: 홍길동" />
+        <label>성함/연락처 <span>*</span></label>
+        <input type="text" id="f-name" placeholder="예: 홍길동 / 010-1234-5678" />
       </div>
       <div class="field">
-        <label>연락처 <span>*</span></label>
-        <input type="text" id="f-user-contact" placeholder="예: 010-1234-5678" />
+        <label>회사/브랜드명 <span>*</span></label>
+        <input type="text" id="f-industry" placeholder="예: 유어스웹" />
       </div>
       <div class="field">
-        <label>회사/프로젝트 명 <span>*</span></label>
-        <input type="text" id="f-name" placeholder="예: 유어스웹, 카페 메이, 스카이 메디컬" />
-      </div>
-      <div class="field">
-        <label>업종 <span>*</span></label>
-        <input type="text" id="f-industry" placeholder="예: 서비스, 의료, 이커머스" />
+        <label>업종/브랜드컬러 <span>*</span></label>
+        <input type="text" id="f-color" placeholder="예: IT 서비스 / 화이트 & 블루" />
       </div>
     </div>
     <button class="btn-next" onclick="goNext(0)">다음 단계 →</button>
@@ -840,16 +836,14 @@ function updateProgress(n) {
 
 window.goNext = (from) => {
   if (from === 0) {
-    const uName = document.getElementById('f-user-name').value.trim();
-    const uContact = document.getElementById('f-user-contact').value.trim();
     const name = document.getElementById('f-name').value.trim();
     const ind  = document.getElementById('f-industry').value.trim();
-    if (!uName || !uContact || !name || !ind) {
+    const col  = document.getElementById('f-color').value.trim();
+    if (!name || !ind || !col) {
       alert('모든 항목을 입력해 주세요.');
       return;
     }
-    answers.userName = uName; answers.userContact = uContact; answers.name = name; answers.industry = ind;
-    // Note: color field was removed from first screen in this update
+    answers.name = name; answers.industry = ind; answers.color = col;
   }
   if (from === 3) {
     if (!answers.q3.length) {
@@ -970,12 +964,12 @@ window.renderAdmin = async () => {
       card.innerHTML = `
         <button class="del-btn" onclick="deleteItem(event,'${s.id}')">✕</button>
         <div class="card-top">
-          <span class="biz-name">${esc(s.userName || s.name || '(이름없음)')}</span>
+          <span class="biz-name">${esc(s.name || '(이름/연락처 없음)')}</span>
           <span class="date">${dateStr}</span>
         </div>
-        <span class="industry">${esc(s.name || s.industry || '')}</span>
+        <span class="industry">${esc(s.industry || '')}</span>
         <div style="font-size:12px;color:var(--muted);margin-bottom:4px;">
-          ${esc(s.userContact || '')}
+          ${esc(s.color || '')}
         </div>
         <div class="tag-row">
           ${s.q1 ? `<span class="tag">Mood: ${Q_LABELS.q1[s.q1]||s.q1}</span>` : ''}
@@ -1035,12 +1029,11 @@ window.openModal = (s) => {
     <h3>${esc(s.userName||s.name||'(이름 없음)')}</h3>
     <div class="modal-date">${dateStr} · ID: ${s.id}</div>
     <div class="modal-section">
-      <div class="ms-label">신청자 정보</div>
+      <div class="ms-label">신청자/브랜드 정보</div>
       <div class="ms-value">
-        <b>성함:</b> ${esc(s.userName||'—')}<br>
-        <b>연락처:</b> ${esc(s.userContact||'—')}<br>
-        <b>회사/프로젝트:</b> ${esc(s.name||'—')}<br>
-        <b>업종:</b> ${esc(s.industry||'—')}
+        <b>성함/연락처:</b> ${esc(s.name||'—')}<br>
+        <b>회사/브랜드명:</b> ${esc(s.industry||'—')}<br>
+        <b>업종/브랜드컬러:</b> ${esc(s.color||'—')}
       </div>
     </div>
     <div class="modal-section">
