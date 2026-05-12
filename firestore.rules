@@ -30,10 +30,12 @@ service cloud.firestore {
     }
 
     function isValidProductionRequest(data) {
-      return data.keys().hasAll(['name', 'industry', 'color', 'q1', 'q2', 'q3', 'q4', 'q5', 'q6a', 'q6b', 'q6c', 'timestamp']) &&
+      return data.keys().hasAll(['name', 'industry', 'info', 'q1', 'q2', 'q3', 'q4', 'q5', 'q6_color', 'q6a', 'q6b', 'q6c', 'timestamp']) &&
              data.name is string && data.name.size() <= 200 &&
              data.industry is string && data.industry.size() <= 200 &&
-             data.color is string && data.color.size() <= 200 &&
+             data.info is string && data.info.size() <= 500 &&
+             data.q3 is list &&
+             data.q6_color is list &&
              data.timestamp == request.time;
     }
 

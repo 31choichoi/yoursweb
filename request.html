@@ -595,16 +595,19 @@
 <div id="form-app">
   <div class="form-header">
     <img src="https://mydrim.net/img/logo_yoursweb.png" alt="Yours Web Logo" style="height:48px;max-width:200px;object-fit:contain;margin-bottom:12px;" onerror="this.style.display='none'" />
-    <h1>프로젝트 문의하기</h1>
+    <h1>홈페이지 제작 신청</h1>
+    <div style="text-align:left; max-width:540px; margin: 20px auto 30px; font-size:13px; line-height:1.8; color:var(--text); background:#fff; padding:20px; border-radius:12px; border:1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+      <p style="font-weight:600; color:var(--accent);">◆ 정성껏 적어주시면 브랜드 가치를 올리고 매출이 올라가는 홈페이지를 약속 드리겠습니다.</p>
+    </div>
   </div>
 
   <div class="progress-wrap">
     <div class="progress-label">
       <span id="step-label">STEP 1 · 기본 정보</span>
-      <span id="step-count">1 / 7</span>
+      <span id="step-count">1 / 8</span>
     </div>
     <div class="progress-bar">
-      <div class="progress-fill" id="progress-fill" style="width:14.28%"></div>
+      <div class="progress-fill" id="progress-fill" style="width:12.5%"></div>
     </div>
   </div>
 
@@ -616,16 +619,16 @@
     <p class="sub">비전을 이해하기 위해 아래 항목들을 작성해 주세요.</p>
     <div class="field-group">
       <div class="field">
-        <label>성함/연락처 <span>*</span></label>
+        <label>성함/연락처(담당) <span>*</span></label>
         <input type="text" id="f-name" placeholder="예: 홍길동 / 010-1234-5678" />
       </div>
       <div class="field">
-        <label>회사/브랜드명 <span>*</span></label>
-        <input type="text" id="f-industry" placeholder="예: 유어스웹" />
+        <label>회사/브랜드명/업종 <span>*</span></label>
+        <input type="text" id="f-industry" placeholder="예: 유어스웹 / IT 서비스" />
       </div>
       <div class="field">
-        <label>업종/브랜드컬러 <span>*</span></label>
-        <input type="text" id="f-color" placeholder="예: IT 서비스 / 화이트 & 블루" />
+        <label>사업자등록번호/대표자/연락처 <span>*</span></label>
+        <input type="text" id="f-info" placeholder="예: 123-45-67890 / 김대표 / 010-0000-0000" />
       </div>
     </div>
     <button class="btn-next" onclick="goNext(0)">다음 단계 →</button>
@@ -711,7 +714,7 @@
   <!-- PAGE 5: Q5 인터랙션 -->
   <div class="page-card" data-page="5">
     <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
-    <div class="step-badge">STEP 2 · Q5 / 6</div>
+    <div class="step-badge">Step 2 · Q5 / 7</div>
     <h2>인터랙션 강도</h2>
     <p class="sub">디자인에 얼마나 많은 애니메이션을 포함시킬까요?</p>
     <div class="choices" id="q5-choices">
@@ -722,10 +725,30 @@
     </div>
   </div>
 
-  <!-- PAGE 6: Q6 추가 요구사항 -->
+  <!-- PAGE 6: Q6 색상 선택 -->
   <div class="page-card" data-page="6">
     <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
-    <div class="step-badge">Step 2 · Q6 / 6</div>
+    <div class="step-badge">Step 2 · Q6 / 7</div>
+    <h2>웹사이트에서 사용하고 싶은 색상을 알려주세요</h2>
+    <p class="sub">✅ 중복 선택 가능합니다.</p>
+    <div class="choices" id="q6_color-choices">
+      <button class="choice-btn" onclick="toggleMulti('q6_color','🔴빨강 (Red)',this)"><span class="letter">🔴</span>빨강 (Red) 강렬하고 활기찬 브랜드 분위기</button>
+      <button class="choice-btn" onclick="toggleMulti('q6_color','⚫검정 (Black)',this)"><span class="letter">⚫</span>검정 (Black) 고급스럽고 세련된 디자인</button>
+      <button class="choice-btn" onclick="toggleMulti('q6_color','🟡 노랑 (Yellow)',this)"><span class="letter">🟡</span> 노랑 (Yellow) 밝고 긍정적인 에너지 전달</button>
+      <button class="choice-btn" onclick="toggleMulti('q6_color','🟣 보라 (Purple)',this)"><span class="letter">🟣</span> 보라 (Purple) 신비롭고 우아한 느낌 표현</button>
+      <button class="choice-btn" onclick="toggleMulti('q6_color','🟠 주황 (Orange)',this)"><span class="letter">🟠</span> 주황 (Orange) 따뜻하고 친근한 이미지</button>
+      <button class="choice-btn" onclick="toggleMulti('q6_color','🟢초록 (Green)',this)"><span class="letter">🟢</span>초록 (Green) 자연 친화적이고 편안한 이미지</button>
+      <button class="choice-btn" onclick="toggleMulti('q6_color','🔵 파랑 (Blue)',this)"><span class="letter">🔵</span> 파랑 (Blue) 신뢰감 있고 전문적인 인상 강조</button>
+      <button class="choice-btn" onclick="toggleMulti('q6_color','⚪ 하양 (White)',this)"><span class="letter">⚪</span> 하양 (White) 깨끗하고 미니멀한 순수함 표현</button>
+      <button class="choice-btn" onclick="toggleMulti('q6_color','기타',this)"><span class="letter">ETC</span>기타</button>
+    </div>
+    <button class="btn-next" onclick="goNext(6)">선택 완료 →</button>
+  </div>
+
+  <!-- PAGE 7: Q7 추가 요구사항 -->
+  <div class="page-card" data-page="7">
+    <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
+    <div class="step-badge">Step 2 · Q7 / 7</div>
     <h2>추가 요구 사항</h2>
     <p class="sub">특별한 요청이나 참고할 사이트를 알려주세요.</p>
     <div class="q6-fields">
@@ -738,21 +761,24 @@
         <textarea id="q6b" placeholder="예: 주요 슬로건이나 반드시 포함되어야 할 문구"></textarea>
       </div>
       <div class="q6-field">
-        <label style="font-size:15px;font-weight:700;color:var(--accent2);">C &nbsp;·&nbsp; 피하고 싶은 스타일</label>
+        <label style="font-size:15px;font-weight:700;color:var(--accent2);">C &nbsp;·&nbsp; 추가 요구사항이 있으면 편하게 적어주세요.</label>
         <textarea id="q6c" placeholder="예: 특정 색상 기피, 혹은 원치 않는 디자인 패턴"></textarea>
       </div>
     </div>
     <button id="submit-btn" class="btn-next" onclick="submitForm()">문의 신청하기 →</button>
   </div>
 
-  <!-- PAGE 7: COMPLETE -->
-  <div class="page-card" data-page="7">
+  <!-- PAGE 8: COMPLETE -->
+  <div class="page-card" data-page="8">
     <img src="https://mydrim.net/img/logo_yoursweb.png" class="card-logo" alt="logo" />
     <div class="complete-page">
       <div class="complete-icon">✅</div>
-      <h2>문의 신청 완료!</h2>
-      <p>보내주신 소중한 정보를 확인하고 있습니다.</p>
-      <p style="margin-top:8px;">담당자가 곧 연락드리겠습니다. 🙏</p>
+      <h2>홈페이지제작 의뢰 신청 완료</h2>
+      <p style="white-space: pre-line;">브랜드 가치를 올리고 
+매출이 올라가는 홈페이지 제작을 위해
+보내주신 소중한 정보 확인 후
+담당자가 곧 연락드리겠습니다 🙏
+감사합니다</p>
       <button class="restart" onclick="if(window.parent !== window){ window.parent.postMessage('closeRequestModal', '*'); } else { window.close(); }" style="border-radius:6px; font-weight:700; color:var(--primary); border-color:var(--primary);">창 닫기</button>
     </div>
   </div>
@@ -804,9 +830,9 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app, "ai-studio-c74210e1-7359-47ff-9653-df6e4c38a1ea");
 
 const ADMIN_PW = '7777'; 
-let answers = { userName:'', userContact:'', name:'', industry:'', color:'', q1:'', q2:'', q3:[], q4:'', q5:'', q6a:'', q6b:'', q6c:'' };
+let answers = { userName:'', userContact:'', name:'', industry:'', info:'', q1:'', q2:'', q3:[], q4:'', q5:'', q6_color:[], q6a:'', q6b:'', q6c:'' };
 let currentPage = 0;
-const TOTAL_PAGES = 8;
+const TOTAL_PAGES = 9;
 
 window.showPage = (n) => {
   document.querySelectorAll('.page-card').forEach(c => c.classList.remove('active'));
@@ -817,14 +843,15 @@ window.showPage = (n) => {
 
 function updateProgress(n) {
   const labels = [
-    'STEP 1 · Basic Info',
-    'STEP 2 · Q1 Design Mood',
-    'STEP 2 · Q2 Layout Style',
-    'STEP 2 · Q3 Core Sections',
-    'STEP 2 · Q4 Typography',
-    'STEP 2 · Q5 Interaction',
-    'STEP 2 · Q6 Requirements',
-    'Completion'
+    'STEP 1 · 기본 정보',
+    'STEP 2 · Q1 디자인 무드',
+    'STEP 2 · Q2 레이아웃',
+    'STEP 2 · Q3 구성 섹션',
+    'STEP 2 · Q4 타이포그래피',
+    'STEP 2 · Q5 인터랙션',
+    'STEP 2 · Q6 색상 선택',
+    'STEP 2 · Q7 추가 요구사항',
+    '신청 완료'
   ];
   const stepLabelEl = document.getElementById('step-label');
   const stepCountEl = document.getElementById('step-count');
@@ -839,16 +866,22 @@ window.goNext = (from) => {
   if (from === 0) {
     const name = document.getElementById('f-name').value.trim();
     const ind  = document.getElementById('f-industry').value.trim();
-    const col  = document.getElementById('f-color').value.trim();
-    if (!name || !ind || !col) {
+    const info  = document.getElementById('f-info').value.trim();
+    if (!name || !ind || !info) {
       alert('모든 항목을 입력해 주세요.');
       return;
     }
-    answers.name = name; answers.industry = ind; answers.color = col;
+    answers.name = name; answers.industry = ind; answers.info = info;
   }
   if (from === 3) {
     if (!answers.q3.length) {
-      alert('Please select at least one section.');
+      alert('최소 하나 이상의 섹션을 선택해 주세요.');
+      return;
+    }
+  }
+  if (from === 6) {
+    if (!answers.q6_color.length) {
+      alert('최소 하나 이상의 색상을 선택해 주세요.');
       return;
     }
   }
@@ -881,19 +914,20 @@ window.toggleMulti = (key, val, el) => {
 window.submitForm = async () => {
   const submitBtn = document.getElementById('submit-btn');
   submitBtn.disabled = true;
-  submitBtn.innerText = 'Sending...';
+  submitBtn.innerText = '신청 중...';
 
   const q6a = document.getElementById('q6a').value.trim();
   const q6b = document.getElementById('q6b').value.trim();
   const q6c = document.getElementById('q6c').value.trim();
   answers.q6a = q6a; answers.q6b = q6b; answers.q6c = q6c;
 
-  const submission = {
-    timestamp: serverTimestamp(),
-    ...answers
-  };
-
   try {
+    const submission = {
+      ...answers,
+      q6a, q6b, q6c,
+      timestamp: serverTimestamp()
+    };
+
     await addDoc(collection(db, 'requests'), submission);
     
     // Attempt notification
@@ -905,20 +939,20 @@ window.submitForm = async () => {
                 name: answers.name,
                 company: answers.industry,
                 email: 'Contact via Form',
-                phone: answers.color,
+                phone: answers.info,
                 type: 'Production Request',
-                content: `무드: ${answers.q1}, 코카: ${answers.q2}, 추가: ${answers.q6b}`
+                content: `무드: ${answers.q1}, 색상: ${answers.q6_color.join(', ')}, 추가: ${answers.q6b}`
             })
         });
     } catch(e) { console.warn("Notification skipped"); }
 
-    showPage(7);
+    showPage(8);
     window.scrollTo({top:0, behavior:'smooth'});
   } catch (err) {
     console.error(err);
-    alert('An error occurred. Please try again later.');
+    alert('오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
     submitBtn.disabled = false;
-    submitBtn.innerText = 'Submit Request →';
+    submitBtn.innerText = '문의 신청하기 →';
   }
 };
 
@@ -958,7 +992,6 @@ window.renderAdmin = async () => {
     stored.forEach((s) => {
       const date = s.timestamp?.toDate ? s.timestamp.toDate() : new Date();
       const dateStr = date.getFullYear() + '.' + String(date.getMonth()+1).padStart(2,'0') + '.' + String(date.getDate()).padStart(2,'0') + ' ' + String(date.getHours()).padStart(2,'0') + ':' + String(date.getMinutes()).padStart(2,'0');
-      const colorStyle = isHex(s.color) ? s.color : '';
 
       const card = document.createElement('div');
       card.className = 'sub-card';
@@ -970,13 +1003,12 @@ window.renderAdmin = async () => {
         </div>
         <span class="industry">${esc(s.industry || '')}</span>
         <div style="font-size:12px;color:var(--muted);margin-bottom:4px;">
-          ${esc(s.color || '')}
+          ${esc(s.info || '')}
         </div>
         <div class="tag-row">
           ${s.q1 ? `<span class="tag">Mood: ${Q_LABELS.q1[s.q1]||s.q1}</span>` : ''}
           ${s.q2 ? `<span class="tag">Layout: ${Q_LABELS.q2[s.q2]||s.q2}</span>` : ''}
-          ${s.q4 ? `<span class="tag">Typo: ${Q_LABELS.q4[s.q4]||s.q4}</span>` : ''}
-          ${s.q5 ? `<span class="tag">Interaction: ${Q_LABELS.q5[s.q5]||s.q5}</span>` : ''}
+          ${s.q6_color && s.q6_color.length ? `<span class="tag">Colors: ${s.q6_color.length}</span>` : ''}
         </div>
       `;
       card.addEventListener('click', (e) => {
@@ -1020,10 +1052,11 @@ window.openModal = (s) => {
   const date = s.timestamp?.toDate ? s.timestamp.toDate() : new Date();
   const dateStr = date.toLocaleString('ko-KR');
   const q3val = (s.q3||[]).map(k => Q_LABELS.q3[k]||k).join(', ') || '—';
+  const q6_color = (s.q6_color||[]).join(', ') || '—';
   const q6 = [
     s.q6a ? `<b>A. 참고 사이트:</b> ${esc(s.q6a)}` : '',
     s.q6b ? `<b>B. 핵심 메시지:</b> ${esc(s.q6b)}` : '',
-    s.q6c ? `<b>C. 피하고 싶은 스타일:</b> ${esc(s.q6c)}` : ''
+    s.q6c ? `<b>C. 추가 요구사항:</b> ${esc(s.q6c)}` : ''
   ].filter(Boolean).join('<br>') || '없음';
 
   document.getElementById('modal-box').innerHTML = `
@@ -1032,9 +1065,9 @@ window.openModal = (s) => {
     <div class="modal-section">
       <div class="ms-label">신청자/브랜드 정보</div>
       <div class="ms-value">
-        <b>성함/연락처:</b> ${esc(s.name||'—')}<br>
-        <b>회사/브랜드명:</b> ${esc(s.industry||'—')}<br>
-        <b>업종/브랜드컬러:</b> ${esc(s.color||'—')}
+        <b>성함/연락처(담당):</b> ${esc(s.name||'—')}<br>
+        <b>회사/브랜드명/업종:</b> ${esc(s.industry||'—')}<br>
+        <b>사업자/대표자/연락처:</b> ${esc(s.info||'—')}
       </div>
     </div>
     <div class="modal-section">
@@ -1044,7 +1077,8 @@ window.openModal = (s) => {
         <b>레이아웃:</b> ${s.q2 ? (Q_LABELS.q2[s.q2]||s.q2) : '—'}<br>
         <b>선택 섹션:</b> ${q3val}<br>
         <b>타이포:</b> ${s.q4 ? (Q_LABELS.q4[s.q4]||s.q4) : '—'}<br>
-        <b>인터랙션:</b> ${s.q5 ? (Q_LABELS.q5[s.q5]||s.q5) : '—'}
+        <b>인터랙션:</b> ${s.q5 ? (Q_LABELS.q5[s.q5]||s.q5) : '—'}<br>
+        <b>선호 색상:</b> ${q6_color}
       </div>
     </div>
     <div class="modal-section">
