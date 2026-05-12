@@ -615,10 +615,6 @@
     <p class="sub">비전을 이해하기 위해 아래 항목들을 작성해 주세요.</p>
     <div class="field-group">
       <div class="field">
-        <label>회사/프로젝트 명 <span>*</span></label>
-        <input type="text" id="f-projectName" placeholder="예: 유어스웹 홈페이지 리뉴얼" />
-      </div>
-      <div class="field">
         <label>성함/연락처 <span>*</span></label>
         <input type="text" id="f-name" placeholder="예: 홍길동 / 010-1234-5678" />
       </div>
@@ -807,7 +803,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app, "ai-studio-c74210e1-7359-47ff-9653-df6e4c38a1ea");
 
 const ADMIN_PW = '7777'; 
-let answers = { projectName:'', userName:'', userContact:'', name:'', industry:'', color:'', q1:'', q2:'', q3:[], q4:'', q5:'', q6a:'', q6b:'', q6c:'' };
+let answers = { userName:'', userContact:'', name:'', industry:'', color:'', q1:'', q2:'', q3:[], q4:'', q5:'', q6a:'', q6b:'', q6c:'' };
 let currentPage = 0;
 const TOTAL_PAGES = 8;
 
@@ -840,15 +836,14 @@ function updateProgress(n) {
 
 window.goNext = (from) => {
   if (from === 0) {
-    const proj = document.getElementById('f-projectName').value.trim();
     const name = document.getElementById('f-name').value.trim();
     const ind  = document.getElementById('f-industry').value.trim();
     const col  = document.getElementById('f-color').value.trim();
-    if (!proj || !name || !ind || !col) {
+    if (!name || !ind || !col) {
       alert('모든 항목을 입력해 주세요.');
       return;
     }
-    answers.projectName = proj; answers.name = name; answers.industry = ind; answers.color = col;
+    answers.name = name; answers.industry = ind; answers.color = col;
   }
   if (from === 3) {
     if (!answers.q3.length) {
@@ -1036,7 +1031,6 @@ window.openModal = (s) => {
     <div class="modal-section">
       <div class="ms-label">신청자/브랜드 정보</div>
       <div class="ms-value">
-        <b>회사/프로젝트 명:</b> ${esc(s.projectName||'—')}<br>
         <b>성함/연락처:</b> ${esc(s.name||'—')}<br>
         <b>회사/브랜드명:</b> ${esc(s.industry||'—')}<br>
         <b>업종/브랜드컬러:</b> ${esc(s.color||'—')}
