@@ -24,6 +24,12 @@ export default defineConfig(({mode}) => {
              if (req.url === '/about') {
                req.url = '/about.html';
              }
+             if (req.url === '/pricing') {
+               req.url = '/pricing.html';
+             }
+             if (req.url === '/faq') {
+               req.url = '/faq.html';
+             }
              next();
           });
         }
@@ -46,6 +52,8 @@ export default defineConfig(({mode}) => {
           service: path.resolve(__dirname, 'service.html'),
           about: path.resolve(__dirname, 'about.html'),
           request: path.resolve(__dirname, 'request.html'),
+          pricing: path.resolve(__dirname, 'pricing.html'),
+          faq: path.resolve(__dirname, 'faq.html'),
         },
       },
     },

@@ -4,6 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+import fs from "fs";
 
 dotenv.config();
 
@@ -131,6 +132,18 @@ ${content}
   } else {
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
+    
+    // Clean URL mapping for production
+    app.get("/:page", (req, res, next) => {
+      const page = req.params.page;
+      const filePath = path.join(distPath, `${page}.html`);
+      if (fs.existsSync(filePath)) {
+        res.sendFile(filePath);
+      } else {
+        next();
+      }
+    });
+
     app.get("*", (req, res) => {
       res.sendFile(path.join(distPath, "index.html"));
     });
