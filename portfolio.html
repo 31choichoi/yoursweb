@@ -134,7 +134,7 @@
                     회사소개
                     <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-accent transition-all duration-300 group-hover:w-full"></span>
                 </a>
-                <a href="/request.html" target="_blank" onclick="window.open(this.href, 'request', 'width=800,height=900,popup=yes,scrollbars=yes'); return false;" class="bg-brand-accent text-white px-5 py-2 border border-brand-accent rounded-[2px] font-bold text-sm hover:bg-transparent hover:text-brand-accent transition-all transform hover:-translate-y-0.5 shadow-md flex items-center justify-center">
+                <a href="/request.html" id="nav-request-btn" class="bg-brand-accent text-white px-5 py-2 border border-brand-accent rounded-[2px] font-bold text-sm hover:bg-transparent hover:text-brand-accent transition-all transform hover:-translate-y-0.5 shadow-md flex items-center justify-center">
                     제작신청
                 </a>
             </nav>
@@ -165,7 +165,7 @@
         <a href="/portfolio" class="mobile-nav-link text-xl font-bold text-brand-accent">포트폴리오</a>
         <a href="/#testimonial" class="mobile-nav-link text-xl font-bold text-brand-navy hover:text-brand-accent transition-colors">고객후기</a>
         <a href="/about" class="mobile-nav-link text-xl font-bold text-brand-navy hover:text-brand-accent transition-colors">회사소개</a>
-        <a href="/request.html" target="_blank" onclick="window.open(this.href, 'request', 'width=800,height=900,popup=yes,scrollbars=yes'); return false;" class="mobile-nav-link text-xl font-bold text-brand-navy hover:text-brand-accent transition-colors">제작신청</a>
+        <a href="/request.html" id="mobile-request-btn" class="mobile-nav-link text-xl font-bold text-brand-navy hover:text-brand-accent transition-colors">제작신청</a>
         <a href="/#contact" class="mobile-nav-link mt-4 bg-brand-accent text-white px-8 py-3 rounded-full font-bold text-lg text-center">상담/문의</a>
     </div>
 
@@ -494,7 +494,7 @@
                     <ul class="text-brand-body text-sm space-y-4 font-medium">
                         <li><a href="/portfolio" class="hover:text-brand-accent transition-colors">포트폴리오</a></li>
                         <li><a href="/about" class="hover:text-brand-accent transition-colors">회사소개</a></li>
-                        <li><a href="/request" onclick="window.open('/request', 'request_popup', 'width=750,height=900,scrollbars=yes'); return false;" class="hover:text-brand-accent transition-colors">프로젝트 문의</a></li>
+                        <li><a href="/request.html" class="open-request-modal hover:text-brand-accent transition-colors">프로젝트 문의</a></li>
                         <li><a href="/#about" class="hover:text-brand-accent transition-colors">사내 문화</a></li>
                         <li><a href="/#about" class="hover:text-brand-accent transition-colors">채용 정보</a></li>
                         <li><a href="/#contact" class="hover:text-brand-accent transition-colors">문의하기</a></li>
@@ -692,6 +692,56 @@
             });
         });
 
+        // Production Request Modal Logic
+        const requestModal = document.getElementById('request-modal');
+        const requestModalContent = requestModal?.querySelector('.modal-content');
+        const closeRequestBtn = document.getElementById('close-request-modal');
+        const requestIframe = document.getElementById('request-iframe');
+        
+        function openRequestModal() {
+            if(!requestModal || !requestModalContent || !requestIframe) return;
+            if (requestIframe.src === 'about:blank' || requestIframe.src === '') {
+                requestIframe.src = '/request.html';
+            }
+            requestModal.classList.remove('hidden');
+            setTimeout(() => {
+                requestModal.classList.add('active');
+                requestModalContent.classList.remove('translate-y-12', 'opacity-0');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeRequestModal() {
+            if(!requestModal || !requestModalContent) return;
+            requestModal.classList.remove('active');
+            requestModalContent.classList.add('translate-y-12', 'opacity-0');
+            setTimeout(() => {
+                requestModal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }, 500);
+        }
+
+        if (closeRequestBtn) {
+            closeRequestBtn.addEventListener('click', closeRequestModal);
+        }
+
+        requestModal?.addEventListener('click', (e) => {
+            if (e.target.id === 'request-modal' || e.target.id === 'request-modal-backdrop') closeRequestModal();
+        });
+
+        window.addEventListener('message', (event) => {
+            if (event.data === 'closeRequestModal') {
+                closeRequestModal();
+            }
+        });
+
+        document.querySelectorAll('#nav-request-btn, #mobile-request-btn, .open-request-modal').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openRequestModal();
+            });
+        });
+
         // Portfolio filtering
         const filterBtns = document.querySelectorAll('.filter-btn');
         const cards = document.querySelectorAll('.portfolio-card');
@@ -717,6 +767,19 @@
             });
         });
     </script>
+    <!-- Production Request Modal -->
+    <div id="request-modal" class="fixed inset-0 z-[210] hidden">
+        <div id="request-modal-backdrop" class="fixed inset-0 bg-brand-navy/90 backdrop-blur-md"></div>
+        <div class="fixed inset-0 flex items-center justify-center p-0 sm:p-4 md:p-8">
+            <div class="modal-content relative bg-white w-full max-w-4xl h-full sm:h-[90vh] rounded-none sm:rounded-xl shadow-2xl overflow-hidden translate-y-12 opacity-0 transition-all duration-500">
+                <button id="close-request-modal" class="absolute top-4 right-4 text-brand-navy hover:rotate-90 transition-transform duration-300 z-[220] bg-white/80 backdrop-blur p-2 rounded-full shadow-sm">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+                <iframe src="about:blank" id="request-iframe" class="w-full h-full border-none"></iframe>
+            </div>
+        </div>
+    </div>
+
     <!-- Back to Top Button -->
     <button id="back-to-top" class="magnetic fixed bottom-8 right-8 z-[140] w-14 h-14 bg-brand-navy text-white rounded-full flex items-center justify-center shadow-2xl hover:bg-brand-accent transition-all duration-500 group">
         <svg class="w-6 h-6 transform group-hover:-translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
