@@ -1,0 +1,8 @@
+<svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="50" r="48" fill="white"/>
+  <g transform="translate(10, 10)">
+    <!-- Stylized Y with W from Yours Web logo -->
+    <path d="M15 10L40 45M65 10L40 45M40 45V80" stroke="#0A2540" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M45 15L55 10L60 20L65 10L75 15" stroke="#0A2540" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
