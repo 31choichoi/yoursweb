@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="naver-site-verification" content="6ec31be1e064cd57771e7a6bf92e3ff987e739e4" />
-    <title>유어스웹</title>
+    <title>유어스웹 | 동탄홈페이지제작</title>
     <meta name="description" content="유어스웹 - 프리미엄 웹 에이전시">
     
     <!-- Favicon -->
@@ -12,7 +12,7 @@
     
     <!-- Open Graph for Naver/Kakao/Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="유어스웹">
+    <meta property="og:title" content="유어스웹 | 동탄홈페이지제작">
     <meta property="og:description" content="유어스웹 - 프리미엄 웹 에이전시">
     <meta property="og:url" content="https://yoursweb.vercel.app/">
     <meta property="og:image" content="https://mydrim.net/img/logo_yoursweb.png">
@@ -98,7 +98,7 @@
 
         /* Typography */
         .headline-impact {
-            font-weight: 800;
+            font-weight: 500;
             letter-spacing: -0.045em;
             line-height: 1.4;
         }
@@ -378,6 +378,14 @@
             background: var(--brand-accent);
         }
 
+        .cursor-blink {
+            animation: blink 0.8s step-end infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
     </style>
 </head>
 <body class="selection:bg-brand-accent selection:text-white">
@@ -465,14 +473,12 @@
                         yours web — web agency since 2018
                     </span>
                     
-                    <h1 class="text-white headline-impact text-2xl sm:text-3xl md:text-5xl mb-6 md:mb-10 reveal-stagger leading-relaxed" style="transition-delay: 300ms;">
-                        <span class="line-mask"><span class="line-item">단순히 예쁜 디자인을 넘어,</span></span>
-                        <span class="line-mask"><span class="line-item">비즈니스의 성장과 브랜드의 목적을</span></span>
-                        <span class="line-mask"><span class="line-item">달성하는 웹사이트를 만듭니다.</span></span>
+                    <h1 class="text-white headline-impact text-2xl sm:text-3xl md:text-5xl mb-6 md:mb-10 md:leading-[2.2] leading-relaxed min-h-[4.5em] text-center md:text-left">
+                        <span id="typing-text" class="whitespace-pre-line"></span><span class="cursor-blink border-r-[2px] border-brand-accent ml-1 inline-block h-[0.9em] align-middle"></span>
                     </h1>
                     
                     <p class="text-white/60 text-xs md:text-lg font-medium leading-relaxed max-w-lg mb-8 md:mb-12 mx-auto md:mx-0 reveal-stagger" style="transition-delay: 500ms;">
-                        기획·디자인·개발을 한 팀이 책임지는 풀서비스 웹 에이전시. 결과로 증명합니다.
+                        브랜드의 가치를 올리고! 매출을 올리는 홈페이지를 만듭니다!
                     </p>
                     
                     <div class="flex flex-col sm:flex-row gap-4 items-center sm:items-start reveal-stagger" style="transition-delay: 700ms;">
@@ -714,9 +720,9 @@
                 <span class="font-inter text-brand-accent text-xs font-semibold tracking-widest uppercase mb-8 block reveal">주요 포트폴리오</span>
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-20 gap-8">
                     <h2 class="text-brand-navy headline-impact text-2xl sm:text-3xl md:text-4xl reveal">
-                        <span class="line-mask"><span class="line-item">단순히 예쁜 디자인을 넘어,</span></span>
-                        <span class="line-mask"><span class="line-item">비즈니스의 성장과 브랜드의 목적을</span></span>
-                        <span class="line-mask"><span class="line-item">달성하는 웹사이트를 만듭니다.</span></span>
+                        <span class="line-mask"><span class="line-item">브랜드의 가치를 올리고!</span></span>
+                        <span class="line-mask"><span class="line-item">매출을 올리는 홈페이지를</span></span>
+                        <span class="line-mask"><span class="line-item">결과로 증명해 드립니다.</span></span>
                     </h2>
 
                     <!-- Featured Portfolio Images Row -->
@@ -1006,11 +1012,11 @@
     </footer>
 
     <!-- Kakao Consultation Floating Button -->
-    <a href="https://open.kakao.com/o/shDiqGui" target="_blank" rel="noopener noreferrer" class="fixed bottom-24 right-8 z-[150] w-14 h-14 bg-[#FEE500] text-white rounded-full flex items-center justify-center shadow-[0_8px_30px_rgba(254,229,0,0.3)] hover:scale-110 transition-all duration-300 group">
+    <a href="https://open.kakao.com/o/shDiqGui" target="_blank" rel="noopener noreferrer" class="fixed bottom-24 right-8 z-[150] w-14 h-14 bg-white text-brand-navy rounded-full flex items-center justify-center shadow-[0_8px_30px_rgba(0,0,0,0.15)] hover:scale-110 transition-all duration-300 group">
         <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 3c-4.97 0-9 3.134-9 7 0 2.41 1.58 4.54 3.96 5.82-.16.59-.58 2.16-.66 2.48-.1.4.15.39.31.28.12-.08 1.95-1.32 2.73-1.85.86.17 1.74.27 2.66.27 4.97 0 9-3.134 9-7s-4.03-7-9-7z"/>
         </svg>
-        <span class="absolute right-full mr-4 bg-[#FEE500] text-white text-xs font-bold px-3 py-1.5 rounded-[4px] opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity pointer-events-none shadow-sm">카카오톡 상담</span>
+        <span class="absolute right-full mr-4 bg-brand-navy text-white text-xs font-bold px-3 py-1.5 rounded-[4px] opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity pointer-events-none shadow-sm">카카오톡 상담</span>
     </a>
 
     <!-- Back to Top Button -->
@@ -1460,6 +1466,34 @@
                     }
                 });
             }
+
+            // Typing Effect Logic
+            const typingText = document.getElementById('typing-text');
+            const textToType = "단순히 예쁜 디자인을 넘어,\n비즈니스의 성장과 브랜드의 목적을\n달성하는 웹사이트를 만듭니다.";
+            let charIdx = 0;
+            let isDeleting = false;
+            let typingTimeout;
+            
+            function typeAnimation() {
+                if (!typingText) return;
+                
+                const currentText = textToType.substring(0, charIdx);
+                typingText.innerText = currentText;
+                
+                let typeSpeed = isDeleting ? 40 : 80;
+                
+                if (!isDeleting && charIdx < textToType.length) {
+                    charIdx++;
+                } else if (isDeleting && charIdx > 0) {
+                    charIdx--;
+                } else {
+                    isDeleting = !isDeleting;
+                    typeSpeed = isDeleting ? 3000 : 1000;
+                }
+                
+                typingTimeout = setTimeout(typeAnimation, typeSpeed);
+            }
+            typeAnimation();
 
             // Hero Parallax Interaction
             const layers = document.querySelectorAll('.parallax-layer');
