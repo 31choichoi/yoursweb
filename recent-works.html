@@ -115,34 +115,50 @@
         }
 
         .popup-tabs {
-            padding: 0 2rem;
+            padding: 1rem 2rem;
             background: white;
             border-bottom: 1px solid #e2e8f0;
             display: flex;
-            gap: 2rem;
+            justify-content: center;
+            align-items: center;
+            position: relative;
             flex-shrink: 0;
         }
+        .tab-group {
+            display: flex;
+            background: #f1f5f9;
+            padding: 4px;
+            border-radius: 99px;
+            gap: 4px;
+        }
         .tab-btn {
-            padding: 1rem 0;
+            padding: 8px 24px;
             font-weight: 700;
             font-size: 0.875rem;
             color: #64748b;
-            border-bottom: 2px solid transparent;
+            border-radius: 99px;
             transition: all 0.3s;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
         .tab-btn.active {
+            background: white;
             color: #3B6EFF;
-            border-bottom-color: #3B6EFF;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .close-btn-wrapper {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         .popup-content {
             flex: 1;
-            overflow: auto;
-            padding: 2rem;
-            background: #f1f5f9;
+            overflow: hidden;
+            padding: 0;
+            background: #f8fafc;
         }
 
         /* Mockup Container */
@@ -151,30 +167,61 @@
             height: 100%;
             display: flex;
             justify-content: center;
-            align-items: stretch;
+            align-items: center;
         }
 
         .pc-screen { width: 100%; height: 100%; border: none; }
 
-        /* Mobile View Container */
-        .mobile-view-container {
-            width: 100%;
-            height: 100%;
+        /* Realistic Mobile Frame */
+        .mobile-frame-realistic {
+            width: 375px;
+            height: 85%;
+            max-height: 812px;
+            background: #1e293b;
+            border: 12px solid #1e293b;
+            border-radius: 40px;
+            position: relative;
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .mobile-notch-strip {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 30px;
+            background: #1e293b;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            z-index: 20;
             display: flex;
             justify-content: center;
-            background: #e2e8f0;
+            align-items: center;
+        }
+        .notch-speaker { width: 40px; height: 4px; background: #334155; border-radius: 2px; }
+        .mobile-iframe-wrapper {
+            flex: 1;
+            background: white;
+            position: relative;
+            z-index: 10;
         }
         .mobile-screen-simple {
             width: 100%;
-            max-width: 480px;
             height: 100%;
-            background: white;
             border: none;
-            box-shadow: 0 0 50px rgba(0,0,0,0.1);
         }
 
         @media (max-width: 768px) {
-            .mobile-screen-simple { max-width: 100%; }
+            .mobile-frame-realistic { 
+                width: 100%; 
+                height: 100%; 
+                border-radius: 0;
+                border: none;
+            }
+            .mobile-notch-strip { display: none; }
         }
 
         .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
@@ -234,20 +281,20 @@
     <!-- Overlay -->
     <div id="overlay">
         <div class="popup">
-            <div class="popup-tabs flex justify-between items-center pr-6">
-                <div class="flex gap-8">
+            <div class="popup-tabs">
+                <div class="tab-group">
                     <button class="tab-btn active" data-tab="pc">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                        PC VIEW
+                        PC
                     </button>
                     <button class="tab-btn" data-tab="mobile">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-                        MOBILE VIEW
+                        Mobile
                     </button>
                 </div>
-                <button id="close-btn" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-red-500 hover:text-white transition-all">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                </button>
+                <div class="close-btn-wrapper">
+                    <button id="close-btn" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-red-500 hover:text-white transition-all">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
             </div>
             <div class="popup-content">
                 <!-- PC Pane -->
@@ -255,8 +302,15 @@
                     <iframe id="iframe-pc" class="pc-screen" src=""></iframe>
                 </div>
                 <!-- Mobile Pane -->
-                <div id="pane-mobile" class="mobile-view-container hidden">
-                    <iframe id="iframe-mobile" class="mobile-screen-simple" src=""></iframe>
+                <div id="pane-mobile" class="mockup-container hidden">
+                    <div class="mobile-frame-realistic">
+                        <div class="mobile-notch-strip">
+                            <div class="notch-speaker"></div>
+                        </div>
+                        <div class="mobile-iframe-wrapper">
+                            <iframe id="iframe-mobile" class="mobile-screen-simple" src=""></iframe>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
