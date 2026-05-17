@@ -41,6 +41,17 @@
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
         
+        /* Word Reveal Animation */
+        .word-reveal {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: wordFadeIn 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        @keyframes wordFadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
         /* Grid Layout */
         .work-grid {
             display: grid;
@@ -255,11 +266,13 @@
 
     <main class="pt-32 pb-40">
         <section class="max-w-7xl mx-auto px-6 md:px-12 mb-20">
-            <span class="text-brand-accent font-bold text-sm uppercase tracking-[0.3em] mb-4 block">PROVEN RESULTS</span>
+            <span class="text-brand-accent font-bold text-sm uppercase tracking-[0.3em] mb-4 block word-reveal" style="animation-delay: 0.1s">PROVEN RESULTS</span>
             <h1 class="text-4xl md:text-6xl font-extrabold text-brand-navy tracking-tighter leading-tight">
-                OUR RECENT<br>PROJECTS.
+                <span class="word-reveal" style="animation-delay: 0.2s">OUR</span>
+                <span class="word-reveal" style="animation-delay: 0.4s">RECENT</span><br>
+                <span class="word-reveal" style="animation-delay: 0.6s">PROJECTS.</span>
             </h1>
-            <p class="text-brand-body text-base md:text-xl max-w-2xl mt-6 leading-relaxed">
+            <p class="text-brand-body text-base md:text-xl max-w-2xl mt-6 leading-relaxed word-reveal" style="animation-delay: 0.8s">
                 단순히 예쁜 디자인을 넘어, 비즈니스의 성장과 브랜드의 목적을 달성하는 웹사이트를 만듭니다.
             </p>
         </section>
