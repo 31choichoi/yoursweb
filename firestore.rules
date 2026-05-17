@@ -56,6 +56,16 @@ service cloud.firestore {
               data.order is int;
     }
 
+    function isValidWork(data) {
+      return data.keys().hasAll(['title', 'pcImage', 'createdAt', 'tag', 'mobileImage', 'link', 'order']) &&
+             data.title is string && data.title.size() <= 200 &&
+             data.pcImage is string && data.pcImage.size() <= 1000 &&
+             data.mobileImage is string && data.mobileImage.size() <= 1000 &&
+             data.tag is string && data.tag.size() <= 100 &&
+             data.link is string && data.link.size() <= 1000 &&
+             data.order is int;
+    }
+
     match /inquiries/{inquiryId} {
       allow create: if isValidInquiry(request.resource.data);
       allow read, list, delete: if isAdmin();
@@ -74,6 +84,11 @@ service cloud.firestore {
     }
 
     match /faqs/{faqId} {
+      allow read, list: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /works/{workId} {
       allow read, list: if true;
       allow create, update, delete: if isAdmin();
     }

@@ -50,6 +50,21 @@
         "createdAt": { "type": "string", "format": "date-time" }
       },
       "required": ["title", "imageUrl", "category", "createdAt"]
+    },
+    "work": {
+      "title": "Recent Work",
+      "description": "Details of a completed project with dual mockups",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "tag": { "type": "string" },
+        "pcImage": { "type": "string" },
+        "mobileImage": { "type": "string" },
+        "link": { "type": "string" },
+        "order": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "pcImage", "createdAt"]
     }
   },
   "firestore": {
@@ -64,6 +79,10 @@
     "portfolio": {
       "schema": "portfolioItem",
       "description": "A collection of portfolio gallery items"
+    },
+    "works": {
+      "schema": "work",
+      "description": "A collection of recent project works"
     }
   }
 }

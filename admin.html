@@ -65,6 +65,7 @@
                     <button id="tab-inquiry" class="flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-md transition-all text-slate-500 hover:text-slate-700">유지보수 · 일반 문의</button>
                     <button id="tab-request" class="flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-md transition-all text-slate-500 hover:text-slate-700">상세 설계 설문</button>
                     <button id="tab-portfolio" class="flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-md transition-all text-slate-500 hover:text-slate-700">포트폴리오 관리</button>
+                    <button id="tab-works" class="flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-md transition-all text-slate-500 hover:text-slate-700">최근작업 관리</button>
                     <button id="tab-faq" class="flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-md transition-all text-slate-500 hover:text-slate-700">FAQ 관리</button>
                 </div>
                 <div class="bg-white p-2 px-4 rounded-lg border border-slate-200 flex items-center gap-2 shadow-sm w-full sm:w-auto justify-center">
@@ -129,6 +130,56 @@
             
             <div id="portfolio-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Portfolio items will be rendered here -->
+            </div>
+        </div>
+
+        <!-- Works Manager Section (Recent Work) -->
+        <div id="works-manager" class="hidden">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-12">
+                <div class="p-6 border-b border-slate-100 bg-slate-50/50">
+                    <h2 id="works-form-title" class="text-lg font-bold text-[#0A2540]">최근 작업물 추가</h2>
+                </div>
+                <div class="p-6 sm:p-8">
+                    <form id="works-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">프로젝트 제목</label>
+                            <input type="text" id="w-title" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-accent focus:outline-none transition-all" placeholder="예: 바른치과 브랜드 웹사이트">
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">태그 / 유형</label>
+                            <input type="text" id="w-tag" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-accent focus:outline-none transition-all" placeholder="예: Web Development / Brand Identity">
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">PC 이미지 URL</label>
+                            <input type="url" id="w-pcImage" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-accent focus:outline-none transition-all" placeholder="https://example.com/pc.jpg">
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">MOBILE 이미지 URL</label>
+                            <input type="url" id="w-mobileImage" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-accent focus:outline-none transition-all" placeholder="https://example.com/mobile.jpg">
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">사이트 링크 (URL)</label>
+                            <input type="url" id="w-link" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-accent focus:outline-none transition-all" placeholder="https://example.com">
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">출력 순서</label>
+                            <input type="number" id="w-order" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-accent focus:outline-none transition-all" value="0">
+                        </div>
+                        <div class="md:col-span-2 flex justify-end gap-3">
+                            <button type="button" id="w-cancel" class="hidden bg-slate-200 text-slate-600 px-8 py-3 rounded-lg font-bold hover:bg-slate-300 transition-all">취소</button>
+                            <button type="submit" class="bg-[#3B6EFF] text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-600 transition-all">등록하기</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3 mb-6">
+                <h2 class="text-xl font-bold text-[#0A2540]">등록된 최근작업</h2>
+                <span id="works-count" class="bg-slate-200 text-slate-600 text-xs font-bold px-2 py-0.5 rounded-full">0</span>
+            </div>
+            
+            <div id="works-admin-list" class="space-y-6">
+                <!-- Works items will be rendered here -->
             </div>
         </div>
 
@@ -232,12 +283,19 @@
         const tabInquiry = document.getElementById('tab-inquiry');
         const tabRequest = document.getElementById('tab-request');
         const tabPortfolio = document.getElementById('tab-portfolio');
+        const tabWorks = document.getElementById('tab-works');
         const tabFaq = document.getElementById('tab-faq');
 
         const portfolioManager = document.getElementById('portfolio-manager');
         const portfolioGrid = document.getElementById('portfolio-grid');
         const portfolioCount = document.getElementById('portfolio-count');
         const portfolioForm = document.getElementById('portfolio-form');
+
+        const worksManager = document.getElementById('works-manager');
+        const worksAdminList = document.getElementById('works-admin-list');
+        const worksCountDisplay = document.getElementById('works-count');
+        const worksForm = document.getElementById('works-form');
+        const worksCancelBtn = document.getElementById('w-cancel');
 
         const faqManager = document.getElementById('faq-manager');
         const faqAdminList = document.getElementById('faq-admin-list');
@@ -365,7 +423,7 @@
         // Tab Logic
         function setTab(tab) {
             currentTab = tab;
-            [tabAll, tabInquiry, tabRequest, tabPortfolio, tabFaq].forEach(btn => {
+            [tabAll, tabInquiry, tabRequest, tabPortfolio, tabWorks, tabFaq].forEach(btn => {
                 btn.classList.remove('bg-[#3B6EFF]', 'text-white');
                 btn.classList.add('text-slate-500');
             });
@@ -373,25 +431,36 @@
             const activeBtn = tab === 'all' ? tabAll : 
                              (tab === 'inquiry' ? tabInquiry : 
                              (tab === 'request' ? tabRequest : 
-                             (tab === 'portfolio' ? tabPortfolio : tabFaq)));
+                             (tab === 'portfolio' ? tabPortfolio : 
+                             (tab === 'works' ? tabWorks : tabFaq))));
             
             activeBtn.classList.remove('text-slate-500');
             activeBtn.classList.add('bg-[#3B6EFF]', 'text-white');
 
             if (tab === 'portfolio') {
                 portfolioManager.classList.remove('hidden');
+                worksManager.classList.add('hidden');
+                faqManager.classList.add('hidden');
+                inquiryList.classList.add('hidden');
+                emptyState.classList.add('hidden');
+                inquiryCount.parentElement.classList.add('hidden');
+            } else if (tab === 'works') {
+                portfolioManager.classList.add('hidden');
+                worksManager.classList.remove('hidden');
                 faqManager.classList.add('hidden');
                 inquiryList.classList.add('hidden');
                 emptyState.classList.add('hidden');
                 inquiryCount.parentElement.classList.add('hidden');
             } else if (tab === 'faq') {
                 portfolioManager.classList.add('hidden');
+                worksManager.classList.add('hidden');
                 faqManager.classList.remove('hidden');
                 inquiryList.classList.add('hidden');
                 emptyState.classList.add('hidden');
                 inquiryCount.parentElement.classList.add('hidden');
             } else {
                 portfolioManager.classList.add('hidden');
+                worksManager.classList.add('hidden');
                 faqManager.classList.add('hidden');
                 inquiryList.classList.remove('hidden');
                 inquiryCount.parentElement.classList.remove('hidden');
@@ -403,6 +472,7 @@
         tabInquiry.onclick = () => setTab('inquiry');
         tabRequest.onclick = () => setTab('request');
         tabPortfolio.onclick = () => setTab('portfolio');
+        tabWorks.onclick = () => setTab('works');
         tabFaq.onclick = () => setTab('faq');
 
         // Notification Sound (Simple Beep)
@@ -583,6 +653,7 @@
             loadRequests();
             loadPortfolio();
             loadFaqs();
+            loadWorks();
         }
 
         function loadFaqs() {
@@ -661,6 +732,128 @@
         }
 
         faqCancelBtn.onclick = stopFaqEdit;
+
+        // Recently Works CRUD Logic
+        let allWorks = [];
+        let worksEditMode = false;
+        let worksEditingId = null;
+
+        function renderWorks() {
+            worksAdminList.innerHTML = '';
+            worksCountDisplay.textContent = allWorks.length;
+
+            allWorks.forEach(work => {
+                const div = document.createElement('div');
+                div.className = 'bg-white p-6 rounded-lg border border-slate-200 flex flex-col md:flex-row gap-6';
+                div.innerHTML = `
+                    <div class="w-full md:w-48 h-32 bg-slate-100 rounded overflow-hidden shrink-0">
+                        <img src="${work.data.pcImage}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-1">
+                             <span class="bg-indigo-50 text-indigo-600 text-[10px] font-bold px-2 py-0.5 rounded">순서: ${work.data.order}</span>
+                             <span class="text-brand-accent text-[10px] font-bold uppercase tracking-wider">${work.data.tag}</span>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-lg mb-2">${work.data.title}</h4>
+                        <div class="text-xs text-slate-400 space-y-1">
+                            <p class="truncate">PC: ${work.data.pcImage}</p>
+                            <p class="truncate">Mobile: ${work.data.mobileImage || '—'}</p>
+                        </div>
+                    </div>
+                    <div class="flex md:flex-col gap-2 shrink-0 justify-end md:justify-center">
+                        <button class="edit-works-btn bg-slate-100 hover:bg-brand-accent hover:text-white p-2 rounded transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                        </button>
+                        <button class="delete-works-btn bg-slate-100 hover:bg-red-500 hover:text-white p-2 rounded transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                        </button>
+                    </div>
+                `;
+
+                div.querySelector('.edit-works-btn').onclick = () => startWorksEdit(work);
+                div.querySelector('.delete-works-btn').onclick = async () => {
+                    if (confirm('이 작업물을 삭제하시겠습니까?')) {
+                        try {
+                            await deleteDoc(doc(db, 'works', work.id));
+                        } catch (err) { alert('삭제 실패: ' + err.message); }
+                    }
+                };
+
+                worksAdminList.appendChild(div);
+            });
+        }
+
+        function startWorksEdit(work) {
+            worksEditMode = true;
+            worksEditingId = work.id;
+            document.getElementById('w-title').value = work.data.title;
+            document.getElementById('w-tag').value = work.data.tag;
+            document.getElementById('w-pcImage').value = work.data.pcImage;
+            document.getElementById('w-mobileImage').value = work.data.mobileImage || '';
+            document.getElementById('w-link').value = work.data.link || '';
+            document.getElementById('w-order').value = work.data.order;
+            
+            worksCancelBtn.classList.remove('hidden');
+            worksForm.querySelector('button[type="submit"]').textContent = '수정 완료';
+            document.getElementById('works-form-title').textContent = '최근 작업물 수정하기';
+            document.getElementById('w-title').focus();
+        }
+
+        function stopWorksEdit() {
+            worksEditMode = false;
+            worksEditingId = null;
+            worksForm.reset();
+            worksCancelBtn.classList.add('hidden');
+            worksForm.querySelector('button[type="submit"]').textContent = '등록하기';
+            document.getElementById('works-form-title').textContent = '최근 작업물 추가';
+        }
+
+        worksCancelBtn.onclick = stopWorksEdit;
+
+        worksForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            btn.textContent = '처리 중...';
+
+            const formData = {
+                title: document.getElementById('w-title').value,
+                tag: document.getElementById('w-tag').value,
+                pcImage: document.getElementById('w-pcImage').value,
+                mobileImage: document.getElementById('w-mobileImage').value || '',
+                link: document.getElementById('w-link').value || '',
+                order: parseInt(document.getElementById('w-order').value) || 0,
+                createdAt: serverTimestamp()
+            };
+
+            try {
+                if (worksEditMode) {
+                    await updateDoc(doc(db, 'works', worksEditingId), formData);
+                    alert('수정되었습니다.');
+                    stopWorksEdit();
+                } else {
+                    await addDoc(collection(db, 'works'), formData);
+                    worksForm.reset();
+                    alert('등록되었습니다.');
+                }
+            } catch (err) {
+                alert('실패: ' + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = worksEditMode ? '수정 완료' : '등록하기';
+            }
+        };
+
+        function loadWorks() {
+            const q = query(collection(db, 'works'), orderBy('order', 'asc'));
+            onSnapshot(q, (snapshot) => {
+                allWorks = [];
+                snapshot.forEach(docSnap => {
+                    allWorks.push({ id: docSnap.id, data: docSnap.data() });
+                });
+                renderWorks();
+            });
+        }
 
         faqForm.onsubmit = async (e) => {
             e.preventDefault();
