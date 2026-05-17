@@ -31,6 +31,18 @@
       "destination": "/about.html"
     },
     {
+      "source": "/recent-works",
+      "destination": "/recent-works.html"
+    },
+    {
+      "source": "/pricing",
+      "destination": "/pricing.html"
+    },
+    {
+      "source": "/faq",
+      "destination": "/faq.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

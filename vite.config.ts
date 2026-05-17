@@ -30,6 +30,9 @@ export default defineConfig(({mode}) => {
              if (req.url === '/faq') {
                req.url = '/faq.html';
              }
+             if (req.url === '/recent-works') {
+               req.url = '/recent-works.html';
+             }
              next();
           });
         }
@@ -54,6 +57,7 @@ export default defineConfig(({mode}) => {
           request: path.resolve(__dirname, 'request.html'),
           pricing: path.resolve(__dirname, 'pricing.html'),
           faq: path.resolve(__dirname, 'faq.html'),
+          'recent-works': path.resolve(__dirname, 'recent-works.html'),
         },
       },
     },

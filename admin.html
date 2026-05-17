@@ -147,15 +147,19 @@
                         </div>
                         <div class="flex flex-col gap-2">
                             <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">태그 / 유형</label>
-                            <input type="text" id="w-tag" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-accent focus:outline-none transition-all" placeholder="예: Web Development / Brand Identity">
+                            <select id="w-tag" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-accent focus:outline-none transition-all">
+                                <option value="commercial">쇼핑몰 / 커머스</option>
+                                <option value="brand">브랜드 사이트</option>
+                                <option value="platform">플랫폼 / 서비스</option>
+                            </select>
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">PC 이미지 URL</label>
-                            <input type="url" id="w-pcImage" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-accent focus:outline-none transition-all" placeholder="https://example.com/pc.jpg">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">대표 이미지 URL (선택)</label>
+                            <input type="url" id="w-pcImage" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-accent focus:outline-none transition-all" placeholder="이미지 입력 시 썸네일로 사용됩니다.">
                         </div>
-                        <div class="flex flex-col gap-2">
+                        <div class="flex flex-col gap-2" style="display: none;">
                             <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">MOBILE 이미지 URL</label>
-                            <input type="url" id="w-mobileImage" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-accent focus:outline-none transition-all" placeholder="https://example.com/mobile.jpg">
+                            <input type="url" id="w-mobileImage" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-brand-accent focus:outline-none transition-all">
                         </div>
                         <div class="flex flex-col gap-2">
                             <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">사이트 링크 (URL)</label>
@@ -745,9 +749,12 @@
             allWorks.forEach(work => {
                 const div = document.createElement('div');
                 div.className = 'bg-white p-6 rounded-lg border border-slate-200 flex flex-col md:flex-row gap-6';
+                
+                const thumbSrc = work.data.pcImage || (work.data.link ? `https://image.thum.io/get/width/400/crop/800/${work.data.link}` : 'https://via.placeholder.com/400');
+
                 div.innerHTML = `
                     <div class="w-full md:w-48 h-32 bg-slate-100 rounded overflow-hidden shrink-0">
-                        <img src="${work.data.pcImage}" class="w-full h-full object-cover">
+                        <img src="${thumbSrc}" class="w-full h-full object-cover">
                     </div>
                     <div class="flex-1">
                         <div class="flex items-center gap-2 mb-1">
@@ -756,8 +763,7 @@
                         </div>
                         <h4 class="font-bold text-slate-800 text-lg mb-2">${work.data.title}</h4>
                         <div class="text-xs text-slate-400 space-y-1">
-                            <p class="truncate">PC: ${work.data.pcImage}</p>
-                            <p class="truncate">Mobile: ${work.data.mobileImage || '—'}</p>
+                            <p class="truncate">Link: ${work.data.link || '—'}</p>
                         </div>
                     </div>
                     <div class="flex md:flex-col gap-2 shrink-0 justify-end md:justify-center">
@@ -816,11 +822,12 @@
             btn.disabled = true;
             btn.textContent = '처리 중...';
 
+            const tagSelect = document.getElementById('w-tag');
             const formData = {
                 title: document.getElementById('w-title').value,
-                tag: document.getElementById('w-tag').value,
-                pcImage: document.getElementById('w-pcImage').value,
-                mobileImage: document.getElementById('w-mobileImage').value || '',
+                tag: tagSelect.options[tagSelect.selectedIndex].text,
+                pcImage: document.getElementById('w-pcImage').value || '',
+                mobileImage: '', // Deprecated in favor of live iframes
                 link: document.getElementById('w-link').value || '',
                 order: parseInt(document.getElementById('w-order').value) || 0,
                 createdAt: serverTimestamp()

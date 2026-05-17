@@ -182,6 +182,13 @@
         .pc-dot { width: 12px; height: 12px; border-radius: 50%; }
         .pc-screen { flex: 1; background: white; width: 100%; height: 100%; border: none; }
 
+        /* Hide scrollbars in thumbnails */
+        .work-card-img iframe {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .work-card-img iframe::-webkit-scrollbar { display: none; }
+
         /* Mobile Frame (Centered) */
         .mobile-frame {
             width: 375px; 
@@ -389,9 +396,16 @@
                 card.className = 'work-card reveal';
                 
                 card.innerHTML = `
-                    <div class="work-card-img">
-                        <img src="${data.pcImage}" alt="${data.title}" loading="lazy">
-                        <div class="absolute inset-0 bg-brand-navy/0 hover:bg-brand-navy/10 transition-all flex items-center justify-center opacity-0 hover:opacity-100">
+                    <div class="work-card-img group/img">
+                        ${data.link ? `
+                            <div class="w-full h-full overflow-hidden relative">
+                                <div class="absolute inset-0 z-10"></div> <!-- Click Shield -->
+                                <iframe src="${data.link}" class="w-[400%] h-[400%] border-none origin-top-left scale-[0.25] pointer-events-none" loading="lazy"></iframe>
+                            </div>
+                        ` : `
+                            <img src="${data.pcImage || 'https://via.placeholder.com/800x500?text=No+Link+Provided'}" alt="${data.title}" class="w-full h-full object-cover">
+                        `}
+                        <div class="absolute inset-0 bg-brand-navy/0 group-hover/img:bg-brand-navy/10 transition-all flex items-center justify-center opacity-0 group-hover/img:opacity-100 z-20">
                              <div class="bg-white text-brand-navy font-bold px-6 py-3 rounded-full shadow-xl">프로젝트 보기</div>
                         </div>
                     </div>
