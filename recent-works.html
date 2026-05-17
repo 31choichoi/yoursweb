@@ -151,67 +151,30 @@
             height: 100%;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: stretch;
         }
 
-        /* PC Frame (Immersive) */
-        .pc-frame {
+        .pc-screen { width: 100%; height: 100%; border: none; }
+
+        /* Mobile View Container */
+        .mobile-view-container {
             width: 100%;
             height: 100%;
-            background: #1e293b;
-            border-radius: 0.75rem;
-            border: 8px solid #1e293b;
-            border-bottom: 30px solid #1e293b;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-        .pc-topbar {
-            height: 40px;
-            background: #334155;
-            display: flex;
-            align-items: center;
-            padding: 0 1rem;
-            gap: 0.5rem;
-        }
-        .pc-dot { width: 12px; height: 12px; border-radius: 50%; }
-        .pc-screen { flex: 1; background: white; width: 100%; height: 100%; border: none; }
-
-        /* Hide scrollbars in thumbnails */
-        .work-card-img iframe {
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        .work-card-img iframe::-webkit-scrollbar { display: none; }
-
-        /* Mobile Frame (Centered) */
-        .mobile-frame {
-            width: 375px; 
-            height: 700px;
-            background: #1e293b;
-            border: 12px solid #1e293b;
-            border-radius: 3rem;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-        .mobile-notch {
-            height: 40px;
-            background: #1e293b;
             display: flex;
             justify-content: center;
-            align-items: flex-end;
-            padding-bottom: 8px;
+            background: #e2e8f0;
         }
-        .mobile-pillar { width: 80px; height: 6px; background: #334155; border-radius: 3px; }
-        .mobile-screen { flex: 1; background: white; width: 100%; height: 100%; border: none; }
-        .mobile-home { height: 25px; background: #1e293b; display: flex; justify-content: center; align-items: center; }
-        .mobile-indicator { width: 100px; height: 4px; background: #334155; border-radius: 2px; }
+        .mobile-screen-simple {
+            width: 100%;
+            max-width: 480px;
+            height: 100%;
+            background: white;
+            border: none;
+            box-shadow: 0 0 50px rgba(0,0,0,0.1);
+        }
 
         @media (max-width: 768px) {
-            .mobile-frame { width: 100%; max-width: 320px; height: 600px; }
+            .mobile-screen-simple { max-width: 100%; }
         }
 
         .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
@@ -299,22 +262,11 @@
             <div class="popup-content">
                 <!-- PC Pane -->
                 <div id="pane-pc" class="mockup-container">
-                    <div class="pc-frame">
-                        <div class="pc-topbar">
-                            <div class="pc-dot bg-[#ff5f57]"></div>
-                            <div class="pc-dot bg-[#febc2e]"></div>
-                            <div class="pc-dot bg-[#28c840]"></div>
-                        </div>
-                        <iframe id="iframe-pc" class="pc-screen" src=""></iframe>
-                    </div>
+                    <iframe id="iframe-pc" class="pc-screen" src=""></iframe>
                 </div>
                 <!-- Mobile Pane -->
-                <div id="pane-mobile" class="mockup-container hidden">
-                    <div class="mobile-frame">
-                        <div class="mobile-notch"><div class="mobile-pillar"></div></div>
-                        <iframe id="iframe-mobile" class="mobile-screen" src=""></iframe>
-                        <div class="mobile-home"><div class="mobile-indicator"></div></div>
-                    </div>
+                <div id="pane-mobile" class="mobile-view-container hidden">
+                    <iframe id="iframe-mobile" class="mobile-screen-simple" src=""></iframe>
                 </div>
             </div>
         </div>
