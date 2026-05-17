@@ -360,21 +360,11 @@
         });
 
         function openPopup(data) {
-            document.getElementById('p-title').textContent = data.title;
-            document.getElementById('p-tag').textContent = data.tag || 'Project';
-            
-            const pLink = document.getElementById('p-link');
             if (data.link) {
-                pLink.href = data.link;
-                pLink.classList.remove('hidden');
-                pLink.classList.add('md:flex');
-                
                 // Set iframes
                 iframes.pc.src = data.link;
                 iframes.mobile.src = data.link;
             } else {
-                pLink.classList.add('hidden');
-                // Fallback to images if no link? User asked for website, so link is expected.
                 iframes.pc.src = 'about:blank';
                 iframes.mobile.src = 'about:blank';
             }
